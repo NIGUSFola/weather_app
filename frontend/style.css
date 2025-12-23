@@ -1,0 +1,2258 @@
+/* ===========================
+   Global Layout (sticky footer)
+   =========================== */
+html, body {
+  height: 100%;
+  margin: 0;
+}
+.layout {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+main {
+  flex: 1;
+}
+
+/* ===========================
+   Homepage Base
+   =========================== */
+.page-home {
+  padding: 2rem 1rem;
+  background-color: var(--color-bg-light);
+  color: var(--color-text);
+}
+body.dark-theme .page-home {
+  background-color: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+/* ===========================
+   Live Summary
+   =========================== */
+.live-summary {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.live-summary .location {
+  font-size: 1.2rem;
+  font-weight: 600;
+}
+.live-summary .temperature {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--color-primary);
+}
+body.dark-theme .live-summary .temperature {
+  color: #90e0ef;
+}
+.live-summary .condition {
+  margin-top: 0.5rem;
+  font-size: 1rem;
+}
+
+/* ===========================
+   Hero Section
+   =========================== */
+.hero {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+.hero h1 {
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+body.dark-theme .hero h1 {
+  color: #90e0ef;
+}
+.hero p {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+.hero .buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+.hero button {
+  padding: 0.6rem 1rem;
+  font-size: 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+  border: none;
+  background-color: var(--color-accent);
+  color: #fff;
+}
+.hero button.outline {
+  background-color: transparent;
+  border: 2px solid var(--color-accent);
+  color: var(--color-accent);
+}
+.hero button:hover {
+  opacity: 0.85;
+}
+body.dark-theme .hero button.outline {
+  border-color: #90e0ef;
+  color: #90e0ef;
+}
+
+/* ===========================
+   Alert Banner
+   =========================== */
+.alert-banner {
+  background-color: #fff3cd;
+  color: #000; /* ensure visible in light mode */
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  text-align: center;
+}
+body.dark-theme .alert-banner {
+  background-color: #333;
+  color: #ffcc00; /* visible in dark mode */
+}
+
+/* ===========================
+   Regional Alerts Snapshot
+   =========================== */
+.alert-preview {
+  margin-top: 2rem;
+  text-align: center; /* center heading + cards */
+}
+.alert-preview h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+body.dark-theme .alert-preview h2 {
+  color: #90e0ef;
+}
+.alert-card {
+  border: 1px solid var(--color-border);
+  padding: 0.8rem;
+  margin: 0 auto 0.8rem auto; /* center horizontally */
+  border-radius: 6px;
+  max-width: 600px; /* keep cards centered and not too wide */
+  background-color: var(--color-bg-light);
+  color: var(--color-text);
+  text-align: center; /* center card content */
+}
+body.dark-theme .alert-card {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark); /* ensure text visible */
+}
+
+/* Severity badges */
+.severity-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.severity-low {
+  background-color: #d4edda;
+  color: #155724;
+}
+.severity-moderate {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.severity-high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+body.dark-theme .severity-low {
+  background-color: #264d36;
+  color: #a8e6a1;
+}
+body.dark-theme .severity-moderate {
+  background-color: #4d4426;
+  color: #ffcc00;
+}
+body.dark-theme .severity-high {
+  background-color: #4d2626;
+  color: #ff9999;
+}
+
+/* ===========================
+   Footer
+   =========================== */
+footer.footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--color-bg-light);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+body.dark-theme footer.footer {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 1.6rem;
+  }
+  .live-summary .temperature {
+    font-size: 2rem;
+  }
+  .hero .buttons {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
+
+
+
+ /* ===========================
+   Admin layout (frontend/admin.php)
+   =========================== */
+
+/* 1) Page wrapper */
+main.page-admin {
+  flex: 1;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page-admin {
+  background: var(--color-bg-dark);
+}
+
+/* 2) Admin section container */
+.admin-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: auto;
+  padding: 0 8px;
+}
+.admin-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+  text-align: center;
+}
+body.dark-theme .admin-section h1 {
+  color: #90e0ef;
+}
+
+/* 3) Admin cards (replace inline styles) */
+.admin-card {
+  background-color: #f1f8ff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  margin-bottom: 1.5rem;
+}
+.admin-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+.admin-card p {
+  font-size: 0.95rem;
+  line-height: 1.4;
+}
+
+/* 4) Dark theme overrides */
+body.dark-theme .admin-card {
+  background-color: #1e1e1e;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+  box-shadow: 0 2px 8px rgba(255,255,255,0.05);
+}
+body.dark-theme .admin-card h2 {
+  color: #90e0ef;
+}
+
+/* 5) Feedback messages (replace inline styles) */
+.success-message {
+  color: #2e8b57;
+  background: #e6ffe6;
+  border: 1px solid #b2d8b2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+.error-message {
+  color: #b22222;
+  background: #ffe6e6;
+  border: 1px solid #d8b2b2;
+  padding: 8px 12px;
+  border-radius: 6px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+body.dark-theme .success-message {
+  color: #a8e6a1;
+  background: #1e4028;
+  border-color: #2f5d3a;
+}
+body.dark-theme .error-message {
+  color: #f5a5a5;
+  background: #402020;
+  border-color: #5d2f2f;
+}
+
+/* 6) Logout link */
+.admin-section a {
+  color: var(--color-primary);
+  text-decoration: none;
+}
+.admin-section a:hover {
+  text-decoration: underline;
+}
+body.dark-theme .admin-section a {
+  color: #90e0ef;
+}
+
+/* 7) Section spacing consistency */
+.admin-section > .admin-card + .admin-card {
+  margin-top: 1rem;
+}
+
+/* 8) Responsive tweaks */
+@media (max-width: 768px) {
+  main.page-admin {
+    padding: 1.25rem 0.75rem;
+  }
+  .admin-card {
+    padding: 1.1rem;
+    border-radius: 8px;
+  }
+  .admin-section h1 {
+    font-size: 1.7rem;
+  }
+  .admin-card h2 {
+    font-size: 1.2rem;
+  }
+}
+/* ===========================
+   Alerts Page Layout
+   =========================== */
+main.page.page-alerts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page.page-alerts {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.alerts-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.alerts-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+body.dark-theme .alerts-section h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Alert Items
+   =========================== */
+.alert-item {
+  padding: 1rem;
+  border-radius: 8px;
+  text-align: left;
+  margin-bottom: 1rem;
+  background: #fff;
+  border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-soft);
+}
+.alert-item h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.2rem;
+  color: var(--color-primary);
+}
+.alert-item p {
+  margin: 0.25rem 0;
+  font-size: 0.95rem;
+}
+.alert-item small {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #555;
+}
+body.dark-theme .alert-item {
+  background: #2a2a2a;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+body.dark-theme .alert-item h3 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Severity Badges
+   =========================== */
+.severity-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.severity-low {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+.severity-moderate {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+.severity-high {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}
+body.dark-theme .severity-low {
+  background: #204020;
+  color: #a5f5a5;
+  border-color: #2f5d2f;
+}
+body.dark-theme .severity-moderate {
+  background: #403820;
+  color: #f5e5a5;
+  border-color: #5d4f2f;
+}
+body.dark-theme .severity-high {
+  background: #402020;
+  color: #f5a5a5;
+  border-color: #5d2f2f;
+}
+
+/* ===========================
+   Success & Error Messages
+   =========================== */
+.success-message {
+  color: #2e8b57;
+  background: #e6ffe6;
+  border: 1px solid #b2d8b2;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.error-message {
+  color: #b22222;
+  background: #ffe6e6;
+  border: 1px solid #d8b2b2;
+  padding: 8px;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+body.dark-theme .success-message {
+  color: #a8e6a1;
+  background: #1e4028;
+  border-color: #2f5d3a;
+}
+body.dark-theme .error-message {
+  color: #f5a5a5;
+  background: #402020;
+  border-color: #5d2f2f;
+}
+
+/* ===========================
+   Admin Alerts Checker
+   =========================== */
+.section {
+  margin-top: 2rem;
+  text-align: left;
+}
+.section h2 {
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: var(--color-primary);
+}
+body.dark-theme .section h2 {
+  color: #90e0ef;
+}
+
+#adminAlertsForm {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+}
+#adminAlertsForm select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+#adminAlertsForm button {
+  padding: 0.5rem 1.25rem;
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+#adminAlertsForm button:hover {
+  background-color: #0077b6;
+}
+body.dark-theme #adminAlertsForm select {
+  background-color: #333;
+  color: var(--color-text-dark);
+  border: 1px solid #555;
+}
+body.dark-theme #adminAlertsForm button {
+  background-color: #444;
+}
+body.dark-theme #adminAlertsForm button:hover {
+  background-color: #555;
+}
+
+/* Admin alert cards */
+.card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  box-shadow: var(--shadow-soft);
+}
+.card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+.card p {
+  margin: 0.25rem 0;
+}
+.card small {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 0.8rem;
+  color: #555;
+}
+body.dark-theme .card {
+  background: #2a2a2a;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .card h4 {
+  color: #90e0ef;
+}
+/* ===========================
+   API Page Layout
+   =========================== */
+main.page.page-api {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page.page-api {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.page-api .section {
+  width: 100%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.page-api h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+body.dark-theme .page-api h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Cards (reuse global card style)
+   =========================== */
+.page-api .card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+.page-api .card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+.page-api .card p.muted {
+  color: #666;
+  font-size: 0.95rem;
+}
+body.dark-theme .page-api .card {
+  background: #2a2a2a;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-api .card h2 {
+  color: #90e0ef;
+}
+body.dark-theme .page-api .card p.muted {
+  color: #aaa;
+}
+
+/* ===========================
+   Success & Error Messages (reuse global)
+   =========================== */
+.page-api .success-message,
+.page-api .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Keys List
+   =========================== */
+.keys {
+  display: grid;
+  gap: 0.75rem;
+}
+.key-item {
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  background: #fafafa;
+}
+.key-header {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.key-value {
+  font-family: monospace;
+  background: rgba(0,0,0,0.05);
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  display: inline-block;
+}
+body.dark-theme .key-item {
+  background: #2a2a2a;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .key-value {
+  background: #333;
+  color: #90e0ef;
+}
+
+/* ===========================
+   Actions & Buttons
+   =========================== */
+.actions {
+  margin-top: 0.5rem;
+  display: flex;
+  gap: 0.5rem;
+}
+.btn {
+  padding: 0.35rem 0.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+.btn:hover {
+  background: #eee;
+}
+.btn-danger {
+  border-color: #d33;
+  color: #d33;
+  background: #fff;
+}
+body.dark-theme .btn {
+  background: #333;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .btn:hover {
+  background: #444;
+}
+body.dark-theme .btn-danger {
+  border-color: #f55;
+  color: #f55;
+  background: #222;
+}
+/* ===========================
+   Admin Dashboard Layout
+   =========================== */
+/* ===========================
+   Global Layout (sticky footer)
+   =========================== */
+/* Already defined globally for homepage/user dashboard:
+   html, body, .layout, main, footer.footer
+   → no need to duplicate here */
+
+/* ===========================
+   Dashboard Base
+   =========================== */
+.page-dashboard {
+  padding: 2rem 1rem;
+}
+
+body.dark-theme .page-dashboard {
+  /* inherits background/text from global .layout */
+}
+
+.dashboard-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.dashboard-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  text-align: center;
+  color: var(--color-primary);
+}
+body.dark-theme .dashboard-section h1 {
+  color: #90e0ef;
+}
+.dashboard-section .section {
+  margin-top: 2rem;
+}
+.dashboard-section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+body.dark-theme .dashboard-section h3 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Feedback Messages
+   =========================== */
+/* success-message, error-message already defined globally.
+   Just ensure dashboard spacing is consistent */
+.page-dashboard .success-message,
+.page-dashboard .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Card
+   =========================== */
+/* .card already defined globally → reuse */
+
+/* ===========================
+   Summary Box (dashboard-specific)
+   =========================== */
+.summary-box {
+  background: #f0f8ff;
+  padding: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+body.dark-theme .summary-box {
+  background: #1e2a38;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+.summary-box em {
+  color: #666;
+}
+body.dark-theme .summary-box em {
+  color: #aaa;
+}
+
+/* ===========================
+   Tables (shared style)
+   =========================== */
+.page-dashboard table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.page-dashboard th,
+.page-dashboard td {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem;
+  text-align: left;
+}
+.page-dashboard th {
+  background: #f2f9ff;
+  font-weight: 600;
+}
+body.dark-theme .page-dashboard th {
+  background: #333;
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-dashboard td {
+  border-color: var(--color-border-dark);
+}
+
+/* ===========================
+   Status Indicators (shared)
+   =========================== */
+.status-ok {
+  color: #2e8b57;
+  font-weight: bold;
+}
+.status-fail {
+  color: #b22222;
+  font-weight: bold;
+}
+body.dark-theme .status-ok {
+  color: #90ee90;
+}
+body.dark-theme .status-fail {
+  color: #ff9999;
+}
+
+/* ===========================
+   Links
+   =========================== */
+.dashboard-section a {
+  color: var(--color-accent);
+  text-decoration: none;
+  font-weight: 500;
+}
+.dashboard-section a:hover {
+  text-decoration: underline;
+}
+body.dark-theme .dashboard-section a {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+@media (max-width: 768px) {
+  .dashboard-section h1 {
+    font-size: 1.7rem;
+  }
+  .dashboard-section h3 {
+    font-size: 1.1rem;
+  }
+  .page-dashboard table {
+    font-size: 0.9rem;
+  }
+}
+
+/* ===========================
+   Favorites Page Layout
+   =========================== */
+main.page-favorites {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page-favorites {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.favorites-section {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+}
+.favorites-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+body.dark-theme .favorites-section h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Favorites Cards
+   =========================== */
+.favorites-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+.favorites-card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+body.dark-theme .favorites-card {
+  background: #2a2a2a;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+body.dark-theme .favorites-card h2 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Form Groups
+   =========================== */
+.favorites-card .form-group {
+  margin-bottom: 0.75rem;
+  text-align: left;
+}
+.favorites-card label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  display: block;
+}
+.favorites-card select {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+}
+body.dark-theme .favorites-card select {
+  background: #333;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+
+/* ===========================
+   Favorites List
+   =========================== */
+.favorites-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.favorites-card li {
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.favorites-card li form {
+  display: inline;
+}
+.favorites-card li button {
+  margin-left: 0.5rem;
+}
+
+/* ===========================
+   Success & Error Messages
+   =========================== */
+.page-favorites .success-message,
+.page-favorites .error-message {
+  margin-bottom: 1rem;
+}
+/* ===========================
+   Forecast Page Layout
+   =========================== */
+main.page-forecast {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page-forecast {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.forecast-section {
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+.forecast-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+body.dark-theme .forecast-section h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Forecast Form
+   =========================== */
+.page-forecast form {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: center;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+.page-forecast select {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+.page-forecast button {
+  padding: 0.6rem 1.2rem;
+  background-color: var(--color-accent);
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.page-forecast button:hover {
+  background-color: #0077b6;
+}
+body.dark-theme .page-forecast select {
+  background: #333;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-forecast button {
+  background-color: #444;
+}
+body.dark-theme .page-forecast button:hover {
+  background-color: #555;
+}
+
+/* ===========================
+   Forecast Cards
+   =========================== */
+.forecast-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.forecast-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: var(--shadow-soft);
+}
+.forecast-card h3 {
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+.forecast-card p {
+  margin: 0.25rem 0;
+}
+body.dark-theme .forecast-card {
+  background: #2a2a2a;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .forecast-card h3 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Success & Error Messages
+   =========================== */
+.page-forecast .success-message,
+.page-forecast .error-message {
+  margin-bottom: 1rem;
+}
+/* ===========================
+   Health Page Layout
+   =========================== */
+main.page-health {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page-health {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.page-health h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+}
+body.dark-theme .page-health h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Overall Status
+   =========================== */
+.overall-status {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  text-align: center;
+}
+
+/* ===========================
+   Health Checks Grid
+   =========================== */
+.health-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 1000px;
+}
+.check-card {
+  flex: 1 1 220px;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  background: #fff;
+  box-shadow: var(--shadow-soft);
+}
+.check-card h3 {
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+.check-card ul {
+  list-style: none;
+  padding: 0;
+  margin-top: 0.5rem;
+  text-align: left;
+}
+.check-card ul li {
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+body.dark-theme .check-card {
+  background: #2a2a2a;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+body.dark-theme .check-card h3 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Status Indicators (reuse global)
+   =========================== */
+.status-ok {
+  color: #2e8b57;
+  font-weight: bold;
+}
+.status-fail {
+  color: #b22222;
+  font-weight: bold;
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+@media (max-width: 768px) {
+  .health-checks {
+    flex-direction: column;
+  }
+  .check-card {
+    flex: 1 1 auto;
+  }
+}
+/* ===========================
+   Login Page Styling
+   =========================== */
+.page-auth.login .auth-section {
+  background-color: #d6f0ff; /* light blue background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  margin: auto;
+  border-top: 4px solid #118ab2; /* blue accent */
+}
+
+.page-auth.login h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #118ab2;
+}
+
+/* Form styling (already global) */
+.page-auth.login .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.page-auth.login .form-group label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.page-auth.login .form-group input {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Password toggle button */
+.page-auth.login .toggle-btn {
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.page-auth.login .toggle-btn:hover {
+  background: #ddd;
+}
+
+/* Primary button */
+.page-auth.login .btn-primary {
+  padding: 0.8rem;
+  background-color: #118ab2;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.page-auth.login .btn-primary:hover {
+  background-color: #0f7aa0;
+}
+
+/* Auth links */
+.page-auth.login .auth-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.page-auth.login .auth-link a {
+  color: #118ab2;
+  text-decoration: none;
+}
+.page-auth.login .auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Success & Error messages (reuse global) */
+.page-auth.login .success-message,
+.page-auth.login .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Dark Theme Overrides
+   =========================== */
+body.dark-theme .page-auth.login .auth-section {
+  background-color: #1e1e1e;
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-auth.login .form-group input {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+}
+body.dark-theme .page-auth.login .toggle-btn {
+  background: #333;
+  color: #fff;
+}
+body.dark-theme .page-auth.login .toggle-btn:hover {
+  background: #444;
+}
+body.dark-theme .page-auth.login .btn-primary {
+  background-color: var(--color-primary);
+}
+body.dark-theme .page-auth.login .auth-link a {
+  color: var(--color-primary);
+}
+/* ===========================
+   Radar Page Layout
+   =========================== */
+main.page-radar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page-radar {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.page-radar h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+  text-align: center;
+}
+body.dark-theme .page-radar h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Radar Map
+   =========================== */
+.radar-map {
+  position: relative;
+  width: 100%;
+  height: 70vh;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+.radar-map iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+body.dark-theme .radar-map {
+  border-color: var(--color-border-dark);
+}
+
+/* ===========================
+   Regional Overlay
+   =========================== */
+.region-overlay {
+  margin-top: 1rem;
+}
+.region-overlay h3 {
+  margin-bottom: 0.5rem;
+  font-size: 1.3rem;
+  color: var(--color-primary);
+}
+.region-overlay ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0 0;
+}
+.region-overlay li {
+  margin-bottom: 0.3rem;
+  font-size: 0.95rem;
+}
+body.dark-theme .region-overlay h3 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   User Controls
+   =========================== */
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.controls label {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.controls input,
+.controls select,
+.controls button {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+}
+.controls button {
+  background-color: var(--color-accent);
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.controls button:hover {
+  background-color: #0077b6;
+}
+body.dark-theme .controls input,
+body.dark-theme .controls select {
+  background: #333;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .controls button {
+  background-color: #444;
+}
+body.dark-theme .controls button:hover {
+  background-color: #555;
+}
+
+/* ===========================
+   Admin Radar Tools (reuse card)
+   =========================== */
+.page-radar .card {
+  margin-top: 1rem;
+}
+.page-radar .card h2 {
+  font-size: 1.4rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+body.dark-theme .page-radar .card h2 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+@media (max-width: 768px) {
+  .radar-map {
+    height: 50vh;
+  }
+  .controls {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .controls label {
+    width: 100%;
+  }
+}
+/* ===========================
+   Register Page Styling
+   =========================== */
+.page-auth.register .auth-section {
+  background-color: #e6fff2; /* light green background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  margin: auto;
+  border-top: 4px solid #2e8b57; /* green accent */
+}
+
+.page-auth.register h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #2e8b57;
+}
+
+/* Form styling (reuse global) */
+.page-auth.register .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.page-auth.register .form-group label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.page-auth.register .form-group input {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Password toggle button */
+.page-auth.register .toggle-btn {
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.page-auth.register .toggle-btn:hover {
+  background: #ddd;
+}
+
+/* Primary button */
+.page-auth.register .btn-primary {
+  padding: 0.8rem;
+  background-color: #2e8b57;
+  border: none;
+  border-radius: 6px;
+  color: #fff;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.page-auth.register .btn-primary:hover {
+  background-color: #256b45;
+}
+
+/* Auth links */
+.page-auth.register .auth-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.page-auth.register .auth-link a {
+  color: #2e8b57;
+  text-decoration: none;
+}
+.page-auth.register .auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Success & Error messages (reuse global) */
+.page-auth.register .success-message,
+.page-auth.register .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Dark Theme Overrides
+   =========================== */
+body.dark-theme .page-auth.register .auth-section {
+  background-color: #1e1e1e;
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-auth.register .form-group input {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+}
+body.dark-theme .page-auth.register .toggle-btn {
+  background: #333;
+  color: #fff;
+}
+body.dark-theme .page-auth.register .toggle-btn:hover {
+  background: #444;
+}
+body.dark-theme .page-auth.register .btn-primary {
+  background-color: var(--color-primary);
+}
+body.dark-theme .page-auth.register .auth-link a {
+  color: var(--color-primary);
+}
+/* ===========================
+   Reset Confirmation Page Styling
+   =========================== */
+.page-auth.reset-confirm .auth-section {
+  background-color: #fffbe6; /* light yellow background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  margin: auto;
+  border-top: 4px solid #ffc107; /* yellow accent */
+}
+
+.page-auth.reset-confirm h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #856404;
+}
+
+/* Form styling (reuse global) */
+.page-auth.reset-confirm .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.page-auth.reset-confirm .form-group label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+}
+.page-auth.reset-confirm .form-group input {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Password toggle button */
+.page-auth.reset-confirm .toggle-btn {
+  margin-left: 0.5rem;
+  padding: 0.5rem 0.7rem;
+  border: none;
+  background: #eee;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+}
+.page-auth.reset-confirm .toggle-btn:hover {
+  background: #ddd;
+}
+
+/* Primary button */
+.page-auth.reset-confirm button[type="submit"] {
+  padding: 0.8rem;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.page-auth.reset-confirm button[type="submit"]:hover {
+  background-color: #e0a800;
+}
+
+/* Auth links */
+.page-auth.reset-confirm .auth-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.page-auth.reset-confirm .auth-link a {
+  color: #856404;
+  text-decoration: none;
+}
+.page-auth.reset-confirm .auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Success & Error messages (reuse global) */
+.page-auth.reset-confirm .success-message,
+.page-auth.reset-confirm .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Dark Theme Overrides
+   =========================== */
+body.dark-theme .page-auth.reset-confirm .auth-section {
+  background-color: #1e1e1e;
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-auth.reset-confirm .form-group input {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+}
+body.dark-theme .page-auth.reset-confirm .toggle-btn {
+  background: #333;
+  color: #fff;
+}
+body.dark-theme .page-auth.reset-confirm .toggle-btn:hover {
+  background: #444;
+}
+body.dark-theme .page-auth.reset-confirm button[type="submit"] {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+body.dark-theme .page-auth.reset-confirm .auth-link a {
+  color: var(--color-primary);
+}
+/* ===========================
+   Reset Request Page Styling
+   =========================== */
+.page-auth.reset-request .auth-section,
+.container {
+  background-color: #fffbe6; /* light yellow background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  margin: 2rem auto;
+  text-align: center;
+  border-top: 4px solid #ffc107; /* yellow accent */
+}
+
+.container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #856404;
+}
+
+/* Form styling (reuse global) */
+.container form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.container label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
+.container input[type="email"] {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+.container button[type="submit"] {
+  padding: 0.8rem;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.container button[type="submit"]:hover {
+  background-color: #e0a800;
+}
+
+/* Success & Error messages (reuse global) */
+.container .success-message,
+.container .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Dark Theme Overrides
+   =========================== */
+body.dark-theme .container {
+  background-color: #1e1e1e;
+  color: var(--color-text-dark);
+}
+body.dark-theme .container input[type="email"] {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+}
+body.dark-theme .container button[type="submit"] {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+/* ===========================
+   Reset Page Styling
+   =========================== */
+.page-auth.reset .auth-section {
+  background-color: #fffbe6; /* light yellow background */
+  padding: 2rem;
+  border-radius: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  text-align: center;
+  margin: auto;
+  border-top: 4px solid #ffc107; /* yellow accent */
+}
+
+.page-auth.reset h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #856404;
+}
+
+/* Form styling (reuse global) */
+.page-auth.reset .auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+.page-auth.reset .form-group label {
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  text-align: left;
+}
+.page-auth.reset .form-group input {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+/* Primary button */
+.page-auth.reset button[type="submit"] {
+  padding: 0.8rem;
+  background-color: #ffc107;
+  border: none;
+  border-radius: 6px;
+  color: #000;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease-in-out;
+}
+.page-auth.reset button[type="submit"]:hover {
+  background-color: #e0a800;
+}
+
+/* Auth links */
+.page-auth.reset .auth-link {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.page-auth.reset .auth-link a {
+  color: #856404;
+  text-decoration: none;
+}
+.page-auth.reset .auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Success & Error messages (reuse global) */
+.page-auth.reset .success-message,
+.page-auth.reset .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Dark Theme Overrides
+   =========================== */
+body.dark-theme .page-auth.reset .auth-section {
+  background-color: #1e1e1e;
+  color: var(--color-text-dark);
+}
+body.dark-theme .page-auth.reset .form-group input {
+  background-color: #2a2a2a;
+  border: 1px solid #444;
+  color: #fff;
+}
+body.dark-theme .page-auth.reset button[type="submit"] {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+body.dark-theme .page-auth.reset .auth-link a {
+  color: var(--color-primary);
+}
+/* ===========================
+   User Dashboard Layout
+   =========================== */
+main.page-dashboard {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem 1rem;
+  background: var(--color-bg-light);
+}
+body.dark-theme main.page-dashboard {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+}
+
+.dashboard-section {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.dashboard-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+  text-align: center;
+}
+body.dark-theme .dashboard-section h1 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Sections
+   =========================== */
+.dashboard-section .section {
+  margin-bottom: 2rem;
+}
+.dashboard-section .section h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+body.dark-theme .dashboard-section .section h3 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Forecast Cards
+   =========================== */
+.forecast-cards {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-top: 0.5rem;
+}
+.forecast-card {
+  background: #fff;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 0.75rem;
+  text-align: center;
+  min-width: 140px;
+  box-shadow: var(--shadow-soft);
+}
+.forecast-card h4 {
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+}
+.forecast-card p {
+  margin: 0.25rem 0;
+}
+body.dark-theme .forecast-card {
+  background: #2a2a2a;
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+body.dark-theme .forecast-card h4 {
+  color: #90e0ef;
+}
+
+/* ===========================
+   Alerts Table
+   =========================== */
+.alerts-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.alerts-table th,
+.alerts-table td {
+  border: 1px solid var(--color-border);
+  padding: 0.5rem;
+  text-align: left;
+}
+.alerts-table th {
+  background: #f2f9ff;
+  font-weight: 600;
+}
+body.dark-theme .alerts-table th {
+  background: #333;
+  color: var(--color-text-dark);
+}
+body.dark-theme .alerts-table td {
+  border-color: var(--color-border-dark);
+}
+
+/* ===========================
+   Status Indicators (reuse global)
+   =========================== */
+.status-ok {
+  color: #2e8b57;
+  font-weight: bold;
+}
+.status-fail {
+  color: #b22222;
+  font-weight: bold;
+}
+
+/* ===========================
+   Success & Error Messages (reuse global)
+   =========================== */
+.page-dashboard .success-message,
+.page-dashboard .error-message {
+  margin-bottom: 1rem;
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+@media (max-width: 768px) {
+  .dashboard-section h1 {
+    font-size: 1.7rem;
+  }
+  .dashboard-section .section h3 {
+    font-size: 1.1rem;
+  }
+  .alerts-table {
+    font-size: 0.9rem;
+  }
+  .forecast-card {
+    min-width: 120px;
+    padding: 0.6rem;
+  }
+}
+/* ===========================
+   Navbar Layout
+   =========================== */
+header.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.25rem;
+  background-color: var(--color-bg-light);
+  border-bottom: 1px solid var(--color-border);
+}
+body.dark-theme header.navbar {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+
+/* Logo */
+.navbar .logo {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: var(--color-primary);
+}
+body.dark-theme .navbar .logo {
+  color: #90e0ef;
+}
+
+/* Center controls (theme toggle) */
+.navbar .nav-center {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+}
+#themeToggle {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+#themeToggle:hover {
+  opacity: 0.7;
+}
+body.dark-theme #themeToggle {
+  color: #fff;
+}
+
+/* Main navigation links */
+.main-nav {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+}
+.main-nav a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+.main-nav a:hover {
+  background-color: var(--color-hover-light);
+}
+.main-nav a.active {
+  background-color: var(--color-accent);
+  color: #fff;
+}
+body.dark-theme .main-nav a {
+  color: var(--color-text-dark);
+}
+body.dark-theme .main-nav a:hover {
+  background-color: #333;
+}
+body.dark-theme .main-nav a.active {
+  background-color: var(--color-primary);
+  color: #fff;
+}
+
+/* User info + logout */
+.user-info {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.logout-btn {
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.logout-btn:hover {
+  background: #eee;
+}
+body.dark-theme .logout-btn {
+  background: #333;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .logout-btn:hover {
+  background: #444;
+}
+
+/* ===========================
+   Responsive Tweaks
+   =========================== */
+@media (max-width: 768px) {
+  header.navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .main-nav {
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+  }
+}
+/* ===========================
+   Footer Styling
+   =========================== */
+footer.footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: var(--color-bg-light);
+  border-top: 1px solid var(--color-border);
+  font-size: 0.85rem;
+  color: var(--color-text);
+}
+
+body.dark-theme footer.footer {
+  background-color: var(--color-bg-dark);
+  border-color: var(--color-border-dark);
+  color: var(--color-text-dark);
+}
+
+footer.footer small {
+  font-weight: 500;
+  letter-spacing: 0.3px;
+}
+/* ===========================
+   Admin Navigation
+   =========================== */
+.admin-nav {
+  margin-bottom: 1.25rem; /* replaces inline margin-bottom:20px */
+}
+
+.admin-nav ul {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  gap: 1rem; /* replaces gap:15px */
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.admin-nav li {
+  display: flex;
+  align-items: center;
+}
+
+.admin-nav a {
+  text-decoration: none;
+  color: var(--color-text);
+  font-weight: 500;
+  padding: 0.4rem 0.6rem;
+  border-radius: 4px;
+  transition: background-color 0.2s ease-in-out;
+}
+.admin-nav a:hover {
+  background-color: var(--color-hover-light);
+}
+body.dark-theme .admin-nav a {
+  color: var(--color-text-dark);
+}
+body.dark-theme .admin-nav a:hover {
+  background-color: #333;
+}
+
+/* Logout button inside admin nav */
+.admin-nav form {
+  display: inline;
+}
+.admin-nav button {
+  padding: 0.4rem 0.8rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  background: #f8f8f8;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+.admin-nav button:hover {
+  background: #eee;
+}
+body.dark-theme .admin-nav button {
+  background: #333;
+  border-color: #555;
+  color: var(--color-text-dark);
+}
+body.dark-theme .admin-nav button:hover {
+  background: #444;
+}
+
+
+
+/* ===========================
+   Alerts Overlay (shared for homepage + radar)
+   =========================== */
+.alerts-overlay {
+  margin-top: 2rem;
+  text-align: center;
+  background: var(--color-bg-light);
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  padding: 1rem;
+}
+
+body.dark-theme .alerts-overlay {
+  background: var(--color-bg-dark);
+  color: var(--color-text-dark);
+  border-color: var(--color-border-dark);
+}
+
+.alerts-overlay h2,
+.alerts-overlay h3 {
+  margin-bottom: 0.75rem;
+  color: var(--color-primary);
+}
+
+body.dark-theme .alerts-overlay h2,
+body.dark-theme .alerts-overlay h3 {
+  color: #90e0ef;
+}
+
+.alerts-overlay ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+}
+
+.alerts-overlay li {
+  margin-bottom: 0.3rem;
+}
+
+/* Severity badges (shared) */
+.severity-badge {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.severity-low {
+  background-color: #d4edda;
+  color: #155724;
+}
+.severity-moderate {
+  background-color: #fff3cd;
+  color: #856404;
+}
+.severity-high {
+  background-color: #f8d7da;
+  color: #721c24;
+}
+body.dark-theme .severity-low {
+  background-color: #264d36;
+  color: #a8e6a1;
+}
+body.dark-theme .severity-moderate {
+  background-color: #4d4426;
+  color: #ffcc00;
+}
+body.dark-theme .severity-high {
+  background-color: #4d2626;
+  color: #ff9999;
+}

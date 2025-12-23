@@ -1,0 +1,193 @@
+[1mdiff --git a/.env b/.env[m
+[1mnew file mode 100644[m
+[1mindex 0000000..e69de29[m
+[1mdiff --git a/auth/get_logs.php b/auth/get_logs.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..da20698[m
+[1m--- /dev/null[m
+[1m+++ b/auth/get_logs.php[m
+[36m@@ -0,0 +1,62 @@[m
+[32m+[m[32m<?php[m
+[32m+[m[32m// auth/get_logs.php[m
+[32m+[m[32mif (session_status() === PHP_SESSION_NONE) {[m
+[32m+[m[32m    session_start();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mrequire_once __DIR__ . '/../backend/config/db.php';[m
+[32m+[m[32mrequire_once __DIR__ . '/../backend/helpers/log.php';[m
+[32m+[m
+[32m+[m[32m// ✅ Protect admin[m
+[32m+[m[32mif (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {[m
+[32m+[m[32m    header("HTTP/1.1 403 Forbidden");[m
+[32m+[m[32m    header('Content-Type: application/json');[m
+[32m+[m[32m    echo json_encode(['error' => 'Unauthorized']);[m
+[32m+[m[32m    exit;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m$page     = isset($_GET['page']) ? (int)$_GET['page'] : 1;[m
+[32m+[m[32m$endpoint = $_GET['endpoint'] ?? '';[m
+[32m+[m[32m$status   = $_GET['status'] ?? '';[m
+[32m+[m[32m$limit    = 10;[m
+[32m+[m[32m$offset   = ($page - 1) * $limit;[m
+[32m+[m
+[32m+[m[32m$where  = [];[m
+[32m+[m[32m$params = [];[m
+[32m+[m
+[32m+[m[32mif ($endpoint !== '') {[m
+[32m+[m[32m    $where[]  = "endpoint LIKE ?";[m
+[32m+[m[32m    $params[] = "%$endpoint%";[m
+[32m+[m[32m}[m
+[32m+[m[32mif ($status !== '') {[m
+[32m+[m[32m    $where[]  = "status = ?";[m
+[32m+[m[32m    $params[] = $status;[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32m$whereSql = count($where) ? "WHERE " . implode(" AND ", $where) : "";[m
+[32m+[m
+[32m+[m[32mtry {[m
+[32m+[m[32m    $pdo = db();[m
+[32m+[m
+[32m+[m[32m    // ✅ Get logs[m
+[32m+[m[32m    $stmt = $pdo->prepare("SELECT * FROM api_logs $whereSql ORDER BY request_time DESC LIMIT $limit OFFSET $offset");[m
+[32m+[m[32m    $stmt->execute($params);[m
+[32m+[m[32m    $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);[m
+[32m+[m
+[32m+[m[32m    // ✅ Count total[m
+[32m+[m[32m    $stmt = $pdo->prepare("SELECT COUNT(*) FROM api_logs $whereSql");[m
+[32m+[m[32m    $stmt->execute($params);[m
+[32m+[m[32m    $total       = $stmt->fetchColumn();[m
+[32m+[m[32m    $total_pages = ceil($total / $limit);[m
+[32m+[m
+[32m+[m[32m    header('Content-Type: application/json');[m
+[32m+[m[32m    echo json_encode([[m
+[32m+[m[32m        'logs'        => $logs,[m
+[32m+[m[32m        'total_pages' => $total_pages[m
+[32m+[m[32m    ]);[m
+[32m+[m[32m} catch (Exception $e) {[m
+[32m+[m[32m    log_event("Error fetching logs: " . $e->getMessage(), "ERROR");[m
+[32m+[m[32m    header("HTTP/1.1 500 Internal Server Error");[m
+[32m+[m[32m    header('Content-Type: application/json');[m
+[32m+[m[32m    echo json_encode(['error' => 'Server error']);[m
+[32m+[m[32m}[m
+[1mdiff --git a/auth/login.php b/auth/login.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..714a841[m
+[1m--- /dev/null[m
+[1m+++ b/auth/login.php[m
+[36m@@ -0,0 +1,70 @@[m
+[32m+[m[32m<?php[m
+[32m+[m[32m// auth/login.php[m
+[32m+[m
+[32m+[m[32mif (session_status() === PHP_SESSION_NONE) {[m
+[32m+[m[32m    session_start();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mrequire_once __DIR__ . '/../config/db.php';[m
+[32m+[m[32mrequire_once __DIR__ . '/../backend/helpers/csrf.php';[m
+[32m+[m
+[32m+[m[32mif ($_SERVER['REQUEST_METHOD'] === 'POST') {[m
+[32m+[m[32m    // ✅ CSRF validation[m
+[32m+[m[32m    if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {[m
+[32m+[m[32m        header("Location: ../frontend/login.php?error=Invalid request");[m
+[32m+[m[32m        exit;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    $email    = trim($_POST['email'] ?? '');[m
+[32m+[m[32m    $password = $_POST['password'] ?? '';[m
+[32m+[m
+[32m+[m[32m    if ($email === '' || $password === '') {[m
+[32m+[m[32m        header("Location: ../frontend/login.php?error=Missing required fields");[m
+[32m+[m[32m        exit;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    try {[m
+[32m+[m[32m        $pdo = db();[m
+[32m+[m
+[32m+[m[32m        // ✅ Fetch user by email[m
+[32m+[m[32m        $stmt = $pdo->prepare("SELECT id, email, password_hash, role FROM users WHERE email = ?");[m
+[32m+[m[32m        $stmt->execute([$email]);[m
+[32m+[m[32m        $user = $stmt->fetch(PDO::FETCH_ASSOC);[m
+[32m+[m
+[32m+[m[32m        // ✅ Verify password against stored hash[m
+[32m+[m[32m        if (!$user || !password_verify($password, $user['password_hash'])) {[m
+[32m+[m[32m            header("Location: ../frontend/login.php?error=Invalid email or password");[m
+[32m+[m[32m            exit;[m
+[32m+[m[32m        }[m
+[32m+[m
+[32m+[m[32m        // ✅ Set session values[m
+[32m+[m[32m        $_SESSION['user'] = [[m
+[32m+[m[32m            'id'    => $user['id'],[m
+[32m+[m[32m            'email' => $user['email'],[m
+[32m+[m[32m            'role'  => $user['role'][m
+[32m+[m[32m        ];[m
+[32m+[m
+[32m+[m[32m        // ✅ Redirect by role[m
+[32m+[m[32m        switch ($user['role']) {[m
+[32m+[m[32m            case 'admin':[m
+[32m+[m[32m                header("Location: ../frontend/dashboard.php?success=Welcome back, Admin!");[m
+[32m+[m[32m                break;[m
+[32m+[m[32m            case 'user':[m
+[32m+[m[32m                header("Location: ../frontend/user_dashboard.php?success=Welcome back!");[m
+[32m+[m[32m                break;[m
+[32m+[m[32m            default:[m
+[32m+[m[32m                header("Location: ../frontend/index.php?success=Welcome back!");[m
+[32m+[m[32m                break;[m
+[32m+[m[32m        }[m
+[32m+[m[32m        exit;[m
+[32m+[m
+[32m+[m[32m    } catch (Exception $e) {[m
+[32m+[m[32m        // ✅ Fail gracefully[m
+[32m+[m[32m        header("Location: ../frontend/login.php?error=Server error");[m
+[32m+[m[32m        exit;[m
+[32m+[m[32m    }[m
+[32m+[m[32m} else {[m
+[32m+[m[32m    // ✅ If accessed directly, redirect to login form[m
+[32m+[m[32m    header("Location: ../frontend/login.php");[m
+[32m+[m[32m    exit;[m
+[32m+[m[32m}[m
+[1mdiff --git a/auth/logout.php b/auth/logout.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..a884372[m
+[1m--- /dev/null[m
+[1m+++ b/auth/logout.php[m
+[36m@@ -0,0 +1,37 @@[m
+[32m+[m[32m<?php[m
+[32m+[m[32m// auth/logout.php[m
+[32m+[m
+[32m+[m[32mif (session_status() === PHP_SESSION_NONE) {[m
+[32m+[m[32m    session_start();[m
+[32m+[m[32m}[m
+[32m+[m
+[32m+[m[32mrequire_once __DIR__ . '/../backend/helpers/csrf.php';[m
+[32m+[m
+[32m+[m[32mif ($_SERVER['REQUEST_METHOD'] === 'POST') {[m
+[32m+[m[32m    if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {[m
+[32m+[m[32m        header("Location: ../frontend/index.php?error=Invalid logout request");[m
+[32m+[m[32m        exit;[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    // ✅ Clear session array[m
+[32m+[m[32m    $_SESSION = [];[m
+[32m+[m
+[32m+[m[32m    // ✅ Clear session cookie[m
+[32m+[m[32m    if (ini_get("session.use_cookies")) {[m
+[32m+[m[32m        $params = session_get_cookie_params();[m
+[32m+[m[32m        setcookie(session_name(), '', time() - 42000,[m
+[32m+[m[32m            $params["path"], $params["domain"],[m
+[32m+[m[32m            $params["secure"], $params["httponly"][m
+[32m+[m[32m        );[m
+[32m+[m[32m    }[m
+[32m+[m
+[32m+[m[32m    // ✅ Destroy session[m
+[32m+[m[32m    session_destroy();[m
+[32m+[m
+[32m+[m[32m    // ✅ Redirect to homepage[m
+[32m+[m[32m    header("Location: ../frontend/index.php?success=You have been logged out");[m
+[32m+[m[32m    exit;[m
+[32m+[m[32m} else {[m
+[32m+[m[32m    header("Location: ../frontend/index.php");[m
+[32m+[m[32m    exit;[m
+[32m+[m[32m}[m
+[1mdiff --git a/auth/monitor.php b/auth/monitor.php[m
+[1mnew file mode 100644[m
+[1mindex 0000000..bd4

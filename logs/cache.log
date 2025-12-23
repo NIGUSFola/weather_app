@@ -1,0 +1,10 @@
+# cache.log - Cache/Cron Activity
+# Records scheduled jobs, cache refreshes, and distributed lock status.
+
+[2025-12-21 21:00:00] INFO  - Cache health check started
+[2025-12-21 21:00:00] INFO  - Distributed lock acquired by node=us-east-1
+[2025-12-21 21:00:01] INFO  - Cache healthy (regions=5, alerts=12)
+[2025-12-21 21:15:00] INFO  - Refresh job started
+[2025-12-21 21:15:00] INFO  - Forecasts refreshed for regions=AddisAbaba, Hawassa, BahirDar
+[2025-12-21 21:15:01] INFO  - Alerts refreshed successfully
+[2025-12-21 21:15:01] INFO  - Distributed lock released by node=us-east-1

@@ -1,0 +1,8 @@
+# auth.log - Authentication Events
+# Tracks login, registration, reset attempts, and errors.
+
+[2025-12-21 21:02:05] INFO  - User login successful (user_id=42, email=nigus@example.com)
+[2025-12-21 21:03:17] ERROR - Failed login attempt (email=unknown@example.com)
+[2025-12-21 21:04:22] INFO  - User registered successfully (user_id=43, email=test@example.com)
+[2025-12-21 21:06:30] WARN  - Password reset requested for email=nigus@example.com
+[2025-12-21 21:07:01] INFO  - Password reset confirmed (user_id=42)

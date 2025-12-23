@@ -1,0 +1,1366 @@
+# system.log - Backend/System Events
+# Records backend service activity, API calls, and system errors.
+
+[2025-12-21 21:00:01] INFO  - Backend service started
+[2025-12-21 21:05:12] INFO  - Forecast API request for region=AddisAbaba
+[2025-12-21 21:05:12] ERROR - Cache miss for forecast AddisAbaba
+[2025-12-21 21:05:13] INFO  - Cache refreshed successfully
+[2025-12-21 21:10:45] WARN  - High latency detected in radar endpoint
+[2025-12-22 13:23:10] [ERROR] API key creation failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 13:29:14] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 13:29:48] [ERROR] Failed to fetch cache entries: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'wc.type' in 'field list'
+[2025-12-22 13:30:00] [INFO] Cache cleared by admin
+[2025-12-22 13:30:00] [ERROR] Failed to fetch cache entries: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'wc.type' in 'field list'
+[2025-12-22 13:30:13] [ERROR] Failed to fetch cache entries: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'wc.type' in 'field list'
+[2025-12-22 14:00:01] [ERROR] Failed to fetch cache entries: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'wc.type' in 'field list'
+[2025-12-22 14:06:54] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 14:15:11] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 14:29:08] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 14:35:42] [ERROR] API key creation failed: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 14:52:41] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 14:54:18] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 14:56:12] [ERROR] Failed to fetch API keys: SQLSTATE[42S02]: Base table or view not found: 1146 Table 'weather_app.api_keys' doesn't exist
+[2025-12-22 15:22:21] [INFO] Cache cleared by admin
+[2025-12-22 15:40:17] [INFO] API key created
+[2025-12-22 17:08:53] [ERROR] API key missing in config
+[2025-12-22 17:24:09] [ERROR] API key missing in config
+[2025-12-22 17:24:10] [ERROR] API key missing in config
+[2025-12-22 17:24:17] [ERROR] API key missing in config
+[2025-12-22 17:29:40] [INFO] Cache cleared by admin
+[2025-12-22 17:35:55] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:37:19] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:49:04] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:49:08] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:52:47] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:53:15] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:53:15] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:54:32] [INFO] API key created
+[2025-12-22 17:54:46] [INFO] API key created
+[2025-12-22 17:59:40] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:59:45] [WARN] No cached alerts found in weather_cache
+[2025-12-22 17:59:46] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:14] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:15] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:15] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:16] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:16] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:16] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:16] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:07:30] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:10:57] [INFO] Alerts served for Addis Ababa
+[2025-12-22 18:11:59] [INFO] Alerts served for Hossana
+[2025-12-22 18:14:11] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:12] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:12] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:13] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:13] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:13] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:13] [WARN] No cached alerts found in weather_cache
+[2025-12-22 18:14:13] [WARN] No cached alerts found in weather_cache
+[2025-12-22 19:16:48] [INFO] API key created
+[2025-12-22 19:20:40] [INFO] User 2 added Hossana to favorites
+[2025-12-22 19:41:43] [INFO] API key created
+[2025-12-22 19:48:17] [WARN] No cached alerts found in weather_cache
+[2025-12-22 19:51:34] [WARN] No cached alerts found in weather_cache
+[2025-12-22 19:51:54] [INFO] Admin deleted API key
+[2025-12-22 20:06:51] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:08:45] [INFO] Oromia region alerts served for Shashamane
+[2025-12-22 20:09:09] [INFO] South region alerts served for Hawassa
+[2025-12-22 20:09:40] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:13:19] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:13:26] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:17:56] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:17:56] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:18:00] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:18:04] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:18:24] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:18:24] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:19:06] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:19:08] [INFO] Alerts updated for Hossana
+[2025-12-22 20:19:08] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:19:13] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:19:15] [INFO] Alerts updated for Hossana
+[2025-12-22 20:19:15] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:19:19] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:19:21] [INFO] Alerts updated for Hossana
+[2025-12-22 20:19:21] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:19:38] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:19:56] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:21:25] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:21:25] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:21:48] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:21:48] [INFO] Aggregator merged feeds for Oromia, South, Amhara
+[2025-12-22 20:21:59] [INFO] Alerts served for Hawassa
+[2025-12-22 20:22:11] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:22:44] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:26:46] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:33:30] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:33:30] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:33:52] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:34:20] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:34:33] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:34:33] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:35:26] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:35:27] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:35:28] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:35:28] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:35:28] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:35:29] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:39:26] [INFO] Alerts served for Addis Ababa
+[2025-12-22 20:39:26] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:39:46] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:47:24] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 20:55:16] [INFO] Oromia alerts served for Shashamane
+[2025-12-22 20:57:51] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 21:00:02] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 21:14:30] [INFO] Aggregator merged alerts + health for Oromia, South, Amhara
+[2025-12-22 21:15:05] [INFO] Oromia alerts served for Shashamane
+[2025-12-22 21:17:35] [INFO] South alerts served for Hawassa
+[2025-12-22 21:18:25] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-22 21:19:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-22 21:22:32] [INFO] Oromia alerts served for Shashamane
+[2025-12-22 21:23:15] [INFO] Oromia alerts served for Shashamane
+[2025-12-22 21:26:41] [INFO] Oromia alerts served for Shashamane
+[2025-12-22 21:26:47] [INFO] Oromia alerts served for Shashamane
+[2025-12-22 21:27:29] [INFO] South alerts served for Hawassa
+[2025-12-22 21:30:01] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:29:58] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:30:26] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:31:21] [INFO] User 2 added Dire Dawa to favorites
+[2025-12-23 07:31:50] [INFO] User 2 removed Hossana from favorites
+[2025-12-23 07:32:00] [INFO] User 2 added Hossana to favorites
+[2025-12-23 07:32:12] [INFO] API key created
+[2025-12-23 07:32:19] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:32:39] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:39:28] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 07:46:15] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 07:54:21] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 07:54:21] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:54:22] [INFO] South forecast served for Hawassa
+[2025-12-23 07:54:22] [INFO] South alerts served for Hawassa
+[2025-12-23 07:54:22] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 07:54:22] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 07:57:10] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 07:57:10] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 07:57:10] [INFO] South forecast served for Hawassa
+[2025-12-23 07:57:10] [INFO] South alerts served for Hawassa
+[2025-12-23 07:57:10] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 07:57:10] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:11:06] [INFO] Lock acquired for cache refresh
+[2025-12-23 08:11:07] [WARN] Failed to fetch forecast for Addis Ababa
+[2025-12-23 08:11:08] [WARN] Failed to fetch forecast for Bahir Dar
+[2025-12-23 08:11:09] [WARN] Failed to fetch forecast for Dire Dawa
+[2025-12-23 08:11:10] [WARN] Failed to fetch forecast for Gondar
+[2025-12-23 08:11:11] [WARN] Failed to fetch forecast for Hawassa
+[2025-12-23 08:11:11] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 08:11:12] [WARN] Failed to fetch forecast for Shashamane
+[2025-12-23 08:11:12] [INFO] Lock released after cache refresh
+[2025-12-23 08:15:40] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:23:51] [INFO] Lock acquired for cache refresh
+[2025-12-23 08:23:52] [WARN] Failed to fetch forecast for Addis Ababa
+[2025-12-23 08:23:53] [WARN] Failed to fetch forecast for Bahir Dar
+[2025-12-23 08:23:54] [WARN] Failed to fetch forecast for Dire Dawa
+[2025-12-23 08:23:55] [WARN] Failed to fetch forecast for Gondar
+[2025-12-23 08:23:56] [WARN] Failed to fetch forecast for Hawassa
+[2025-12-23 08:23:57] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 08:23:58] [WARN] Failed to fetch forecast for Shashamane
+[2025-12-23 08:23:58] [INFO] Lock released after cache refresh
+[2025-12-23 08:24:17] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:25:25] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:25:30] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:26:13] [INFO] Lock acquired for cache refresh
+[2025-12-23 08:26:14] [WARN] Failed to fetch forecast for Addis Ababa
+[2025-12-23 08:26:15] [WARN] Failed to fetch forecast for Bahir Dar
+[2025-12-23 08:26:16] [WARN] Failed to fetch forecast for Dire Dawa
+[2025-12-23 08:26:16] [WARN] Failed to fetch forecast for Gondar
+[2025-12-23 08:26:18] [WARN] Failed to fetch forecast for Hawassa
+[2025-12-23 08:26:19] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 08:26:20] [WARN] Failed to fetch forecast for Shashamane
+[2025-12-23 08:26:20] [INFO] Lock released after cache refresh
+[2025-12-23 08:26:25] [INFO] Lock acquired for cache refresh
+[2025-12-23 08:26:26] [WARN] Failed to fetch forecast for Addis Ababa
+[2025-12-23 08:26:27] [WARN] Failed to fetch forecast for Bahir Dar
+[2025-12-23 08:26:28] [WARN] Failed to fetch forecast for Dire Dawa
+[2025-12-23 08:26:29] [WARN] Failed to fetch forecast for Gondar
+[2025-12-23 08:26:30] [WARN] Failed to fetch forecast for Hawassa
+[2025-12-23 08:26:31] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 08:26:32] [WARN] Failed to fetch forecast for Shashamane
+[2025-12-23 08:26:32] [INFO] Lock released after cache refresh
+[2025-12-23 08:26:37] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:29:35] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:29:39] [INFO] Lock acquired for cache refresh
+[2025-12-23 08:29:48] [WARN] Failed to fetch forecast for Addis Ababa
+[2025-12-23 08:29:54] [WARN] Failed to fetch forecast for Bahir Dar
+[2025-12-23 08:29:59] [WARN] Failed to fetch forecast for Dire Dawa
+[2025-12-23 08:30:13] [WARN] Failed to fetch forecast for Gondar
+[2025-12-23 08:30:16] [WARN] Failed to fetch forecast for Hawassa
+[2025-12-23 08:30:17] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 08:30:18] [WARN] Failed to fetch forecast for Shashamane
+[2025-12-23 08:30:18] [INFO] Lock released after cache refresh
+[2025-12-23 08:30:30] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:35:07] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:35:22] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:39:25] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:40:46] [INFO] Lock acquired for cache refresh
+[2025-12-23 08:40:49] [INFO] Cache refreshed for Addis Ababa
+[2025-12-23 08:40:52] [INFO] Cache refreshed for Bahir Dar
+[2025-12-23 08:40:59] [INFO] Cache refreshed for Dire Dawa
+[2025-12-23 08:41:02] [INFO] Cache refreshed for Gondar
+[2025-12-23 08:41:05] [INFO] Cache refreshed for Hawassa
+[2025-12-23 08:41:07] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 08:41:08] [INFO] Cache refreshed for Shashamane
+[2025-12-23 08:41:08] [INFO] Lock released after cache refresh
+[2025-12-23 08:52:01] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:52:01] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:52:01] [INFO] South forecast served for Hawassa
+[2025-12-23 08:52:01] [INFO] South alerts served for Hawassa
+[2025-12-23 08:52:01] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:52:01] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:52:11] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:52:11] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:52:11] [INFO] South forecast served for Hawassa
+[2025-12-23 08:52:11] [INFO] South alerts served for Hawassa
+[2025-12-23 08:52:11] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:52:11] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:52:33] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:52:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:52:33] [INFO] South forecast served for Hawassa
+[2025-12-23 08:52:33] [INFO] South alerts served for Hawassa
+[2025-12-23 08:52:33] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:52:33] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:52:50] [INFO] Cache cleared by admin
+[2025-12-23 08:53:08] [WARN] No cached forecast found in weather_cache
+[2025-12-23 08:53:18] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:53:18] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:53:18] [INFO] South forecast served for Hawassa
+[2025-12-23 08:53:18] [INFO] South alerts served for Hawassa
+[2025-12-23 08:53:18] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:53:18] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:53:41] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:53:41] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:53:41] [INFO] South forecast served for Hawassa
+[2025-12-23 08:53:41] [INFO] South alerts served for Hawassa
+[2025-12-23 08:53:41] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:53:41] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:53:45] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:53:45] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:53:45] [INFO] South forecast served for Hawassa
+[2025-12-23 08:53:45] [INFO] South alerts served for Hawassa
+[2025-12-23 08:53:45] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:53:45] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:53:55] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:53:55] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:53:55] [INFO] South forecast served for Hawassa
+[2025-12-23 08:53:55] [INFO] South alerts served for Hawassa
+[2025-12-23 08:53:55] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:53:55] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:55:01] [INFO] User 4 added Dire Dawa to favorites
+[2025-12-23 08:55:14] [INFO] API key created
+[2025-12-23 08:55:24] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:55:24] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:55:24] [INFO] South forecast served for Hawassa
+[2025-12-23 08:55:24] [INFO] South alerts served for Hawassa
+[2025-12-23 08:55:24] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:55:24] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:55:46] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:55:46] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:55:46] [INFO] South forecast served for Hawassa
+[2025-12-23 08:55:46] [INFO] South alerts served for Hawassa
+[2025-12-23 08:55:46] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:55:46] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 08:55:48] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 08:55:48] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 08:55:48] [INFO] South forecast served for Hawassa
+[2025-12-23 08:55:48] [INFO] South alerts served for Hawassa
+[2025-12-23 08:55:48] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 08:55:48] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:08:53] [INFO] API key created
+[2025-12-23 09:09:01] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:09:01] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:09:01] [INFO] South forecast served for Hawassa
+[2025-12-23 09:09:01] [INFO] South alerts served for Hawassa
+[2025-12-23 09:09:01] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:09:01] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:09:05] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:09:05] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:09:05] [INFO] South forecast served for Hawassa
+[2025-12-23 09:09:05] [INFO] South alerts served for Hawassa
+[2025-12-23 09:09:05] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:09:05] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:09:08] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:09:08] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:09:08] [INFO] South forecast served for Hawassa
+[2025-12-23 09:09:08] [INFO] South alerts served for Hawassa
+[2025-12-23 09:09:08] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:09:08] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:09:41] [WARN] No cached forecast found in weather_cache
+[2025-12-23 09:10:10] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:10:10] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:10:10] [INFO] South forecast served for Hawassa
+[2025-12-23 09:10:10] [INFO] South alerts served for Hawassa
+[2025-12-23 09:10:10] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:10:10] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:10:22] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:10:22] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:10:22] [INFO] South forecast served for Hawassa
+[2025-12-23 09:10:22] [INFO] South alerts served for Hawassa
+[2025-12-23 09:10:22] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:10:22] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:10:24] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:10:24] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:10:24] [INFO] South forecast served for Hawassa
+[2025-12-23 09:10:24] [INFO] South alerts served for Hawassa
+[2025-12-23 09:10:24] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:10:24] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:10:34] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:10:34] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:10:34] [INFO] South forecast served for Hawassa
+[2025-12-23 09:10:34] [INFO] South alerts served for Hawassa
+[2025-12-23 09:10:34] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:10:34] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:10:37] [WARN] No cached forecast found in weather_cache
+[2025-12-23 09:11:40] [INFO] Lock acquired for cache refresh
+[2025-12-23 09:11:42] [INFO] Cache refreshed for Addis Ababa
+[2025-12-23 09:11:43] [INFO] Cache refreshed for Bahir Dar
+[2025-12-23 09:11:45] [INFO] Cache refreshed for Dire Dawa
+[2025-12-23 09:11:46] [INFO] Cache refreshed for Gondar
+[2025-12-23 09:11:48] [INFO] Cache refreshed for Hawassa
+[2025-12-23 09:11:50] [WARN] Failed to fetch forecast for Hossana
+[2025-12-23 09:11:52] [INFO] Cache refreshed for Shashamane
+[2025-12-23 09:11:52] [INFO] Lock released after cache refresh
+[2025-12-23 09:50:01] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:50:01] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:50:01] [INFO] South forecast served for Hawassa
+[2025-12-23 09:50:01] [INFO] South alerts served for Hawassa
+[2025-12-23 09:50:01] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:50:01] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:50:08] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:50:08] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:50:08] [INFO] South forecast served for Hawassa
+[2025-12-23 09:50:08] [INFO] South alerts served for Hawassa
+[2025-12-23 09:50:08] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:50:08] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:50:18] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:50:18] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:50:18] [INFO] South forecast served for Hawassa
+[2025-12-23 09:50:18] [INFO] South alerts served for Hawassa
+[2025-12-23 09:50:18] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:50:18] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:50:33] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:50:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:50:33] [INFO] South forecast served for Hawassa
+[2025-12-23 09:50:33] [INFO] South alerts served for Hawassa
+[2025-12-23 09:50:33] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:50:33] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:50:35] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:50:35] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:50:35] [INFO] South forecast served for Hawassa
+[2025-12-23 09:50:35] [INFO] South alerts served for Hawassa
+[2025-12-23 09:50:35] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:50:35] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:50:37] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:50:37] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:50:37] [INFO] South forecast served for Hawassa
+[2025-12-23 09:50:37] [INFO] South alerts served for Hawassa
+[2025-12-23 09:50:37] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:50:37] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:51:27] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:51:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:51:27] [INFO] South forecast served for Hawassa
+[2025-12-23 09:51:27] [INFO] South alerts served for Hawassa
+[2025-12-23 09:51:27] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:51:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:51:30] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:51:30] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:51:30] [INFO] South forecast served for Hawassa
+[2025-12-23 09:51:30] [INFO] South alerts served for Hawassa
+[2025-12-23 09:51:30] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:51:30] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:51:42] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:51:42] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:51:42] [INFO] South forecast served for Hawassa
+[2025-12-23 09:51:42] [INFO] South alerts served for Hawassa
+[2025-12-23 09:51:42] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:51:42] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:51:50] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:51:50] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:51:50] [INFO] South forecast served for Hawassa
+[2025-12-23 09:51:50] [INFO] South alerts served for Hawassa
+[2025-12-23 09:51:50] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:51:50] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:52:03] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:52:03] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:52:03] [INFO] South forecast served for Hawassa
+[2025-12-23 09:52:03] [INFO] South alerts served for Hawassa
+[2025-12-23 09:52:03] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:52:03] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 09:53:04] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 09:53:04] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 09:53:04] [INFO] South forecast served for Hawassa
+[2025-12-23 09:53:04] [INFO] South alerts served for Hawassa
+[2025-12-23 09:53:04] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 09:53:04] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:00:26] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:00:26] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:00:26] [INFO] South forecast served for Hawassa
+[2025-12-23 10:00:26] [INFO] South alerts served for Hawassa
+[2025-12-23 10:00:26] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:00:26] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:00:28] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:00:28] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:00:28] [INFO] South forecast served for Hawassa
+[2025-12-23 10:00:28] [INFO] South alerts served for Hawassa
+[2025-12-23 10:00:28] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:00:28] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:00:33] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:00:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:00:33] [INFO] South forecast served for Hawassa
+[2025-12-23 10:00:33] [INFO] South alerts served for Hawassa
+[2025-12-23 10:00:33] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:00:33] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:04:53] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:04:53] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:04:53] [INFO] South forecast served for Hawassa
+[2025-12-23 10:04:53] [INFO] South alerts served for Hawassa
+[2025-12-23 10:04:53] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:04:53] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:09:38] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:09:38] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:09:38] [INFO] South forecast served for Hawassa
+[2025-12-23 10:09:38] [INFO] South alerts served for Hawassa
+[2025-12-23 10:09:38] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:09:38] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:09:41] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:09:41] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:09:41] [INFO] South forecast served for Hawassa
+[2025-12-23 10:09:41] [INFO] South alerts served for Hawassa
+[2025-12-23 10:09:41] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:09:41] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:09:58] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:09:58] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:09:58] [INFO] South forecast served for Hawassa
+[2025-12-23 10:09:58] [INFO] South alerts served for Hawassa
+[2025-12-23 10:09:58] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:09:58] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:10:10] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:10:10] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:10:10] [INFO] South forecast served for Hawassa
+[2025-12-23 10:10:10] [INFO] South alerts served for Hawassa
+[2025-12-23 10:10:10] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:10:10] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:13:27] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:13:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:13:27] [INFO] South forecast served for Hawassa
+[2025-12-23 10:13:27] [INFO] South alerts served for Hawassa
+[2025-12-23 10:13:27] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:13:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:13:39] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:13:39] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:13:39] [INFO] South forecast served for Hawassa
+[2025-12-23 10:13:39] [INFO] South alerts served for Hawassa
+[2025-12-23 10:13:39] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:13:39] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:14:00] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:14:00] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:14:00] [INFO] South forecast served for Hawassa
+[2025-12-23 10:14:00] [INFO] South alerts served for Hawassa
+[2025-12-23 10:14:00] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:14:00] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:15:02] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:15:02] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:15:02] [INFO] South forecast served for Hawassa
+[2025-12-23 10:15:02] [INFO] South alerts served for Hawassa
+[2025-12-23 10:15:02] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:15:02] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:15:14] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:15:14] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:15:14] [INFO] South forecast served for Hawassa
+[2025-12-23 10:15:14] [INFO] South alerts served for Hawassa
+[2025-12-23 10:15:14] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:15:14] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:15:21] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:15:21] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:15:21] [INFO] South forecast served for Hawassa
+[2025-12-23 10:15:21] [INFO] South alerts served for Hawassa
+[2025-12-23 10:15:21] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:15:21] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:18:02] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:18:02] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:18:02] [INFO] South forecast served for Hawassa
+[2025-12-23 10:18:02] [INFO] South alerts served for Hawassa
+[2025-12-23 10:18:02] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:18:02] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:21:20] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:21:20] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:21:20] [INFO] South forecast served for Hawassa
+[2025-12-23 10:21:20] [INFO] South alerts served for Hawassa
+[2025-12-23 10:21:20] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:21:20] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:21:26] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:21:26] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:21:26] [INFO] South forecast served for Hawassa
+[2025-12-23 10:21:26] [INFO] South alerts served for Hawassa
+[2025-12-23 10:21:26] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:21:26] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:23:21] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:23:21] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:23:21] [INFO] South forecast served for Hawassa
+[2025-12-23 10:23:21] [INFO] South alerts served for Hawassa
+[2025-12-23 10:23:21] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:23:21] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:23:28] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:23:28] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:23:28] [INFO] South forecast served for Hawassa
+[2025-12-23 10:23:28] [INFO] South alerts served for Hawassa
+[2025-12-23 10:23:28] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:23:28] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:28:46] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:28:46] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:28:46] [INFO] South forecast served for Hawassa
+[2025-12-23 10:28:46] [INFO] South alerts served for Hawassa
+[2025-12-23 10:28:46] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:28:46] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:28:54] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:28:54] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:28:54] [INFO] South forecast served for Hawassa
+[2025-12-23 10:28:54] [INFO] South alerts served for Hawassa
+[2025-12-23 10:28:54] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:28:54] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:29:18] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:29:18] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:29:18] [INFO] South forecast served for Hawassa
+[2025-12-23 10:29:18] [INFO] South alerts served for Hawassa
+[2025-12-23 10:29:18] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:29:18] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:32:22] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:32:22] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:32:22] [INFO] South forecast served for Hawassa
+[2025-12-23 10:32:22] [INFO] South alerts served for Hawassa
+[2025-12-23 10:32:22] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:32:22] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:35:35] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:35:35] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:35:35] [INFO] South forecast served for Hawassa
+[2025-12-23 10:35:35] [INFO] South alerts served for Hawassa
+[2025-12-23 10:35:35] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:35:35] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:35:56] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:35:56] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:35:56] [INFO] South forecast served for Hawassa
+[2025-12-23 10:35:56] [INFO] South alerts served for Hawassa
+[2025-12-23 10:35:56] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:35:56] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:36:14] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:36:14] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:36:14] [INFO] South forecast served for Hawassa
+[2025-12-23 10:36:14] [INFO] South alerts served for Hawassa
+[2025-12-23 10:36:14] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:36:14] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:41:51] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:41:51] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:41:51] [INFO] South forecast served for Hawassa
+[2025-12-23 10:41:51] [INFO] South alerts served for Hawassa
+[2025-12-23 10:41:51] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:41:51] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:48:33] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:48:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:48:33] [INFO] South forecast served for Hawassa
+[2025-12-23 10:48:33] [INFO] South alerts served for Hawassa
+[2025-12-23 10:48:33] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:48:33] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:48:46] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:48:46] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:48:46] [INFO] South forecast served for Hawassa
+[2025-12-23 10:48:46] [INFO] South alerts served for Hawassa
+[2025-12-23 10:48:46] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:48:46] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:49:15] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:49:15] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:49:15] [INFO] South forecast served for Hawassa
+[2025-12-23 10:49:15] [INFO] South alerts served for Hawassa
+[2025-12-23 10:49:15] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:49:15] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:49:35] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:49:35] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:49:35] [INFO] South forecast served for Hawassa
+[2025-12-23 10:49:35] [INFO] South alerts served for Hawassa
+[2025-12-23 10:49:35] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:49:35] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:58:37] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:58:37] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:58:37] [INFO] South forecast served for Hawassa
+[2025-12-23 10:58:37] [INFO] South alerts served for Hawassa
+[2025-12-23 10:58:37] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:58:37] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 10:59:23] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 10:59:23] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 10:59:23] [INFO] South forecast served for Hawassa
+[2025-12-23 10:59:23] [INFO] South alerts served for Hawassa
+[2025-12-23 10:59:23] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 10:59:23] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:28:25] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:28:25] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:28:25] [INFO] South forecast served for Hawassa
+[2025-12-23 12:28:25] [INFO] South alerts served for Hawassa
+[2025-12-23 12:28:25] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:28:25] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:28:43] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:28:43] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:28:43] [INFO] South forecast served for Hawassa
+[2025-12-23 12:28:43] [INFO] South alerts served for Hawassa
+[2025-12-23 12:28:43] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:28:43] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:28:45] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:28:45] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:28:45] [INFO] South forecast served for Hawassa
+[2025-12-23 12:28:45] [INFO] South alerts served for Hawassa
+[2025-12-23 12:28:45] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:28:45] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:29:04] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:29:04] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:29:04] [INFO] South forecast served for Hawassa
+[2025-12-23 12:29:04] [INFO] South alerts served for Hawassa
+[2025-12-23 12:29:04] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:29:04] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:29:09] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:29:09] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:29:09] [INFO] South forecast served for Hawassa
+[2025-12-23 12:29:09] [INFO] South alerts served for Hawassa
+[2025-12-23 12:29:09] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:29:09] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:29:41] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:29:41] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:29:41] [INFO] South forecast served for Hawassa
+[2025-12-23 12:29:41] [INFO] South alerts served for Hawassa
+[2025-12-23 12:29:41] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:29:41] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:35:42] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:35:42] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:35:43] [INFO] South forecast served for Hawassa
+[2025-12-23 12:35:43] [INFO] South alerts served for Hawassa
+[2025-12-23 12:35:43] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:35:43] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:35:51] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:35:51] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:35:51] [INFO] South forecast served for Hawassa
+[2025-12-23 12:35:51] [INFO] South alerts served for Hawassa
+[2025-12-23 12:35:51] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:35:51] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:36:27] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:36:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:36:27] [INFO] South forecast served for Hawassa
+[2025-12-23 12:36:27] [INFO] South alerts served for Hawassa
+[2025-12-23 12:36:27] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:36:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:38:44] [INFO] User 5 added Addis Ababa to favorites
+[2025-12-23 12:39:29] [INFO] API key created
+[2025-12-23 12:39:42] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:39:42] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:39:42] [INFO] South forecast served for Hawassa
+[2025-12-23 12:39:42] [INFO] South alerts served for Hawassa
+[2025-12-23 12:39:42] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:39:42] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:39:51] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:39:51] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:39:51] [INFO] South forecast served for Hawassa
+[2025-12-23 12:39:51] [INFO] South alerts served for Hawassa
+[2025-12-23 12:39:51] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:39:51] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:40:44] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:40:44] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:40:44] [INFO] South forecast served for Hawassa
+[2025-12-23 12:40:44] [INFO] South alerts served for Hawassa
+[2025-12-23 12:40:44] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:40:44] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:40:53] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:40:53] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:40:53] [INFO] South forecast served for Hawassa
+[2025-12-23 12:40:53] [INFO] South alerts served for Hawassa
+[2025-12-23 12:40:53] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:40:53] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:40:57] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:40:57] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:40:57] [INFO] South forecast served for Hawassa
+[2025-12-23 12:40:57] [INFO] South alerts served for Hawassa
+[2025-12-23 12:40:57] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:40:57] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:42:01] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:42:01] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:42:01] [INFO] South forecast served for Hawassa
+[2025-12-23 12:42:01] [INFO] South alerts served for Hawassa
+[2025-12-23 12:42:01] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:42:01] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:42:32] [INFO] Cache cleared for city Dire Dawa
+[2025-12-23 12:43:52] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:43:52] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:43:52] [INFO] South forecast served for Hawassa
+[2025-12-23 12:43:52] [INFO] South alerts served for Hawassa
+[2025-12-23 12:43:52] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:43:52] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:44:04] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:44:04] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:44:04] [INFO] South forecast served for Hawassa
+[2025-12-23 12:44:04] [INFO] South alerts served for Hawassa
+[2025-12-23 12:44:04] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:44:04] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:44:13] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:44:13] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:44:13] [INFO] South forecast served for Hawassa
+[2025-12-23 12:44:13] [INFO] South alerts served for Hawassa
+[2025-12-23 12:44:13] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:44:13] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:45:37] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:45:37] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:45:37] [INFO] South forecast served for Hawassa
+[2025-12-23 12:45:37] [INFO] South alerts served for Hawassa
+[2025-12-23 12:45:37] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:45:37] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:45:41] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:45:41] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:45:41] [INFO] South forecast served for Hawassa
+[2025-12-23 12:45:41] [INFO] South alerts served for Hawassa
+[2025-12-23 12:45:41] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:45:41] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:45:43] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:45:43] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:45:43] [INFO] South forecast served for Hawassa
+[2025-12-23 12:45:43] [INFO] South alerts served for Hawassa
+[2025-12-23 12:45:43] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:45:43] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:51:42] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:51:42] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:51:42] [INFO] South forecast served for Hawassa
+[2025-12-23 12:51:42] [INFO] South alerts served for Hawassa
+[2025-12-23 12:51:42] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:51:42] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:52:04] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:52:04] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:52:04] [INFO] South forecast served for Hawassa
+[2025-12-23 12:52:04] [INFO] South alerts served for Hawassa
+[2025-12-23 12:52:04] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:52:04] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:52:30] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:52:30] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:52:30] [INFO] South forecast served for Hawassa
+[2025-12-23 12:52:30] [INFO] South alerts served for Hawassa
+[2025-12-23 12:52:30] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:52:30] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 12:53:02] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 12:53:02] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 12:53:02] [INFO] South forecast served for Hawassa
+[2025-12-23 12:53:02] [INFO] South alerts served for Hawassa
+[2025-12-23 12:53:02] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 12:53:02] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:08:03] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:08:03] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:08:03] [INFO] South forecast served for Hawassa
+[2025-12-23 14:08:03] [INFO] South alerts served for Hawassa
+[2025-12-23 14:08:03] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:08:03] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:08:15] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:08:15] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:08:15] [INFO] South forecast served for Hawassa
+[2025-12-23 14:08:15] [INFO] South alerts served for Hawassa
+[2025-12-23 14:08:15] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:08:15] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:08:35] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:08:35] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:08:35] [INFO] South forecast served for Hawassa
+[2025-12-23 14:08:35] [INFO] South alerts served for Hawassa
+[2025-12-23 14:08:35] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:08:35] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:08:35] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:08:35] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:08:35] [INFO] South forecast served for Hawassa
+[2025-12-23 14:08:35] [INFO] South alerts served for Hawassa
+[2025-12-23 14:08:35] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:08:35] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:09:35] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:09:35] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:09:35] [INFO] South forecast served for Hawassa
+[2025-12-23 14:09:35] [INFO] South alerts served for Hawassa
+[2025-12-23 14:09:35] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:09:35] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:09:45] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:09:45] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:09:45] [INFO] South forecast served for Hawassa
+[2025-12-23 14:09:45] [INFO] South alerts served for Hawassa
+[2025-12-23 14:09:45] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:09:45] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:09:48] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:09:48] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:09:48] [INFO] South forecast served for Hawassa
+[2025-12-23 14:09:48] [INFO] South alerts served for Hawassa
+[2025-12-23 14:09:48] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:09:48] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:10:18] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:10:18] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:10:18] [INFO] South forecast served for Hawassa
+[2025-12-23 14:10:18] [INFO] South alerts served for Hawassa
+[2025-12-23 14:10:18] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:10:18] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:10:21] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:10:21] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:10:21] [INFO] South forecast served for Hawassa
+[2025-12-23 14:10:21] [INFO] South alerts served for Hawassa
+[2025-12-23 14:10:21] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:10:21] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:13:10] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:13:10] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:13:10] [INFO] South forecast served for Hawassa
+[2025-12-23 14:13:10] [INFO] South alerts served for Hawassa
+[2025-12-23 14:13:10] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:13:10] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:13:13] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:13:13] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:13:13] [INFO] South forecast served for Hawassa
+[2025-12-23 14:13:13] [INFO] South alerts served for Hawassa
+[2025-12-23 14:13:13] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:13:13] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:13:31] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:13:31] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:13:31] [INFO] South forecast served for Hawassa
+[2025-12-23 14:13:31] [INFO] South alerts served for Hawassa
+[2025-12-23 14:13:31] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:13:31] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:20:05] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:20:05] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 14:20:05] [INFO] South forecast served for Hawassa
+[2025-12-23 14:20:05] [INFO] South alerts served for Hawassa
+[2025-12-23 14:20:05] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 14:20:05] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 14:20:43] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 14:20:43] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:06:05] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:06:05] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:06:21] [INFO] South forecast served for Hawassa
+[2025-12-23 15:06:21] [INFO] South alerts served for Hawassa
+[2025-12-23 15:06:38] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:06:38] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:07:00] [INFO] South forecast served for Hawassa
+[2025-12-23 15:07:00] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:06] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:35:06] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:35:06] [INFO] South forecast served for Hawassa
+[2025-12-23 15:35:06] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:06] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:35:06] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:35:15] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:35:15] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:35:15] [INFO] South forecast served for Hawassa
+[2025-12-23 15:35:15] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:15] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:35:15] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:35:26] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:35:26] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:35:26] [INFO] South forecast served for Hawassa
+[2025-12-23 15:35:26] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:26] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:35:26] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:35:28] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:35:28] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:35:28] [INFO] South forecast served for Hawassa
+[2025-12-23 15:35:28] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:28] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:35:28] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:35:36] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:35:36] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:35:36] [INFO] South forecast served for Hawassa
+[2025-12-23 15:35:36] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:36] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:35:36] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:35:39] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:35:39] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:35:39] [INFO] South forecast served for Hawassa
+[2025-12-23 15:35:39] [INFO] South alerts served for Hawassa
+[2025-12-23 15:35:39] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:35:39] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:37:50] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:37:50] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:37:50] [INFO] South forecast served for Hawassa
+[2025-12-23 15:37:50] [INFO] South alerts served for Hawassa
+[2025-12-23 15:37:50] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:37:50] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:38:33] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:38:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:38:33] [INFO] South forecast served for Hawassa
+[2025-12-23 15:38:33] [INFO] South alerts served for Hawassa
+[2025-12-23 15:38:33] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:38:33] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:38:37] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:38:37] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:38:37] [INFO] South forecast served for Hawassa
+[2025-12-23 15:38:37] [INFO] South alerts served for Hawassa
+[2025-12-23 15:38:37] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:38:37] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:38:43] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:38:43] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:38:43] [INFO] South forecast served for Hawassa
+[2025-12-23 15:38:43] [INFO] South alerts served for Hawassa
+[2025-12-23 15:38:43] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:38:43] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:38:46] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:38:46] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:38:46] [INFO] South forecast served for Hawassa
+[2025-12-23 15:38:46] [INFO] South alerts served for Hawassa
+[2025-12-23 15:38:46] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:38:46] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:38:53] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:38:53] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:38:53] [INFO] South forecast served for Hawassa
+[2025-12-23 15:38:53] [INFO] South alerts served for Hawassa
+[2025-12-23 15:38:53] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:38:53] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:48:24] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:48:24] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:48:24] [INFO] South forecast served for Hawassa
+[2025-12-23 15:48:24] [INFO] South alerts served for Hawassa
+[2025-12-23 15:48:24] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:48:24] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:48:33] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:48:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:48:33] [INFO] South forecast served for Hawassa
+[2025-12-23 15:48:33] [INFO] South alerts served for Hawassa
+[2025-12-23 15:48:33] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:48:33] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:48:36] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:48:36] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:48:36] [INFO] South forecast served for Hawassa
+[2025-12-23 15:48:36] [INFO] South alerts served for Hawassa
+[2025-12-23 15:48:36] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:48:36] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:55:22] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:55:22] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:55:22] [INFO] South forecast served for Hawassa
+[2025-12-23 15:55:22] [INFO] South alerts served for Hawassa
+[2025-12-23 15:55:22] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:55:22] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:55:28] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:55:28] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:55:28] [INFO] South forecast served for Hawassa
+[2025-12-23 15:55:28] [INFO] South alerts served for Hawassa
+[2025-12-23 15:55:28] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:55:28] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:55:31] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:55:31] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:55:31] [INFO] South forecast served for Hawassa
+[2025-12-23 15:55:31] [INFO] South alerts served for Hawassa
+[2025-12-23 15:55:31] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:55:31] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:55:34] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:55:34] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:55:34] [INFO] South forecast served for Hawassa
+[2025-12-23 15:55:34] [INFO] South alerts served for Hawassa
+[2025-12-23 15:55:34] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:55:34] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:55:42] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:55:42] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:55:42] [INFO] South forecast served for Hawassa
+[2025-12-23 15:55:42] [INFO] South alerts served for Hawassa
+[2025-12-23 15:55:42] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:55:42] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 15:57:18] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 15:57:18] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 15:57:18] [INFO] South forecast served for Hawassa
+[2025-12-23 15:57:18] [INFO] South alerts served for Hawassa
+[2025-12-23 15:57:18] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 15:57:18] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 16:04:53] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 16:04:53] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 16:04:53] [INFO] South forecast served for Hawassa
+[2025-12-23 16:04:53] [INFO] South alerts served for Hawassa
+[2025-12-23 16:04:53] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 16:04:53] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 16:05:07] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 16:05:07] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 16:05:07] [INFO] South forecast served for Hawassa
+[2025-12-23 16:05:07] [INFO] South alerts served for Hawassa
+[2025-12-23 16:05:07] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 16:05:07] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 16:10:15] [INFO] South forecast served for Hawassa
+[2025-12-23 16:10:15] [INFO] South alerts served for Hawassa
+[2025-12-23 16:11:23] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 16:11:23] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 16:11:23] [INFO] South forecast served for Hawassa
+[2025-12-23 16:11:23] [INFO] South alerts served for Hawassa
+[2025-12-23 16:11:23] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 16:11:23] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 18:32:46] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 18:32:46] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 18:32:46] [INFO] South forecast served for Hawassa
+[2025-12-23 18:32:46] [INFO] South alerts served for Hawassa
+[2025-12-23 18:32:46] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 18:32:46] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 18:33:01] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 18:33:01] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 18:33:01] [INFO] South forecast served for Hawassa
+[2025-12-23 18:33:01] [INFO] South alerts served for Hawassa
+[2025-12-23 18:33:01] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 18:33:01] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 18:33:06] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 18:33:06] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 18:33:06] [INFO] South forecast served for Hawassa
+[2025-12-23 18:33:06] [INFO] South alerts served for Hawassa
+[2025-12-23 18:33:06] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 18:33:06] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 18:33:08] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 18:33:08] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 18:33:08] [INFO] South forecast served for Hawassa
+[2025-12-23 18:33:08] [INFO] South alerts served for Hawassa
+[2025-12-23 18:33:08] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 18:33:08] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 18:33:10] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 18:33:10] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 18:33:10] [INFO] South forecast served for Hawassa
+[2025-12-23 18:33:10] [INFO] South alerts served for Hawassa
+[2025-12-23 18:33:10] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 18:33:10] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 18:33:27] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 18:33:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 18:33:27] [INFO] South forecast served for Hawassa
+[2025-12-23 18:33:27] [INFO] South alerts served for Hawassa
+[2025-12-23 18:33:27] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 18:33:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 19:05:37] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:05:37] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:05:45] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:05:45] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:07:03] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:07:03] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:07:11] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:07:11] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:07:18] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:07:18] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:08:04] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:08:04] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:08:57] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 19:08:57] [ERROR] Aggregator API fn failed: Failed opening required 'C:\xampp2\htdocs\weather_app\backend\ethiopia_service\regions\oromia/../../../../backend/helpers/forecast.php' (include_path='C:\xampp2\php\PEAR')
+[2025-12-23 19:10:47] [WARN] Aggregator: region unavailable
+[2025-12-23 19:10:47] [WARN] Aggregator: region unavailable
+[2025-12-23 19:10:47] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:20] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:20] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:20] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:22] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:22] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:22] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:24] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:24] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:24] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:29] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:41] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:41] [WARN] Aggregator: region unavailable
+[2025-12-23 19:14:41] [WARN] Aggregator: region unavailable
+[2025-12-23 19:16:41] [WARN] Aggregator: region unavailable
+[2025-12-23 19:16:41] [WARN] Aggregator: region unavailable
+[2025-12-23 19:16:41] [WARN] Aggregator: region unavailable
+[2025-12-23 19:25:54] [WARN] Aggregator: region unavailable
+[2025-12-23 19:25:55] [WARN] Aggregator: region unavailable
+[2025-12-23 19:25:55] [WARN] Aggregator: region unavailable
+[2025-12-23 19:26:00] [WARN] Aggregator: region unavailable
+[2025-12-23 19:26:00] [WARN] Aggregator: region unavailable
+[2025-12-23 19:26:00] [WARN] Aggregator: region unavailable
+[2025-12-23 19:26:06] [WARN] Aggregator: region unavailable
+[2025-12-23 19:26:06] [WARN] Aggregator: region unavailable
+[2025-12-23 19:26:06] [WARN] Aggregator: region unavailable
+[2025-12-23 19:29:55] [WARN] Aggregator: region unavailable
+[2025-12-23 19:29:55] [WARN] Aggregator: region unavailable
+[2025-12-23 19:29:55] [WARN] Aggregator: region unavailable
+[2025-12-23 19:30:03] [WARN] Aggregator: region unavailable
+[2025-12-23 19:30:03] [WARN] Aggregator: region unavailable
+[2025-12-23 19:30:03] [WARN] Aggregator: region unavailable
+[2025-12-23 19:30:05] [WARN] Aggregator: region unavailable
+[2025-12-23 19:30:05] [WARN] Aggregator: region unavailable
+[2025-12-23 19:30:05] [WARN] Aggregator: region unavailable
+[2025-12-23 19:32:13] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 19:33:10] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 19:34:09] [INFO] South alerts served for Hawassa
+[2025-12-23 19:36:28] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:28] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:28] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:31] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:31] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:31] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:31] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:31] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:31] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:36:32] [WARN] Aggregator: region unavailable
+[2025-12-23 19:37:59] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 19:37:59] [ERROR] Missing API key for South
+[2025-12-23 19:37:59] [INFO] South alerts served for Hawassa
+[2025-12-23 19:37:59] [ERROR] Missing API key for Amhara
+[2025-12-23 19:37:59] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 19:42:17] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 19:42:17] [ERROR] Missing API key for South
+[2025-12-23 19:42:17] [ERROR] Missing API key for Amhara
+[2025-12-23 19:42:31] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 19:42:31] [ERROR] Missing API key for South
+[2025-12-23 19:42:31] [ERROR] Missing API key for Amhara
+[2025-12-23 19:54:57] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 19:54:58] [ERROR] Missing API key for South
+[2025-12-23 19:54:58] [INFO] South alerts served for Hawassa
+[2025-12-23 19:54:58] [ERROR] Missing API key for Amhara
+[2025-12-23 19:54:58] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 19:56:17] [ERROR] Amhara alerts failed: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:56:22] [ERROR] Amhara alerts failed: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:56:48] [ERROR] Alerts failed for South: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:59:13] [ERROR] Alerts failed for South: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:59:15] [ERROR] Alerts failed for South: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:59:16] [ERROR] Alerts failed for South: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:59:17] [ERROR] Alerts failed for South: Call to undefined function getAlertsByCoords()
+[2025-12-23 19:59:26] [ERROR] Alerts failed for South: Call to undefined function getAlertsByCoords()
+[2025-12-23 20:01:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:01:27] [ERROR] Missing API key for South
+[2025-12-23 20:01:27] [INFO] South alerts served for Hawassa
+[2025-12-23 20:01:27] [ERROR] Missing API key for Amhara
+[2025-12-23 20:01:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:01:42] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:01:42] [ERROR] Missing API key for South
+[2025-12-23 20:01:42] [INFO] South alerts served for Hawassa
+[2025-12-23 20:01:42] [ERROR] Missing API key for Amhara
+[2025-12-23 20:01:42] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:05:52] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:05:52] [ERROR] Missing API key for South
+[2025-12-23 20:05:52] [INFO] South alerts served for Hawassa
+[2025-12-23 20:05:52] [ERROR] Missing API key for Amhara
+[2025-12-23 20:05:52] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:06:03] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:06:03] [ERROR] Missing API key for South
+[2025-12-23 20:06:03] [INFO] South alerts served for Hawassa
+[2025-12-23 20:06:03] [ERROR] Missing API key for Amhara
+[2025-12-23 20:06:03] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:09:12] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:12:55] [INFO] South forecast served for Hawassa
+[2025-12-23 20:13:14] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:13:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:13:27] [ERROR] Missing API key for South
+[2025-12-23 20:13:27] [INFO] South alerts served for Hawassa
+[2025-12-23 20:13:27] [ERROR] Missing API key for Amhara
+[2025-12-23 20:13:27] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:13:39] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:13:39] [ERROR] Missing API key for South
+[2025-12-23 20:13:39] [INFO] South alerts served for Hawassa
+[2025-12-23 20:13:39] [ERROR] Missing API key for Amhara
+[2025-12-23 20:13:39] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:16:24] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:16:24] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:16:24] [ERROR] Missing API key for South
+[2025-12-23 20:16:24] [INFO] South alerts served for Hawassa
+[2025-12-23 20:16:24] [INFO] South forecast served for Hawassa
+[2025-12-23 20:16:24] [ERROR] Missing API key for Amhara
+[2025-12-23 20:16:24] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:16:24] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:16:37] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:16:37] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:16:37] [ERROR] Missing API key for South
+[2025-12-23 20:16:37] [INFO] South alerts served for Hawassa
+[2025-12-23 20:16:37] [INFO] South forecast served for Hawassa
+[2025-12-23 20:16:37] [ERROR] Missing API key for Amhara
+[2025-12-23 20:16:37] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:16:37] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:16:43] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:16:43] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:16:43] [ERROR] Missing API key for South
+[2025-12-23 20:16:43] [INFO] South alerts served for Hawassa
+[2025-12-23 20:16:43] [INFO] South forecast served for Hawassa
+[2025-12-23 20:16:43] [ERROR] Missing API key for Amhara
+[2025-12-23 20:16:43] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:16:43] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:19:04] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:19:04] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:19:04] [ERROR] Missing API key for South
+[2025-12-23 20:19:04] [INFO] South alerts served for Hawassa
+[2025-12-23 20:19:04] [INFO] South forecast served for Hawassa
+[2025-12-23 20:19:04] [ERROR] Missing API key for Amhara
+[2025-12-23 20:19:04] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:19:04] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:19:49] [INFO] South alerts served for Hawassa
+[2025-12-23 20:20:26] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:22:59] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:22:59] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:22:59] [ERROR] Missing API key for South
+[2025-12-23 20:22:59] [INFO] South alerts served for Hawassa
+[2025-12-23 20:22:59] [INFO] South forecast served for Hawassa
+[2025-12-23 20:22:59] [ERROR] Missing API key for Amhara
+[2025-12-23 20:22:59] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:22:59] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:26:44] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:26:44] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:26:44] [ERROR] Missing API key for South
+[2025-12-23 20:26:44] [INFO] South forecast served for Hawassa
+[2025-12-23 20:26:44] [ERROR] Missing API key for Amhara
+[2025-12-23 20:26:44] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:26:55] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:26:55] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:26:55] [ERROR] Missing API key for South
+[2025-12-23 20:26:55] [INFO] South forecast served for Hawassa
+[2025-12-23 20:26:55] [ERROR] Missing API key for Amhara
+[2025-12-23 20:26:55] [INFO] Amhara forecast served for Bahir Dar
+[2025-12-23 20:29:40] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:29:40] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:29:40] [ERROR] Missing API key for South
+[2025-12-23 20:29:40] [INFO] South forecast served for Hawassa
+[2025-12-23 20:29:40] [ERROR] Missing API key for Amhara
+[2025-12-23 20:29:41] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:29:52] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:29:52] [INFO] Oromia forecast served for Shashamane
+[2025-12-23 20:29:52] [ERROR] Missing API key for South
+[2025-12-23 20:29:52] [INFO] South forecast served for Hawassa
+[2025-12-23 20:29:52] [ERROR] Missing API key for Amhara
+[2025-12-23 20:29:52] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:32:22] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:32:22] [ERROR] Missing API key for Oromia
+[2025-12-23 20:32:22] [ERROR] Missing API key for South
+[2025-12-23 20:32:22] [ERROR] Missing API key for South
+[2025-12-23 20:32:22] [ERROR] Missing API key for Amhara
+[2025-12-23 20:32:22] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:32:31] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:32:31] [ERROR] Missing API key for Oromia
+[2025-12-23 20:32:31] [ERROR] Missing API key for South
+[2025-12-23 20:32:31] [ERROR] Missing API key for South
+[2025-12-23 20:32:31] [ERROR] Missing API key for Amhara
+[2025-12-23 20:32:31] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:34:57] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:34:57] [ERROR] Missing API key for Oromia
+[2025-12-23 20:34:57] [ERROR] Missing API key for South
+[2025-12-23 20:34:57] [ERROR] Missing API key for South
+[2025-12-23 20:34:57] [WARN] Aggregator: region returned no usable data
+[2025-12-23 20:34:57] [ERROR] Missing API key for Amhara
+[2025-12-23 20:34:57] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:34:57] [WARN] Aggregator: region returned no usable data
+[2025-12-23 20:36:17] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:36:33] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:37:33] [DEBUG] Aggregator debug: opcache_reset not available
+[2025-12-23 20:37:33] [DEBUG] Aggregator debug: included files before loop
+[2025-12-23 20:37:33] [DEBUG] Aggregator debug: required alertsPath
+[2025-12-23 20:37:33] [DEBUG] Aggregator debug: required forecastPath
+[2025-12-23 20:37:38] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: raw return
+[2025-12-23 20:37:38] [ERROR] Missing API key for Oromia
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: raw return
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: included files after require
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: merged region data
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: required alertsPath
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: required forecastPath
+[2025-12-23 20:37:38] [ERROR] Missing API key for South
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: raw return
+[2025-12-23 20:37:38] [ERROR] Missing API key for South
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: raw return
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: included files after require
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: merged region data
+[2025-12-23 20:37:38] [WARN] Aggregator: region returned no usable data
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: required alertsPath
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: required forecastPath
+[2025-12-23 20:37:38] [ERROR] Missing API key for Amhara
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: raw return
+[2025-12-23 20:37:38] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: raw return
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: included files after require
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: merged region data
+[2025-12-23 20:37:38] [WARN] Aggregator: region returned no usable data
+[2025-12-23 20:37:38] [DEBUG] Aggregator debug: final included files
+[2025-12-23 20:39:27] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:39:27] [ERROR] Missing API key for Oromia
+[2025-12-23 20:39:27] [ERROR] Missing API key for South
+[2025-12-23 20:39:27] [ERROR] Missing API key for South
+[2025-12-23 20:39:27] [ERROR] Missing API key for Amhara
+[2025-12-23 20:39:27] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:48:49] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:48:49] [ERROR] Missing API key for Oromia
+[2025-12-23 20:48:49] [ERROR] Missing API key for South
+[2025-12-23 20:48:49] [INFO] South alerts served for Hawassa
+[2025-12-23 20:48:49] [ERROR] Missing API key for South
+[2025-12-23 20:48:49] [ERROR] Missing API key for Amhara
+[2025-12-23 20:48:49] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:48:49] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:51:29] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:51:29] [ERROR] Missing API key for Oromia
+[2025-12-23 20:51:29] [ERROR] Missing API key for South
+[2025-12-23 20:51:29] [INFO] South alerts served for Hawassa
+[2025-12-23 20:51:29] [ERROR] Missing API key for South
+[2025-12-23 20:51:29] [ERROR] Missing API key for Amhara
+[2025-12-23 20:51:29] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:51:29] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:51:49] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:51:49] [ERROR] Missing API key for Oromia
+[2025-12-23 20:51:49] [ERROR] Missing API key for South
+[2025-12-23 20:51:49] [INFO] South alerts served for Hawassa
+[2025-12-23 20:51:49] [ERROR] Missing API key for South
+[2025-12-23 20:51:49] [ERROR] Missing API key for Amhara
+[2025-12-23 20:51:49] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:51:49] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:53:43] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:53:43] [ERROR] Missing API key for Oromia
+[2025-12-23 20:53:43] [ERROR] Missing API key for South
+[2025-12-23 20:53:43] [INFO] South alerts served for Hawassa
+[2025-12-23 20:53:43] [ERROR] Missing API key for South
+[2025-12-23 20:53:43] [ERROR] Missing API key for Amhara
+[2025-12-23 20:53:43] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:53:43] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 20:55:19] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 20:55:19] [ERROR] Missing API key for Oromia
+[2025-12-23 20:55:19] [ERROR] Missing API key for South
+[2025-12-23 20:55:19] [INFO] South alerts served for Hawassa
+[2025-12-23 20:55:19] [ERROR] Missing API key for South
+[2025-12-23 20:55:19] [ERROR] Missing API key for Amhara
+[2025-12-23 20:55:19] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 20:55:19] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 21:03:10] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 21:03:11] [ERROR] Missing API key for Oromia
+[2025-12-23 21:03:11] [ERROR] Missing API key for South
+[2025-12-23 21:03:11] [INFO] South alerts served for Hawassa
+[2025-12-23 21:03:11] [ERROR] Missing API key for South
+[2025-12-23 21:03:11] [ERROR] Missing API key for Amhara
+[2025-12-23 21:03:11] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 21:03:11] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 21:05:32] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 21:05:32] [ERROR] Missing API key for Oromia
+[2025-12-23 21:05:32] [ERROR] Missing API key for South
+[2025-12-23 21:05:32] [INFO] South alerts served for Hawassa
+[2025-12-23 21:05:32] [ERROR] Missing API key for South
+[2025-12-23 21:05:32] [ERROR] Missing API key for Amhara
+[2025-12-23 21:05:32] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 21:05:32] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 21:05:50] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 21:05:50] [ERROR] Missing API key for Oromia
+[2025-12-23 21:05:50] [ERROR] Missing API key for South
+[2025-12-23 21:05:50] [INFO] South alerts served for Hawassa
+[2025-12-23 21:05:50] [ERROR] Missing API key for South
+[2025-12-23 21:05:50] [ERROR] Missing API key for Amhara
+[2025-12-23 21:05:50] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 21:05:50] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 21:06:14] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 21:06:14] [ERROR] Missing API key for Oromia
+[2025-12-23 21:06:14] [ERROR] Missing API key for South
+[2025-12-23 21:06:14] [INFO] South alerts served for Hawassa
+[2025-12-23 21:06:14] [ERROR] Missing API key for South
+[2025-12-23 21:06:14] [ERROR] Missing API key for Amhara
+[2025-12-23 21:06:14] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 21:06:14] [ERROR] Missing API key for Amhara forecast
+[2025-12-23 21:06:23] [INFO] Oromia alerts served for Shashamane
+[2025-12-23 21:06:23] [ERROR] Missing API key for Oromia
+[2025-12-23 21:06:23] [ERROR] Missing API key for South
+[2025-12-23 21:06:23] [INFO] South alerts served for Hawassa
+[2025-12-23 21:06:23] [ERROR] Missing API key for South
+[2025-12-23 21:06:23] [ERROR] Missing API key for Amhara
+[2025-12-23 21:06:23] [INFO] Amhara alerts served for Bahir Dar
+[2025-12-23 21:06:23] [ERROR] Missing API key for Amhara forecast

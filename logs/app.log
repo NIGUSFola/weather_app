@@ -3,3 +3,4 @@
 [2025-12-27 19:43:42] [ERROR] Failed to update radar cache: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'city_id' in 'field list'
 [2025-12-27 20:00:23] [ERROR] Failed to update radar cache: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'city_id' in 'field list'
 [2025-12-27 20:30:50] [ERROR] Failed to update radar cache: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'city_id' in 'field list'
+[2025-12-27 21:02:25] [ERROR] Failed to update radar cache: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'city_id' in 'field list'

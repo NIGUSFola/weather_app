@@ -7,10 +7,12 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../helpers/rate_limit.php';
 require_once __DIR__ . '/../helpers/log.php';
-require_once __DIR__ . '/../config.php';
+require_once __DIR__ . '/../../config/api.php';
 require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../helpers/weather_api.php';
 
 $userId = $_SESSION['user']['id'] ?? null;
+$role   = $_SESSION['user']['role'] ?? null;
 
 // ✅ Enforce rate limit only for logged-in accounts
 if ($userId) {
@@ -20,7 +22,21 @@ if ($userId) {
 $city   = trim($_GET['city'] ?? ($_POST['city'] ?? ''));
 $cityId = $_GET['city_id'] ?? ($_POST['city_id'] ?? null);
 
-if ($city === '' && !$cityId) {
+// ✅ If only city_id is provided, fetch city name from DB
+if ($city === '' && $cityId) {
+    try {
+        $stmt = db()->prepare("SELECT name FROM cities WHERE id = ?");
+        $stmt->execute([$cityId]);
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row) {
+            $city = $row['name'];
+        }
+    } catch (Exception $e) {
+        log_event("City lookup failed: " . $e->getMessage(), "ERROR", ['module'=>'forecast']);
+    }
+}
+
+if ($city === '') {
     http_response_code(400);
     echo json_encode(['error' => 'City parameter required']);
     exit;
@@ -33,51 +49,10 @@ if (!$openWeatherKey) {
     exit;
 }
 
-// --- Helper ---
-function curl_get(string $url): ?string {
-    $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 8);
-    $res = curl_exec($ch);
-    if ($res === false) {
-        curl_close($ch);
-        return null;
-    }
-    curl_close($ch);
-    return $res;
-}
-
-function getForecastForCity(string $cityName, string $apiKey): ?array {
-    $geoUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" . urlencode($cityName) . "&limit=1&appid=" . $apiKey;
-    $geoRes = curl_get($geoUrl);
-    if (!$geoRes) return null;
-    $geoData = json_decode($geoRes, true);
-    if (!is_array($geoData) || empty($geoData)) return null;
-
-    $lat = $geoData[0]['lat'] ?? null;
-    $lon = $geoData[0]['lon'] ?? null;
-    if (!$lat || !$lon) return null;
-
-    $url = "https://api.openweathermap.org/data/2.5/onecall?lat={$lat}&lon={$lon}&exclude=current,minutely,hourly,alerts&units=metric&appid={$apiKey}";
-    $res = curl_get($url);
-    if (!$res) return null;
-    $data = json_decode($res, true);
-    if (!isset($data['daily'])) return null;
-
-    $forecast = [];
-    foreach ($data['daily'] as $day) {
-        $forecast[] = [
-            'd'    => date('Y-m-d', $day['dt']),
-            'temp' => round($day['temp']['day']),
-            'cond' => ucfirst($day['weather'][0]['description'] ?? 'Unknown')
-        ];
-    }
-    return $forecast;
-}
-
 // --- Fetch forecast ---
-$forecast = $city ? getForecastForCity($city, $openWeatherKey) : null;
+$forecast = getForecastForCity($city, $openWeatherKey);
 $cachedAt = null;
+$source   = 'api';
 
 if ($forecast === null) {
     // Failover: try cached data
@@ -107,18 +82,51 @@ if ($forecast === null) {
                            updated_at = CURRENT_TIMESTAMP");
     $stmt->execute([':city' => $city, ':payload' => json_encode($forecast)]);
     log_event("Forecast served", "INFO", ['module'=>'forecast','city'=>$city]);
-    $source = 'api';
     $cachedAt = date('Y-m-d H:i:s');
 }
 
 // --- Response shaping ---
 $response = [
-    'city'  => $city ?: $cityId,
-    'source'=> $source,
-    'data'  => [
+    'city'   => $city,
+    'source' => $source,
+    'data'   => [
         'days'        => $forecast,
         'generated_at'=> $cachedAt
     ]
 ];
 
-echo json_encode($response, JSON_PRETTY_PRINT);
+// ✅ Add user forecast if logged in as user
+if ($userId && $role === 'user') {
+    $response['user'] = [
+        'forecast' => array_map(function($day) {
+            return [
+                'date'      => $day['date'] ?? '',
+                'min_temp'  => $day['min_temp'] ?? $day['temperature'] ?? '',
+                'max_temp'  => $day['max_temp'] ?? $day['temperature'] ?? '',
+                'condition' => $day['condition'] ?? '',
+                'icon'      => $day['icon'] ?? null
+            ];
+        }, $forecast)
+    ];
+}
+
+// ✅ Add admin forecast if logged in as admin
+if ($userId && $role === 'admin') {
+    $response['admin'] = [
+        'forecast' => array_map(function($day) {
+            return [
+                'date'      => $day['date'] ?? '',
+                'min_temp'  => $day['min_temp'] ?? $day['temperature'] ?? '',
+                'max_temp'  => $day['max_temp'] ?? $day['temperature'] ?? '',
+                'condition' => $day['condition'] ?? '',
+                'icon'      => $day['icon'] ?? null
+            ];
+        }, $forecast),
+        'meta' => [
+            'record_count' => count($forecast),
+            'generated_at' => $cachedAt
+        ]
+    ];
+}
+
+echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

@@ -23,7 +23,7 @@ $csrfToken = $_SESSION['csrf_token'];
 <head>
     <meta charset="UTF-8">
     <title>⭐ Favorites | Ethiopia Weather</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
     <style>
         .favorites-card { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 6px; }
         .form-group { margin-bottom: 0.5rem; }
@@ -50,7 +50,7 @@ $csrfToken = $_SESSION['csrf_token'];
         <!-- Add Favorite -->
         <div class="favorites-card">
             <h2>Add a City</h2>
-            <form method="POST" action="/weather_app/backend/actions/add_favorite.php">
+            <form method="POST" action="/weather/backend/actions/add_favorite.php">
                 <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
                 <div class="form-group">
                     <label for="city_id">Select City</label>
@@ -91,10 +91,15 @@ $csrfToken = $_SESSION['csrf_token'];
                                 $cityId   = (int)$fav['id'];
                                 echo "<li>
                                         {$cityName}
-                                        <form method='POST' action='/weather_app/backend/actions/delete_favorite.php' style='display:inline'>
+                                        <form method='POST' action='/weather/backend/actions/delete_favorite.php' style='display:inline'>
                                             <input type='hidden' name='csrf_token' value='{$csrfToken}'>
                                             <input type='hidden' name='city_id' value='{$cityId}'>
                                             <button type='submit'>Remove</button>
+                                        </form>
+                                        <form method='POST' action='/weather/backend/actions/set_default_city.php' style='display:inline'>
+                                            <input type='hidden' name='csrf_token' value='{$csrfToken}'>
+                                            <input type='hidden' name='city_id' value='{$cityId}'>
+                                            <button type='submit'>Set Default</button>
                                         </form>
                                       </li>";
                             }
@@ -110,9 +115,71 @@ $csrfToken = $_SESSION['csrf_token'];
                 ?>
             </ul>
         </div>
+
+        <!-- Forecasts for Favorites -->
+        <div class="favorites-card">
+            <h2>Forecasts for Favorites</h2>
+            <div id="favoritesForecast"><p>Loading forecasts...</p></div>
+        </div>
+
+        <!-- Theme toggle -->
+        <div class="favorites-card">
+            <h2>Theme</h2>
+            <form method="POST" action="/weather/backend/actions/set_theme.php">
+                <input type="hidden" name="csrf_token" value="<?= $csrfToken ?>">
+                <select name="theme">
+                    <option value="light">Light</option>
+                    <option value="dark">Dark</option>
+                </select>
+                <button type="submit">Apply</button>
+            </form>
+        </div>
     </section>
 </main>
 
 <?php require_once __DIR__ . '/partials/footer.php'; ?>
+
+<script>
+document.addEventListener("DOMContentLoaded", async () => {
+  async function fetchJson(url) {
+    const res = await fetch(url, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
+    const text = await res.text();
+    try { return JSON.parse(text); }
+    catch { throw new Error('Invalid server response'); }
+  }
+
+  async function loadFavoriteForecasts() {
+    try {
+      const data = await fetchJson("/weather/backend/actions/favorite_forecast.php");
+      const container = document.getElementById('favoritesForecast');
+      container.innerHTML = '';
+
+      if (data.favorites && data.favorites.length > 0) {
+        data.favorites.forEach(fav => {
+          const block = document.createElement('div');
+          block.className = 'favorites-card';
+          block.innerHTML = `<h3>${fav.city} (${fav.status})</h3>`;
+
+          if (fav.forecast && fav.forecast.length > 0) {
+            fav.forecast.forEach(entry => {
+              block.innerHTML += `<p><strong>${entry.date}</strong> - ${entry.condition}, ${entry.temp}°C</p>`;
+            });
+          } else {
+            block.innerHTML += `<p class="error-message">No forecast available</p>`;
+          }
+
+          container.appendChild(block);
+        });
+      } else {
+        container.innerHTML = `<p>No favorites yet</p>`;
+      }
+    } catch (err) {
+      document.getElementById('favoritesForecast').innerHTML = `<p class="error-message">Error loading forecasts: ${err.message}</p>`;
+    }
+  }
+
+  loadFavoriteForecasts();
+});
+</script>
 </body>
 </html>

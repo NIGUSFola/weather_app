@@ -1,28 +1,61 @@
 <?php
 // backend/ethiopia_service/regions/south/health.php
-if (session_status() === PHP_SESSION_NONE) {
-    session_start();
-}
-error_reporting(E_ERROR | E_PARSE);
-header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../../../../config/db.php';
-require_once __DIR__ . '/../../../../backend/helpers/log.php';
+require_once __DIR__ . '/../../../helpers/log.php';
 
-$regionName = 'South';
-$status = 'OK';
+function south_health(): array {
+    $regionName = 'South';
+    $status     = 'OK';
+    $components = [
+        'db'    => 'OK',
+        'cache' => 'OK',
+        'api'   => 'OK'
+    ];
 
-try {
-    db()->query("SELECT 1");
-} catch (Exception $e) {
-    $status = 'FAIL';
-    log_event("Health check failed for $regionName: " . $e->getMessage(), "ERROR", ['module'=>'health','region'=>$regionName]);
+    // ✅ DB connectivity check
+    try {
+        db()->query("SELECT 1");
+    } catch (Exception $e) {
+        $status = 'FAIL';
+        $components['db'] = 'FAIL';
+        log_event("Health check failed for $regionName (DB): " . $e->getMessage(), "ERROR");
+    }
+
+    // ✅ Cache table check
+    try {
+        $stmt = db()->query("SELECT COUNT(*) AS cnt FROM weather_cache WHERE region='South'");
+        $row  = $stmt->fetch(PDO::FETCH_ASSOC);
+        if ($row === false || (int)$row['cnt'] === 0) {
+            $components['cache'] = 'EMPTY';
+            $status = 'FAIL';
+        } else {
+            $components['cache'] = "OK ({$row['cnt']} rows)";
+        }
+    } catch (Exception $e) {
+        $components['cache'] = 'FAIL';
+        $status = 'FAIL';
+        log_event("Health check failed for $regionName (Cache): " . $e->getMessage(), "ERROR");
+    }
+
+    // ✅ API key presence check
+    $apiConfig = require __DIR__ . '/../../../../config/api.php';
+    if (empty($apiConfig['openweathermap'])) {
+        $components['api'] = 'MISSING';
+        $status = 'FAIL';
+    }
+
+    return [
+        'region'     => $regionName,
+        'status'     => $status,
+        'components' => $components,
+        'checked_at' => date('Y-m-d H:i:s')
+    ];
 }
 
-echo json_encode([
-    'region'     => $regionName,
-    'status'     => $status,
-    'checked_at' => date('Y-m-d H:i:s')
-], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
-
-exit;
+// ✅ Standalone mode
+if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])) {
+    header('Content-Type: application/json; charset=utf-8');
+    echo json_encode(south_health(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+    exit;
+}

@@ -16,6 +16,10 @@ $overlay = $_GET['overlay'] ?? 'rain';
 
 $role   = $_SESSION['user']['role'] ?? null;
 $userId = $_SESSION['user']['id'] ?? null;
+
+// ✅ CSRF helper for admin cache form
+require_once __DIR__ . '/../backend/helpers/csrf.php';
+$csrfToken = generate_csrf_token();
 ?>
 <!DOCTYPE html>
 <html lang="en" data-theme="light">
@@ -23,7 +27,14 @@ $userId = $_SESSION['user']['id'] ?? null;
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🌧️ Radar | Ethiopia Weather</title>
-  <link rel="stylesheet" href="style.css">
+ <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+  <style>
+    iframe { width: 100%; height: 500px; border: none; }
+    .card { padding: 1rem; border: 1px solid #ccc; border-radius: 6px; margin: 1rem 0; }
+    .error-message { color: red; }
+    .snapshot { margin-top: 1rem; }
+    .snapshot img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
+  </style>
 </head>
 <body>
   <div class="layout">
@@ -40,6 +51,12 @@ $userId = $_SESSION['user']['id'] ?? null;
         </iframe>
       </section>
 
+      <!-- Backend radar snapshot -->
+      <section class="snapshot" id="radarSnapshot">
+        <h3>📡 Backend Radar Snapshot</h3>
+        <p>Loading radar data...</p>
+      </section>
+
       <!-- Regional overlays (aggregator snapshot) -->
       <section class="region-overlay" id="regionOverlay">
         <h3>⚠️ Regional Alerts Overlay</h3>
@@ -51,23 +68,17 @@ $userId = $_SESSION['user']['id'] ?? null;
         <div class="card controls">
           <h2>User Radar Controls</h2>
           <form id="radarControls" onsubmit="onUpdateRadar(event)">
-            <label for="latInput">Lat 
-              <input type="number" step="0.01" id="latInput" name="lat" value="<?= htmlspecialchars($lat); ?>">
-            </label>
-            <label for="lonInput">Lon 
-              <input type="number" step="0.01" id="lonInput" name="lon" value="<?= htmlspecialchars($lon); ?>">
-            </label>
-            <label for="zoomInput">Zoom 
-              <input type="number" min="3" max="12" id="zoomInput" name="zoom" value="<?= htmlspecialchars($zoom); ?>">
-            </label>
-            <label for="levelInput">Level
+            <label>Lat <input type="number" step="0.01" id="latInput" name="lat" value="<?= htmlspecialchars($lat); ?>"></label>
+            <label>Lon <input type="number" step="0.01" id="lonInput" name="lon" value="<?= htmlspecialchars($lon); ?>"></label>
+            <label>Zoom <input type="number" min="3" max="12" id="zoomInput" name="zoom" value="<?= htmlspecialchars($zoom); ?>"></label>
+            <label>Level
               <select id="levelInput" name="level">
                 <option value="surface" <?= $level === 'surface' ? 'selected' : '' ?>>Surface</option>
                 <option value="850h" <?= $level === '850h' ? 'selected' : '' ?>>850hPa</option>
                 <option value="500h" <?= $level === '500h' ? 'selected' : '' ?>>500hPa</option>
               </select>
             </label>
-            <label for="overlayInput">Overlay
+            <label>Overlay
               <select id="overlayInput" name="overlay">
                 <option value="rain" <?= $overlay === 'rain' ? 'selected' : '' ?>>Rain</option>
                 <option value="wind" <?= $overlay === 'wind' ? 'selected' : '' ?>>Wind</option>
@@ -87,7 +98,11 @@ $userId = $_SESSION['user']['id'] ?? null;
           <h2>Admin Radar Tools</h2>
           <p>Admins can view cache metadata or manage radar settings here.</p>
           <p><em>Last updated: <?= date('Y-m-d H:i:s'); ?></em></p>
-          <a href="/weather_app/backend/ethiopia_service/admin/admin_cache.php">Manage Radar Cache</a>
+          <form method="post" action="/weather/backend/ethiopia_service/admin/admin_cache.php"
+                onsubmit="return confirm('Refresh radar cache?');">
+            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken); ?>">
+            <button type="submit">🔄 Refresh Radar Cache</button>
+          </form>
         </div>
       <?php endif; ?>
     </main>
@@ -135,10 +150,32 @@ $userId = $_SESSION['user']['id'] ?? null;
       });
     }
 
+    // Backend radar snapshot
+    async function fetchRadarSnapshot() {
+      try {
+        const res = await fetch("/weather/backend/ethiopia_service/radar.php?city=Addis%20Ababa", {
+          headers: { 'Accept': 'application/json' },
+          credentials: 'same-origin'
+        });
+        const data = await res.json();
+        const container = document.getElementById("radarSnapshot");
+        if (data.public && data.public.radar) {
+          container.innerHTML = `<h3>📡 Backend Radar Snapshot</h3>
+                                 <p>City: ${data.city}</p>
+                                 <img src="${data.public.radar.tile_url}" alt="Radar tile">
+                                 <p>Zoom: ${data.public.radar.zoom}, Lat: ${data.public.radar.lat}, Lon: ${data.public.radar.lon}</p>`;
+        } else {
+          container.innerHTML = "<p>No radar data available.</p>";
+        }
+      } catch (err) {
+        document.getElementById("radarSnapshot").innerHTML =
+          `<div class="error-message">Error loading radar snapshot: ${err.message}</div>`;
+      }
+    }
     // Regional alerts overlay
     async function fetchRegionalAlerts() {
       try {
-        const res = await fetch("/weather_app/backend/aggregator/merge_feeds.php", {
+        const res = await fetch("/weather/backend/aggregator/merge_feeds.php", {
           headers: { 'Accept': 'application/json' },
           credentials: 'same-origin'
         });
@@ -164,7 +201,11 @@ $userId = $_SESSION['user']['id'] ?? null;
       }
     }
 
-    document.addEventListener("DOMContentLoaded", fetchRegionalAlerts);
+    // Initial load
+    document.addEventListener("DOMContentLoaded", () => {
+      fetchRadarSnapshot();
+      fetchRegionalAlerts();
+    });
   </script>
 </body>
 </html>

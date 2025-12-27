@@ -1,16 +1,22 @@
 <?php
 // backend/ethiopia_service/admin/admin_metrics.php
+// Admin interface for viewing system metrics
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
 require_once __DIR__ . '/../../helpers/auth_middleware.php';
 require_once __DIR__ . '/../../helpers/log.php';
+require_once __DIR__ . '/../../helpers/csrf.php';
 require_once __DIR__ . '/../../../config/db.php';
 
+// ✅ Require admin role
 require_admin();
 
+// ✅ CSRF token (not strictly needed for read-only, but consistent)
 $csrfToken = generate_csrf_token();
+
 // --- Safe query helper ---
 function safeQuery(string $sql): int {
     try {
@@ -22,10 +28,10 @@ function safeQuery(string $sql): int {
     }
 }
 
-// API requests today
+// ✅ API requests today
 $apiRequestsToday = safeQuery("SELECT COUNT(*) FROM api_requests WHERE DATE(requested_at) = CURDATE()");
 
-// Cache hits percentage
+// ✅ Cache hits percentage
 try {
     $stmt = db()->query("
         SELECT 
@@ -41,18 +47,18 @@ try {
     log_event("Cache hit query failed: " . $e->getMessage(), "ERROR", ['module'=>'admin_metrics']);
 }
 
-// Active users (last 24h)
+// ✅ Active users (last 24h)
 $activeUsers = safeQuery("SELECT COUNT(DISTINCT user_id) FROM api_requests WHERE requested_at > (NOW() - INTERVAL 1 DAY)");
 
-// System uptime (placeholder unless tracked separately)
+// ✅ System uptime (placeholder unless tracked separately)
 $systemUptime = "99.98% (placeholder)";
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Admin Metrics - Multi-Region Weather</title>
-  <link rel="stylesheet" href="../../../frontend/style.css">
+  <title>Admin Metrics - Ethiopia Weather</title>
+  <link rel="stylesheet" href="/weather/frontend/partials/style.css">
   <style>
     .metrics-list { list-style: none; padding: 0; }
     .metrics-list li { margin: 0.5rem 0; }
@@ -79,7 +85,6 @@ $systemUptime = "99.98% (placeholder)";
     <p>All services are running normally. No critical alerts detected.</p>
   </section>
 
-  <p><a href="../../../frontend/logout.php">Logout</a></p>
 </div>
 </body>
 </html>

@@ -1,18 +1,26 @@
 <?php
 // frontend/api.php
+// Bridge between frontend and backend aggregator + API key management UI
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
+// ✅ JSON feed mode
+if (isset($_GET['action']) && $_GET['action'] === 'feed') {
+    header('Content-Type: application/json; charset=utf-8');
+    require __DIR__ . '/../backend/aggregator/merge_feeds.php';
+    exit;
+}
+
+// ✅ Otherwise: render API key management UI
 require_once __DIR__ . '/partials/header.php';
 
-// ✅ CSRF token setup
+// CSRF token setup
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
-$csrf = $_SESSION['csrf_token'];
-
+$csrf    = $_SESSION['csrf_token'];
 $success = $_GET['success'] ?? null;
 $error   = $_GET['error'] ?? null;
 $role    = $_SESSION['user']['role'] ?? null;
@@ -23,23 +31,8 @@ $isAdmin = ($role === 'admin');
 <html lang="en" data-theme="light">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>API Access | Ethiopia Weather</title>
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .section { margin-bottom: 2rem; }
-    .card { padding: 1rem; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 1rem; }
-    .success-message { color: green; }
-    .error-message { color: red; }
-    .keys { display: grid; gap: 0.75rem; }
-    .key-item { border: 1px solid #ddd; border-radius: 6px; padding: 0.75rem; }
-    .key-header { font-weight: 600; margin-bottom: 0.25rem; }
-    .key-value { font-family: monospace; background: rgba(0,0,0,0.05); padding: 0.25rem 0.5rem; border-radius: 4px; display: inline-block; }
-    .actions { margin-top: 0.5rem; display: flex; gap: 0.5rem; }
-    .btn { padding: 0.35rem 0.6rem; border: 1px solid #ccc; border-radius: 4px; background: #f8f8f8; cursor: pointer; }
-    .btn-danger { border-color: #d33; color: #d33; background: #fff; }
-    .muted { color: #666; }
-  </style>
+  <link rel="stylesheet" href="/weather/frontend/partials/style.css">
 </head>
 <body>
   <main class="page page-api">
@@ -47,33 +40,32 @@ $isAdmin = ($role === 'admin');
       <h1>API Access</h1>
 
       <?php if ($success): ?>
-        <div class="success-message" aria-live="polite"><?= htmlspecialchars($success) ?></div>
+        <div class="success-message"><?= htmlspecialchars($success) ?></div>
       <?php endif; ?>
       <?php if ($error): ?>
-        <div class="error-message" aria-live="polite"><?= htmlspecialchars($error) ?></div>
+        <div class="error-message"><?= htmlspecialchars($error) ?></div>
       <?php endif; ?>
 
       <!-- Public section -->
       <div class="card">
         <h2>🌍 Public API Information</h2>
-        <p class="muted">Ethiopia Weather provides JSON endpoints for forecasts, alerts, and radar data.</p>
-        <p>Visitors can explore the API. To generate personal API keys, please log in.</p>
+        <p class="muted">Ethiopia Weather provides JSON endpoints for forecasts and alerts.</p>
+        <p><strong>Unified feed:</strong> <code>/weather/frontend/api.php?action=feed</code></p>
       </div>
 
       <!-- User-only section -->
       <?php if ($userId && $role === 'user'): ?>
       <div class="card">
-        <h2>Manage Keys</h2>
-        <p class="muted">Generate and manage your API keys to access the Ethiopia Weather JSON endpoints.</p>
-        <form method="post" action="/weather_app/backend/ethiopia_service/api.php?action=create">
+        <h2>Manage Your Keys</h2>
+        <form method="post" action="/weather/backend/ethiopia_service/api.php?action=create">
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrf); ?>">
-          <button type="submit" class="btn" aria-label="Generate new API key">Generate New API Key</button>
+          <button type="submit" class="btn">Generate New API Key</button>
         </form>
       </div>
 
       <div class="card">
         <h2>Your API Keys</h2>
-        <div id="keysList" class="keys" aria-live="polite"><p>Loading keys...</p></div>
+        <div id="keysList" class="keys"><p>Loading keys...</p></div>
       </div>
       <?php endif; ?>
 
@@ -82,7 +74,12 @@ $isAdmin = ($role === 'admin');
       <div class="card">
         <h2>🛠 Admin API Tools</h2>
         <p>Admins can view system‑wide API usage and manage user keys.</p>
-        <a href="/weather_app/backend/ethiopia_service/admin/admin_api.php">Manage All Keys</a>
+        <a href="/weather/backend/ethiopia_service/admin/admin_api.php" class="btn">Manage All Keys</a>
+      </div>
+
+      <div class="card">
+        <h2>Your API Keys (Admin)</h2>
+        <div id="keysList" class="keys"><p>Loading keys...</p></div>
       </div>
       <?php endif; ?>
     </section>
@@ -90,7 +87,7 @@ $isAdmin = ($role === 'admin');
 
   <?php include __DIR__ . '/partials/footer.php'; ?>
 
-  <?php if ($userId && $role === 'user'): ?>
+  <?php if ($userId): ?>
   <script>
     function maskKey(k) {
       if (!k || k.length < 12) return k;
@@ -99,8 +96,9 @@ $isAdmin = ($role === 'admin');
 
     async function loadKeys() {
       const list = document.getElementById('keysList');
+      if (!list) return;
       try {
-        const res = await fetch('/weather_app/backend/ethiopia_service/api.php?action=list', {
+        const res = await fetch('/weather/backend/ethiopia_service/api.php?action=list', {
           headers: { 'Accept': 'application/json' },
           credentials: 'same-origin'
         });
@@ -134,7 +132,6 @@ $isAdmin = ($role === 'admin');
           toggle.type = 'button';
           toggle.className = 'btn';
           toggle.textContent = 'Reveal';
-          toggle.setAttribute('aria-label', 'Reveal or hide API key');
           toggle.addEventListener('click', () => {
             const showingMasked = value.textContent === value.dataset.masked;
             value.textContent = showingMasked ? value.dataset.full : value.dataset.masked;
@@ -145,7 +142,6 @@ $isAdmin = ($role === 'admin');
           copy.type = 'button';
           copy.className = 'btn';
           copy.textContent = 'Copy';
-          copy.setAttribute('aria-label', 'Copy API key to clipboard');
           copy.addEventListener('click', async () => {
             try {
               await navigator.clipboard.writeText(value.dataset.full);
@@ -161,11 +157,11 @@ $isAdmin = ($role === 'admin');
 
           const form = document.createElement('form');
           form.method = 'post';
-          form.action = '/weather_app/backend/ethiopia_service/api.php?action=delete';
+          form.action = '/weather/backend/ethiopia_service/api.php?action=delete';
           form.innerHTML = `
             <input type="hidden" name="csrf_token" value="${csrf}">
             <input type="hidden" name="key" value="${keyObj.api_key}">
-            <button type="submit" class="btn btn-danger" aria-label="Delete API key">❌ Delete</button>
+            <button type="submit" class="btn btn-danger">❌ Delete</button>
           `;
           form.addEventListener('submit', (e) => {
             const ok = confirm('Delete this API key? This cannot be undone.');

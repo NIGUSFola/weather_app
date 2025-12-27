@@ -18,7 +18,7 @@ function getCount(string $table): int {
         $stmt = db()->query("SELECT COUNT(*) FROM {$table}");
         return (int)$stmt->fetchColumn();
     } catch (Exception $e) {
-        log_event("Count query failed for {$table}: " . $e->getMessage(), "ERROR", ['module'=>'admin_dashboard']);
+        log_event("Count query failed for {$table}: " . $e->getMessage(), "ERROR");
         return 0;
     }
 }
@@ -32,7 +32,7 @@ try {
     $apiRequests24h = (int)$stmt->fetchColumn();
 } catch (Exception $e) {
     $apiRequests24h = 0;
-    log_event("API requests count failed: " . $e->getMessage(), "ERROR", ['module'=>'admin_dashboard']);
+    log_event("API requests count failed: " . $e->getMessage(), "ERROR");
 }
 
 try {
@@ -40,7 +40,7 @@ try {
     $logs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     $logs = [];
-    log_event("Log fetch failed: " . $e->getMessage(), "ERROR", ['module'=>'admin_dashboard']);
+    log_event("Log fetch failed: " . $e->getMessage(), "ERROR");
 }
 ?>
 <!DOCTYPE html>
@@ -48,7 +48,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Admin Dashboard - Multi-Region Weather</title>
-    <link rel="stylesheet" href="../../../frontend/style.css">
+    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
     <style>
         .logs { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         .logs th, .logs td { border: 1px solid #ccc; padding: 0.5rem; }
@@ -56,15 +56,18 @@ try {
         .log-warn { color: orange; }
         .log-error { color: red; }
         .status-ok { color: green; font-weight: bold; }
-        .status-degraded { color: orange; font-weight: bold; }
         .status-fail { color: red; font-weight: bold; }
+        .status-degraded { color: orange; font-weight: bold; }
+        table.health { width: 100%; border-collapse: collapse; margin-top: 1em; }
+        table.health th, table.health td { border: 1px solid #ddd; padding: 6px; }
+        table.health thead { background: #f0f0f0; }
+        table.health tr:nth-child(even) { background: #fafafa; }
     </style>
 </head>
 <body>
 <div class="container">
     <h1>🛠 Admin Dashboard</h1>
 
-    <!-- ✅ Include fixed navigation -->
     <?php include __DIR__ . '/../../../frontend/partials/admin_nav.php'; ?>
 
     <section>
@@ -105,29 +108,31 @@ try {
         <button type="button" onclick="runHealthCheck()">Run Health Check</button>
         <div id="healthResult">Click the button to run health check.</div>
     </section>
-
-
 </div>
 
 <script>
 function runHealthCheck() {
-    // ✅ Correct path to health.php
-    fetch('../../ethiopia_service/health.php')
+    fetch('admin_health.php?format=json')
         .then(res => res.json())
         .then(data => {
-            let statusClass = '';
-            if (data.status === 'ok') statusClass = 'status-ok';
-            else if (data.status === 'degraded') statusClass = 'status-degraded';
-            else statusClass = 'status-fail';
-
-            document.getElementById('healthResult').innerHTML = `
-                <ul>
-                  <li>Database: ${data.checks.db ? '✅ OK' : '❌ Failed'}</li>
-                  <li>API Key: ${data.checks.api_key ? '✅ OK' : '❌ Failed'}</li>
-                  <li>Session: ${data.checks.session ? '✅ OK' : '❌ Failed'}</li>
-                  <li>Status: <span class="${statusClass}">${data.status.toUpperCase()}</span></li>
-                  <li>Time: ${data.time}</li>
-                </ul>`;
+            let html = '<table class="health"><thead><tr><th>Region</th><th>Status</th><th>Components</th><th>Checked At</th></tr></thead><tbody>';
+            data.regions.forEach(r => {
+                let statusClass = (r.status === 'OK') ? 'status-ok' : 'status-fail';
+                let comps = '<ul>';
+                for (const [comp, val] of Object.entries(r.components)) {
+                    let compClass = (val.includes('OK')) ? 'status-ok' : 'status-fail';
+                    comps += `<li><span class="${compClass}">${comp}: ${val}</span></li>`;
+                }
+                comps += '</ul>';
+                html += `<tr>
+                    <td>${r.region}</td>
+                    <td class="${statusClass}">${r.status}</td>
+                    <td>${comps}</td>
+                    <td>${r.checked_at}</td>
+                </tr>`;
+            });
+            html += '</tbody></table>';
+            document.getElementById('healthResult').innerHTML = html;
         })
         .catch(err => {
             document.getElementById('healthResult').textContent = 'Health check failed: ' + err;

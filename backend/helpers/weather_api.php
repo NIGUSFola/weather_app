@@ -2,154 +2,101 @@
 // backend/helpers/weather_api.php
 // ✅ Centralized weather API helpers (alerts + forecast)
 
-require_once __DIR__ . '/../../config/api.php';
-require_once __DIR__ . '/log.php';
-
 /**
- * Simple CURL GET wrapper with logging
+ * Perform a GET request with curl
  */
 function curl_get(string $url): ?string {
     $ch = curl_init($url);
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_TIMEOUT, 10);
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+        CURLOPT_CONNECTTIMEOUT => 5,
+        CURLOPT_USERAGENT      => 'EthiopiaWeatherApp/1.0 (+http://localhost/weather_app)',
+    ]);
     $res = curl_exec($ch);
     if ($res === false) {
-        log_event("cURL failed for URL: $url", "ERROR", ['module' => 'weather_api']);
+        error_log('curl_get error: ' . curl_error($ch));
         curl_close($ch);
         return null;
     }
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
     curl_close($ch);
+    if ($httpCode !== 200) {
+        error_log("curl_get non-200: {$httpCode} for {$url}");
+        return null;
+    }
     return $res;
 }
 
 /**
- * ✅ Fetch alerts for a given city (via geocoding)
+ * ✅ Resolve city name to lat/lon using OpenWeatherMap Geocoding API
  */
-function getAlertsForCity(string $cityName, string $apiKey): array {
-    $units = $GLOBALS['apiConfig']['units'] ?? 'metric';
-    $lang  = $GLOBALS['apiConfig']['lang'] ?? 'en';
-
-    // Step 1: Resolve city to lat/lon
-    $geoUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" . urlencode($cityName) . "&limit=1&appid=" . $apiKey;
+function resolveCityCoordinates(string $cityName, string $apiKey): ?array {
+    $geoUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" . urlencode($cityName) . "&limit=1&appid={$apiKey}";
     $geoRes = curl_get($geoUrl);
-    if (!$geoRes) return [];
+    if (!$geoRes) return null;
+
     $geoData = json_decode($geoRes, true);
-    if (!is_array($geoData) || empty($geoData)) return [];
+    if (!is_array($geoData) || empty($geoData)) return null;
 
     $lat = $geoData[0]['lat'] ?? null;
     $lon = $geoData[0]['lon'] ?? null;
-    if (!$lat || !$lon) return [];
+    if (!$lat || !$lon) return null;
 
-    // Step 2: Fetch alerts via One Call API
-    $url = "https://api.openweathermap.org/data/2.5/onecall?lat={$lat}&lon={$lon}&exclude=current,minutely,hourly,daily&units={$units}&lang={$lang}&appid=" . $apiKey;
+    return ['lat' => $lat, 'lon' => $lon];
+}
+
+/**
+ * ✅ Fetch alerts for a given city
+ */
+function getAlertsForCity(string $cityName, string $apiKey, string $lang = 'en'): ?array {
+    $coords = resolveCityCoordinates($cityName, $apiKey);
+    if (!$coords) return null;
+
+    $url = "https://api.openweathermap.org/data/2.5/onecall?lat={$coords['lat']}&lon={$coords['lon']}&exclude=current,minutely,hourly,daily&appid={$apiKey}&lang={$lang}";
     $res = curl_get($url);
-    if (!$res) return [];
+    if (!$res) return null;
 
     $data = json_decode($res, true);
-    if (!isset($data['alerts'])) return [];
+    if (!isset($data['alerts']) || !is_array($data['alerts'])) return [];
 
-    // Step 3: Normalize alerts
     $alerts = [];
     foreach ($data['alerts'] as $alert) {
         $alerts[] = [
-            'event'       => $alert['event'] ?? 'Unknown',
+            'title'       => $alert['event'] ?? 'Unknown',
             'description' => $alert['description'] ?? '',
-            'start'       => isset($alert['start']) ? date('Y-m-d H:i', $alert['start']) : '',
-            'end'         => isset($alert['end']) ? date('Y-m-d H:i', $alert['end']) : '',
-            'sender'      => $alert['sender_name'] ?? 'N/A',
-            'severity'    => $alert['severity'] ?? 'moderate'
+            // OpenWeatherMap alerts don’t always include severity → default to "moderate"
+            'severity'    => $alert['severity'] ?? 'moderate',
+            'issued_at'   => isset($alert['start']) ? date('Y-m-d H:i', (int)$alert['start']) : date('Y-m-d H:i'),
+            'expires_at'  => isset($alert['end']) ? date('Y-m-d H:i', (int)$alert['end']) : null,
+            'sender'      => $alert['sender_name'] ?? null
         ];
     }
     return $alerts;
 }
 
 /**
- * ✅ Fetch forecast for a given city (via geocoding)
+ * ✅ Fetch forecast for a given city
  */
-function getForecastForCity(string $cityName, string $apiKey): array {
-    $units = $GLOBALS['apiConfig']['units'] ?? 'metric';
-    $lang  = $GLOBALS['apiConfig']['lang'] ?? 'en';
+function getForecastForCity(string $cityName, string $apiKey, string $lang = 'en', string $units = 'metric'): ?array {
+    $coords = resolveCityCoordinates($cityName, $apiKey);
+    if (!$coords) return null;
 
-    // Step 1: Resolve city to lat/lon
-    $geoUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" . urlencode($cityName) . "&limit=1&appid=" . $apiKey;
-    $geoRes = curl_get($geoUrl);
-    if (!$geoRes) return [];
-    $geoData = json_decode($geoRes, true);
-    if (!is_array($geoData) || empty($geoData)) return [];
-
-    $lat = $geoData[0]['lat'] ?? null;
-    $lon = $geoData[0]['lon'] ?? null;
-    if (!$lat || !$lon) return [];
-
-    // Step 2: Fetch forecast (5-day / 3-hour intervals)
-    $url = "https://api.openweathermap.org/data/2.5/forecast?lat={$lat}&lon={$lon}&units={$units}&lang={$lang}&appid=" . $apiKey;
+    $url = "https://api.openweathermap.org/data/2.5/forecast?lat={$coords['lat']}&lon={$coords['lon']}&appid={$apiKey}&units={$units}&lang={$lang}";
     $res = curl_get($url);
-    if (!$res) return [];
+    if (!$res) return null;
 
     $data = json_decode($res, true);
-    if (!isset($data['list'])) return [];
-
-    // Step 3: Normalize forecast entries
-    $forecast = [];
-    foreach ($data['list'] as $entry) {
-        $forecast[] = [
-            'datetime' => $entry['dt_txt'] ?? '',
-            'temp'     => $entry['main']['temp'] ?? '',
-            'weather'  => $entry['weather'][0]['description'] ?? ''
-        ];
-    }
-    return $forecast;
-}
-
-/**
- * ✅ Fetch forecast directly by coordinates
- */
-function getForecastByCoords(float $lat, float $lon, string $apiKey): array {
-    $units = $GLOBALS['apiConfig']['units'] ?? 'metric';
-    $lang  = $GLOBALS['apiConfig']['lang'] ?? 'en';
-
-    $url = "https://api.openweathermap.org/data/2.5/forecast?lat={$lat}&lon={$lon}&units={$units}&lang={$lang}&appid=" . $apiKey;
-    $res = curl_get($url);
-    if (!$res) return [];
-
-    $data = json_decode($res, true);
-    if (!isset($data['list'])) return [];
+    if (!isset($data['list']) || !is_array($data['list'])) return [];
 
     $forecast = [];
     foreach ($data['list'] as $entry) {
         $forecast[] = [
-            'datetime' => $entry['dt_txt'] ?? '',
-            'temp'     => $entry['main']['temp'] ?? '',
-            'weather'  => $entry['weather'][0]['description'] ?? ''
+            'date'        => $entry['dt_txt'] ?? '',
+            'temperature' => $entry['main']['temp'] ?? null,
+            'condition'   => $entry['weather'][0]['description'] ?? '',
+            'icon'        => $entry['weather'][0]['icon'] ?? null
         ];
     }
     return $forecast;
-}
-
-/**
- * ✅ Fetch alerts directly by coordinates
- */
-function getAlertsByCoords(float $lat, float $lon, string $apiKey): array {
-    $units = $GLOBALS['apiConfig']['units'] ?? 'metric';
-    $lang  = $GLOBALS['apiConfig']['lang'] ?? 'en';
-
-    $url = "https://api.openweathermap.org/data/2.5/onecall?lat={$lat}&lon={$lon}&exclude=current,minutely,hourly,daily&units={$units}&lang={$lang}&appid=" . $apiKey;
-    $res = curl_get($url);
-    if (!$res) return [];
-
-    $data = json_decode($res, true);
-    if (!isset($data['alerts'])) return [];
-
-    $alerts = [];
-    foreach ($data['alerts'] as $alert) {
-        $alerts[] = [
-            'event'       => $alert['event'] ?? 'Unknown',
-            'description' => $alert['description'] ?? '',
-            'start'       => isset($alert['start']) ? date('Y-m-d H:i', $alert['start']) : '',
-            'end'         => isset($alert['end']) ? date('Y-m-d H:i', $alert['end']) : '',
-            'sender'      => $alert['sender_name'] ?? 'N/A',
-            'severity'    => $alert['severity'] ?? 'moderate'
-        ];
-    }
-    return $alerts;
 }

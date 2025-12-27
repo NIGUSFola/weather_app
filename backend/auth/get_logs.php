@@ -5,7 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../backend/config/db.php';
-require_once __DIR__ . '/../backend/helpers/log.php';
+require_once __DIR__ . '/../helpers/log.php';
+
 
 // ✅ Protect admin
 if (!isset($_SESSION['user_id']) || ($_SESSION['role'] ?? '') !== 'admin') {

@@ -10,7 +10,7 @@ require_once __DIR__ . '/partials/header.php';
 <head>
     <meta charset="UTF-8">
     <title>🩺 System Health Dashboard</title>
-    <link rel="stylesheet" href="style.css">
+      <link rel="stylesheet" href="/weather/frontend/partials/style.css">
     <style>
         .health-checks { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
         .check-card { flex: 1 1 220px; border: 1px solid #ccc; border-radius: 6px; padding: 1rem; text-align: center; }
@@ -40,10 +40,12 @@ async function fetchRegionHealth(region, url) {
 
 document.addEventListener("DOMContentLoaded", async () => {
     const endpoints = {
-        "National": "/weather_app/backend/ethiopia_service/health.php",
-        "Oromia": "/weather_app/backend/ethiopia_service/regions/oromia/health.php",
-        "South": "/weather_app/backend/ethiopia_service/regions/south/health.php",
-        "Amhara": "/weather_app/backend/ethiopia_service/regions/amhara/health.php"
+        "National": "/weather/backend/ethiopia_service/health.php",
+        "Oromia": "/weather/backend/ethiopia_service/regions/oromia/health.php",
+        "South": "/weather/backend/ethiopia_service/regions/south/health.php",
+        "Amhara": "/weather/backend/ethiopia_service/regions/amhara/health.php"
+        "addis_ababa": "/weather/backend/ethiopia_service/regions/addis_ababa/health.php"
+
     };
 
     const results = await Promise.all(

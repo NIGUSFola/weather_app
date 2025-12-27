@@ -1,5 +1,7 @@
 <?php
 // backend/ethiopia_service/cache_verify.php
+// Verify DB-backed cache entries
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }

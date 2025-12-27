@@ -1,114 +1,82 @@
 <?php
-// weather_app/backend/aggregator/merge_feeds.php
+// backend/aggregator/merge_feeds.php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
+
 header('Content-Type: application/json; charset=utf-8');
 
-require_once __DIR__ . '/../../backend/helpers/log.php';
+// ✅ Normalization helpers
+require_once __DIR__ . '/../helpers/forecast.php';
+require_once __DIR__ . '/../helpers/alerts.php';
 
-$countryName = 'Ethiopia';
+// ✅ Include each region’s unified API (functions return arrays)
+require_once __DIR__ . '/../ethiopia_service/regions/oromia/api.php';
+require_once __DIR__ . '/../ethiopia_service/regions/south/api.php';
+require_once __DIR__ . '/../ethiopia_service/regions/amhara/api.php';
+require_once __DIR__ . '/../ethiopia_service/regions/addis_ababa/api.php';
 
-// Region definitions
-$regionsConfig = [
-    'Oromia' => [
-        'alertsPath'   => __DIR__ . '/../ethiopia_service/regions/oromia/alerts.php',
-        'forecastPath' => __DIR__ . '/../ethiopia_service/regions/oromia/forecast.php',
-        'alertsFn'     => 'oromia_alerts',
-        'forecastFn'   => 'oromia_forecast'
-    ],
-    'South' => [
-        'alertsPath'   => __DIR__ . '/../ethiopia_service/regions/south/alerts.php',
-        'forecastPath' => __DIR__ . '/../ethiopia_service/regions/south/forecast.php',
-        'alertsFn'     => 'south_alerts',
-        'forecastFn'   => 'south_forecast'
-    ],
-    'Amhara' => [
-        'alertsPath'   => __DIR__ . '/../ethiopia_service/regions/amhara/alerts.php',
-        'forecastPath' => __DIR__ . '/../ethiopia_service/regions/amhara/forecast.php',
-        'alertsFn'     => 'amhara_alerts',
-        'forecastFn'   => 'amhara_forecast'
-    ]
-];
-
-// ---------- Helpers ----------
-function callRegionFunction(string $fn): ?array {
+/**
+ * Wrap region API call with health info and normalization
+ */
+function wrapRegion(string $name, string $fnName): array {
     try {
-        if (!function_exists($fn)) return null;
-        $raw = $fn();
-        if (is_array($raw)) return $raw;
-        if (is_string($raw) && $raw !== '') {
-            $decoded = json_decode($raw, true);
-            return is_array($decoded) ? $decoded : null;
+        if (function_exists($fnName)) {
+            $data = call_user_func($fnName); // ✅ safely call by name
+            if (is_array($data)) {
+                return [
+                    'region'   => $name,
+                    'city'     => $data['city'] ?? $name,
+                    'forecast' => normalize_forecast($data['forecast'] ?? []),
+                    'alerts'   => normalize_alerts($data['alerts'] ?? []),
+                    'health'   => [
+                        'status'     => 'OK',
+                        'checked_at' => date('Y-m-d H:i:s')
+                    ]
+                ];
+            }
         }
-        return null;
-    } catch (Throwable $e) {
-        log_event("Aggregator fn failed: " . $e->getMessage(), "ERROR", [
-            'module' => 'aggregator',
-            'fn'     => $fn
-        ]);
-        return null;
+    } catch (Exception $e) {
+        error_log("Aggregator failed for $name: " . $e->getMessage());
     }
-}
 
-// ---------- Build response ----------
-$response = [
-    'country'    => $countryName,
-    'status'     => 'OK',
-    'checked_at' => date('Y-m-d H:i:s'),
-    'summary'    => [
-        'total_alerts' => 0,
-        'regions_up'   => 0,
-        'regions_down' => 0,
-    ],
-    'regions'    => []
-];
-
-foreach ($regionsConfig as $regionName => $cfg) {
-    $regionInfo = [
-        'city'     => null,
-        'alerts'   => [],
+    // Fallback if region API fails
+    return [
+        'region'   => $name,
+        'city'     => $name,
         'forecast' => [],
+        'alerts'   => [],
         'health'   => [
             'status'     => 'FAIL',
             'checked_at' => date('Y-m-d H:i:s')
         ]
     ];
-
-    // Load alerts
-    if (file_exists($cfg['alertsPath'])) {
-        require_once $cfg['alertsPath'];
-    }
-    $alertsData = callRegionFunction($cfg['alertsFn']);
-
-    // Load forecast
-    if (file_exists($cfg['forecastPath'])) {
-        require_once $cfg['forecastPath'];
-    }
-    $forecastData = callRegionFunction($cfg['forecastFn']);
-
-    if ($alertsData || $forecastData) {
-        $regionInfo['city']     = $alertsData['city'] ?? ($forecastData['city'] ?? null);
-        $regionInfo['alerts']   = $alertsData['alerts'] ?? [];
-        // ✅ Prefer forecast from alerts if non-empty, otherwise use forecast.php
-        $regionInfo['forecast'] = !empty($alertsData['forecast'])
-            ? $alertsData['forecast']
-            : ($forecastData['forecast'] ?? []);
-        $regionInfo['health']['status'] = $alertsData['health']['status'] ?? 'OK';
-
-        $response['summary']['regions_up']++;
-        $response['summary']['total_alerts'] += count($regionInfo['alerts']);
-    } else {
-        $response['summary']['regions_down']++;
-        log_event("Aggregator: region unavailable", "WARN", [
-            'module' => 'aggregator',
-            'region' => $regionName
-        ]);
-    }
-
-    $response['regions'][$regionName] = $regionInfo;
 }
 
-// ---------- Output ----------
-echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-exit;
+// ✅ Build unified regions array
+$regions = [
+    'Oromia'      => wrapRegion('Oromia', 'oromia_api'),
+    'South'       => wrapRegion('South', 'south_api'),
+    'Amhara'      => wrapRegion('Amhara', 'amhara_api'),
+    'Addis Ababa' => wrapRegion('Addis Ababa', 'addis_ababa_api'),
+];
+
+// ✅ Summary: total active alerts across all regions
+$totalAlerts = 0;
+foreach ($regions as $info) {
+    $totalAlerts += is_array($info['alerts']) ? count($info['alerts']) : 0;
+}
+
+$summary = [
+    'total_alerts' => $totalAlerts,
+    'generated_at' => date('Y-m-d H:i:s')
+];
+
+// ✅ Output unified JSON
+echo json_encode([
+    'summary' => $summary,
+    'regions' => $regions
+], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+
+exit; // ✅ ensures no stray output

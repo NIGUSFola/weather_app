@@ -1,46 +1,29 @@
 <?php
-// backend/ethiopia_service/regions/oromia/api.php
+// Oromia Region API
+require_once __DIR__ . '/forecast.php';
+require_once __DIR__ . '/alerts.php';
+require_once __DIR__ . '/../../../helpers/forecast.php';
+require_once __DIR__ . '/../../../helpers/alerts.php';
 
-function oromia_api(): string {
-    require_once __DIR__ . '/forecast.php';
-    require_once __DIR__ . '/alerts.php';
+function oromia_api(): array {
+    $forecastData = oromia_forecast();
+    $alertsData   = oromia_alerts();
 
-    // Decode forecast safely
-    $forecastRaw = oromia_forecast();
-    $forecast = json_decode($forecastRaw, true);
-    if (!is_array($forecast)) {
-        $forecast = ['city' => 'Shashamane', 'forecast' => []];
-    }
-
-    // Decode alerts safely
-    $alertsRaw = oromia_alerts();
-    $alerts = json_decode($alertsRaw, true);
-    if (!is_array($alerts)) {
-        $alerts = ['alerts' => []];
-    }
-
-    // ✅ For testing: inject a sample alert if none exist
-    if (empty($alerts['alerts'])) {
-        $alerts['alerts'][] = [
-            'event'       => 'Thunderstorm',
-            'start'       => date('Y-m-d H:i:s'),
-            'end'         => date('Y-m-d H:i:s', strtotime('+2 hours')),
-            'description' => 'Severe thunderstorm expected in Shashamane region.',
-            'severity'    => 'high'
-        ];
-    }
-
-    return json_encode([
+    return [
         'region'   => 'Oromia',
-        'city'     => $forecast['city'] ?? 'Shashamane',
-        'forecast' => $forecast['forecast'] ?? [],
-        'alerts'   => $alerts['alerts'] ?? []
-    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+        'city'     => $forecastData['city'] ?? 'Shashamane',
+        'forecast' => normalize_forecast($forecastData['forecast'] ?? []),
+        'alerts'   => normalize_alerts($alertsData['alerts'] ?? []),
+        'status'   => [
+            'forecast' => $forecastData['status'] ?? 'UNKNOWN',
+            'alerts'   => $alertsData['status'] ?? 'UNKNOWN'
+        ]
+    ];
 }
 
-// ✅ Standalone mode
-if (basename(__FILE__) === basename($_SERVER['SCRIPT_FILENAME'])) {
+// ✅ Only output JSON if run directly
+if (realpath(__FILE__) === realpath($_SERVER['SCRIPT_FILENAME'])) {
     header('Content-Type: application/json; charset=utf-8');
-    echo oromia_api();
+    echo json_encode(oromia_api(), JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     exit;
 }

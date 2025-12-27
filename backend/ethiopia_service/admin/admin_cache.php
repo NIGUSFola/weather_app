@@ -38,18 +38,16 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             header("Location: admin_cache.php?success=All+cache+entries+cleared");
             exit;
         }
-        if ($action === 'clear_city') {
-            $city = trim($_POST['city'] ?? '');
-            $stmt = db()->prepare(
-                "DELETE FROM weather_cache WHERE city_id = (SELECT id FROM cities WHERE name = :city)"
-            );
-            $stmt->execute([':city'=>$city]);
-            log_event("Cache cleared for city {$city}", "INFO", [
+        if ($action === 'clear_region') {
+            $region = trim($_POST['region'] ?? '');
+            $stmt = db()->prepare("DELETE FROM weather_cache WHERE region = :region");
+            $stmt->execute([':region'=>$region]);
+            log_event("Cache cleared for region {$region}", "INFO", [
                 'module'=>'admin_cache',
                 'admin'=>$_SESSION['user']['id'],
-                'city'=>$city
+                'region'=>$region
             ]);
-            header("Location: admin_cache.php?success=Cache+cleared+for+{$city}");
+            header("Location: admin_cache.php?success=Cache+cleared+for+{$region}");
             exit;
         }
     } catch (Exception $e) {
@@ -60,10 +58,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 // ✅ Fetch cache entries
 try {
-    $stmt = db()->query("SELECT c.name AS city, wc.type, wc.updated_at 
-                         FROM weather_cache wc 
-                         JOIN cities c ON wc.city_id = c.id 
-                         ORDER BY wc.updated_at DESC");
+    $stmt = db()->query("SELECT region, type, updated_at 
+                         FROM weather_cache 
+                         ORDER BY updated_at DESC");
     $cacheEntries = $stmt->fetchAll(PDO::FETCH_ASSOC);
 } catch (Exception $e) {
     $cacheEntries = [];
@@ -75,7 +72,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Admin - Cache Management</title>
-    <link rel="stylesheet" href="../../../frontend/style.css">
+    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
     <style>
         table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
         th, td { border: 1px solid #ccc; padding: 8px; }
@@ -103,25 +100,25 @@ try {
     </div>
 
     <div class="admin-card">
-        <h3>Clear Cache for Specific City</h3>
-        <form method="POST" onsubmit="return confirm('Clear cache for this city?');">
-            <input type="hidden" name="action" value="clear_city">
+        <h3>Clear Cache for Specific Region</h3>
+        <form method="POST" onsubmit="return confirm('Clear cache for this region?');">
+            <input type="hidden" name="action" value="clear_region">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-            <label>City <input type="text" name="city" required></label>
-            <button type="submit">Clear City Cache</button>
+            <label>Region <input type="text" name="region" required></label>
+            <button type="submit">Clear Region Cache</button>
         </form>
     </div>
 
     <div class="admin-card">
         <h3>Existing Cache Entries</h3>
         <table>
-            <tr><th>City</th><th>Type</th><th>Last Updated</th></tr>
+            <tr><th>Region</th><th>Type</th><th>Last Updated</th></tr>
             <?php if (empty($cacheEntries)): ?>
                 <tr><td colspan="3">No cache entries found.</td></tr>
             <?php else: ?>
                 <?php foreach ($cacheEntries as $entry): ?>
                     <tr>
-                        <td><?= htmlspecialchars($entry['city']) ?></td>
+                        <td><?= htmlspecialchars($entry['region']) ?></td>
                         <td><?= htmlspecialchars($entry['type']) ?></td>
                         <td><?= htmlspecialchars($entry['updated_at']) ?></td>
                     </tr>
@@ -130,11 +127,6 @@ try {
         </table>
     </div>
 
-    <!-- ✅ Logout form -->
-    <form action="../../../auth/logout.php" method="POST" style="margin-top:20px;">
-        <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
-        <button type="submit">Logout</button>
-    </form>
 </div>
 </body>
 </html>

@@ -1,17 +1,11 @@
 <?php
-// backend/config/api.php
+// config/api.php
 // Centralized API configuration for Ethiopia Weather App
 
-$apiConfig = [
-    // 🔑 OpenWeather API key (replace with your real key)
-    'openweathermap' => '23216f21b0836e2f87baf74559caed54',
+return [
+    // ✅ Your OpenWeather API key
+    'openweathermap' => '964aab92b8525e8de52c75e0508883af',
 
     // Optional: rate limit for logged-in users (requests per hour)
     'rateLimit' => 100,
-
-    // Optional: default units for OpenWeather API (metric, imperial, standard)
-    'units' => 'metric',
-
-    // Optional: default language for API responses
-    'lang' => 'en'
 ];

@@ -7,17 +7,33 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 header('Content-Type: application/json');
 
-require_once __DIR__ . '/../../config/db.php';    // DB connection
-require_once __DIR__ . '/../helpers/log.php';     // Logging helper
-require_once __DIR__ . '/../../config/api.php';   // $apiConfig
+require_once __DIR__ . '/../../config/db.php';
+require_once __DIR__ . '/../helpers/log.php';
+$apiConfig = require __DIR__ . '/../../config/api.php';
 
-// --- Health checks ---
 $checks = [
-    'db'      => false,
-    'api_key' => false,
-    'session' => false,
-    'cache'   => false
+    'db'          => false,
+    'api_key'     => false,
+    'session'     => false,
+    'cache'       => false,
+    'amhara'      => false,
+    'oromia'      => false,
+    'south'       => false,
+    'addis_ababa' => false
 ];
+
+function curl_get(string $url): ?array {
+    $ch = curl_init($url);
+    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+    curl_setopt($ch, CURLOPT_TIMEOUT, 6);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+    curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, false);
+    $res = curl_exec($ch);
+    curl_close($ch);
+    if ($res === false) return null;
+    $json = json_decode($res, true);
+    return (json_last_error() === JSON_ERROR_NONE) ? $json : null;
+}
 
 // 1. Database check
 try {
@@ -28,47 +44,40 @@ try {
     log_event("DB health check failed: " . $e->getMessage(), "ERROR");
 }
 
-// 2. API key check (basic presence + live test)
+// 2. API key check
 $apiKey = $apiConfig['openweathermap'] ?? null;
 if ($apiKey) {
     $testUrl = "https://api.openweathermap.org/data/2.5/weather?q=Addis%20Ababa&appid=" . urlencode($apiKey);
-    $res = @file_get_contents($testUrl);
-    if ($res !== false) {
-        $data = json_decode($res, true);
-        if (is_array($data) && isset($data['weather'])) {
-            $checks['api_key'] = true;
-        } else {
-            log_event("API key invalid or quota exceeded", "WARN");
-        }
-    } else {
-        log_event("API key check failed (network/API issue)", "ERROR");
-    }
+    $res = curl_get($testUrl);
+    $checks['api_key'] = ($res && isset($res['cod']) && (int)$res['cod'] === 200);
 } else {
     log_event("API key missing in config", "ERROR");
 }
 
-// 3. Session check (active PHP session, not just logged-in user)
+// 3. Session check
 $checks['session'] = (session_status() === PHP_SESSION_ACTIVE);
 
-// 4. Cache check (at least one forecast row exists)
+// 4. Cache check
 try {
-    $stmt = $pdo->query("SELECT COUNT(*) FROM weather_cache WHERE type='forecast'");
-    $count = (int)$stmt->fetchColumn();
-    if ($count > 0) {
-        $checks['cache'] = true;
-    } else {
-        log_event("No forecast rows found in weather_cache", "WARN");
-    }
+    $stmt = $pdo->query("SELECT COUNT(*) FROM weather_cache");
+    $checks['cache'] = ($stmt !== false);
 } catch (Exception $e) {
     log_event("Cache health check failed: " . $e->getMessage(), "ERROR");
 }
 
-// --- Overall status ---
-$status = ($checks['db'] && $checks['api_key'] && $checks['session'] && $checks['cache']) ? 'ok' : 'degraded';
+// 5. Region checks
+foreach (['amhara','oromia','south','addis_ababa'] as $key) {
+    $res = curl_get("http://localhost/weather/backend/ethiopia_service/regions/$key/alerts.php");
+    if ($res && isset($res['status']) && in_array(strtoupper($res['status']), ['OK','NO_ALERTS'])) {
+        $checks[$key] = true;
+    }
+}
 
-// ✅ Output JSON only
+// ✅ Overall status
+$status = (in_array(false, $checks, true)) ? 'FAIL' : 'OK';
+
 echo json_encode([
-    'status' => $status,
-    'checks' => $checks,
-    'time'   => date('Y-m-d H:i:s')
-], JSON_PRETTY_PRINT);
+    'status'     => $status,
+    'checks'     => $checks,   // ✅ matches frontend expectations
+    'time'       => date('Y-m-d H:i:s')
+], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);

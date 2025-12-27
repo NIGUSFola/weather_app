@@ -1,6 +1,6 @@
 <?php
 // backend/helpers/log_request.php
-// Centralized request logging helper
+// ✅ Centralized request logging helper
 
 require_once __DIR__ . '/../../config/db.php';
 
@@ -15,7 +15,7 @@ require_once __DIR__ . '/../../config/db.php';
  */
 function log_request(?int $userId, string $action, bool $isAdmin, string $status, ?string $message): void {
     try {
-        $pdo = db();
+        $pdo = db(); // must exist in config/db.php
         $stmt = $pdo->prepare("
             INSERT INTO request_logs (user_id, action, is_admin, status, message, created_at)
             VALUES (?, ?, ?, ?, ?, NOW())
@@ -27,7 +27,7 @@ function log_request(?int $userId, string $action, bool $isAdmin, string $status
             $status,
             $message
         ]);
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         // Fallback logging to PHP error log
         error_log("Failed to log request: " . $e->getMessage());
     }

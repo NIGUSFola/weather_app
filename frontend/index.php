@@ -10,12 +10,14 @@ $role = $_SESSION['role'] ?? '';
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Weather Aggregator — Ethiopia</title>
-  <link rel="stylesheet" href="style.css" />
+  <title data-i18n="page_title">Weather Aggregator — Ethiopia</title>
+  <link rel="stylesheet" href="/weather/frontend/partials/style.css">
 </head>
 <body>
   <div class="layout">
     <?php include __DIR__ . '/partials/header.php'; ?>
+
+  
 
     <main class="page page-home">
       <!-- Live summary -->
@@ -24,28 +26,28 @@ $role = $_SESSION['role'] ?? '';
           <span id="summaryLocation"><?= htmlspecialchars($_SESSION['default_city']); ?>, Ethiopia</span>
         </div>
         <div class="temperature" id="summaryTemp">--°C</div>
-        <div class="condition" id="summaryCondition">Loading...</div>
+        <div class="condition" id="summaryCondition" data-i18n="loading_condition">Loading...</div>
       </section>
 
       <!-- Alerts banner -->
       <div class="alert-banner" id="alertBanner" hidden role="alert">
-        <span id="alertText">Loading alerts...</span>
+        <span id="alertText" data-i18n="loading_alerts">Loading alerts...</span>
       </div>
 
       <!-- Hero -->
       <section class="hero">
-        <h1>Real-time weather across Ethiopia</h1>
-        <p>Track conditions in your cities and regions with clarity and speed.</p>
+        <h1 data-i18n="hero_title">Real-time weather across Ethiopia</h1>
+        <p data-i18n="hero_subtitle">Track conditions in your cities and regions with clarity and speed.</p>
         <div class="buttons">
-          <button id="getStartedBtn">Get started</button>
-          <button class="outline" id="viewMapBtn">View Ethiopia map</button>
+          <button id="getStartedBtn" data-i18n="btn_get_started">Get started</button>
+          <button class="outline" id="viewMapBtn" data-i18n="btn_view_map">View Ethiopia map</button>
         </div>
       </section>
 
-      <!-- Regional Alerts Snapshot (shared alerts-overlay) -->
+      <!-- Regional Alerts Snapshot -->
       <section class="alerts-overlay">
-        <h2 id="alertsTitle">⚠️ Regional Alerts Snapshot</h2>
-        <div id="regionalAlerts"><p>Loading regional alerts...</p></div>
+        <h2 data-i18n="regional_alerts_title">⚠️ Regional Alerts Snapshot</h2>
+        <div id="regionalAlerts"><p data-i18n="loading_regional_alerts">Loading regional alerts...</p></div>
       </section>
     </main>
 
@@ -53,9 +55,7 @@ $role = $_SESSION['role'] ?? '';
   </div>
 
   <script>
-  // ===========================
   // Theme toggle
-  // ===========================
   (function themeInit() {
     const key = 'theme';
     const saved = localStorage.getItem(key) || 'light';
@@ -72,44 +72,32 @@ $role = $_SESSION['role'] ?? '';
     });
   })();
 
-  // ===========================
   // Navigation buttons
-  // ===========================
   const role = "<?= htmlspecialchars($role) ?>";
   document.getElementById('getStartedBtn')?.addEventListener('click', () => {
     if (!role) {
-      window.location.href = '/weather_app/frontend/login.php';
+      window.location.href = '/weather/frontend/login.php';
     } else if (role === 'admin') {
-      window.location.href = '/weather_app/frontend/dashboard.php';
+      window.location.href = '/weather/frontend/dashboard.php';
     } else {
-      window.location.href = '/weather_app/frontend/user_dashboard.php';
+      window.location.href = '/weather/frontend/user_dashboard.php';
     }
   });
-
   document.getElementById('viewMapBtn')?.addEventListener('click', () => {
     window.location.href = '/weather_app/frontend/radar.php';
   });
 
-  // ===========================
-  // Regional alerts preview
-  // ===========================
+  // Regional alerts preview via unified feed
   async function fetchRegionalAlerts() {
     try {
-      const res = await fetch("/weather_app/backend/aggregator/merge_feeds.php", {
+      const res = await fetch("/weather/frontend/api.php?action=feed", {
         headers: { 'Accept': 'application/json' },
         credentials: 'same-origin'
       });
       const data = await res.json();
       const container = document.getElementById("regionalAlerts");
-      const title = document.getElementById("alertsTitle");
       container.innerHTML = '';
-
-      if (data.regions && Object.keys(data.regions).length > 0) {
-        // If user is logged in, personalize title
-        if (role) {
-          title.textContent = "⚠️ Your City Alerts";
-        }
-
+      if (data.regions) {
         for (const [region, info] of Object.entries(data.regions)) {
           const div = document.createElement('div');
           div.className = 'alert-card';
@@ -124,19 +112,41 @@ $role = $_SESSION['role'] ?? '';
                                 ${alert.description}</p>`;
             });
           } else {
-            div.innerHTML += "<p>No active alerts.</p>";
+            div.innerHTML += "<p data-i18n='no_active_alerts'>No active alerts.</p>";
           }
           container.appendChild(div);
         }
       } else {
-        container.innerHTML = "<p>No regional alerts available.</p>";
+        container.innerHTML = "<p data-i18n='no_regional_alerts'>No regional alerts available.</p>";
       }
     } catch (err) {
       document.getElementById("regionalAlerts").innerHTML =
-        `<div class="error-message">Error loading regional alerts: ${err.message}</div>`;
+        `<div class="error-message" data-i18n="error_loading_alerts">Error loading regional alerts: ${err.message}</div>`;
     }
   }
-  document.addEventListener("DOMContentLoaded", fetchRegionalAlerts);
+
+  // Live summary from default city
+  async function fetchSummary() {
+    try {
+      const res = await fetch("/weather/frontend/api.php?action=feed");
+      const data = await res.json();
+      const city = "<?= htmlspecialchars($_SESSION['default_city']); ?>";
+      const regionInfo = Object.values(data.regions).find(r => r.city === city);
+      if (regionInfo && Array.isArray(regionInfo.forecast) && regionInfo.forecast.length > 0) {
+        document.getElementById("summaryTemp").textContent =
+          `${regionInfo.forecast[0].temp}°C`;
+        document.getElementById("summaryCondition").textContent =
+          regionInfo.forecast[0].weather;
+      }
+    } catch (err) {
+      document.getElementById("summaryCondition").textContent = "Error loading summary";
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    fetchRegionalAlerts();
+    fetchSummary();
+  });
   </script>
 </body>
 </html>

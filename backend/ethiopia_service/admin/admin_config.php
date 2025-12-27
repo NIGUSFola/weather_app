@@ -5,11 +5,11 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../../helpers/auth_middleware.php';
+require_once __DIR__ . '/../../helpers/csrf.php';
 
 require_admin();
 
-$csrfToken = generate_csrf_token();
-// Generate CSRF token if missing
+// ✅ Generate CSRF token if missing
 if (!isset($_SESSION['csrf_token'])) {
     $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
@@ -20,7 +20,7 @@ $csrfToken = $_SESSION['csrf_token'];
 <head>
     <meta charset="UTF-8">
     <title>Admin - Configure Settings</title>
-    <link rel="stylesheet" href="../../../frontend/style.css">
+    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
     <style>
         .admin-card { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; }
         .success-message { color: green; margin-top: 1rem; }
@@ -51,7 +51,7 @@ $csrfToken = $_SESSION['csrf_token'];
         <div id="configMessage"></div>
     </div>
 
-    <p><a href="../../../frontend/logout.php">Logout</a></p>
+
 </div>
 
 <script>

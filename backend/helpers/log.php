@@ -1,25 +1,20 @@
 <?php
 // backend/helpers/log.php
-// Centralized event logging helper
+// ✅ Centralized file logging
 
-/**
- * Log a system event.
- *
- * @param string $message The message to log
- * @param string $level   Log level ('INFO', 'WARN', 'ERROR')
- */
 function log_event(string $message, string $level = 'INFO'): void {
     $timestamp = date('Y-m-d H:i:s');
-    $entry = "[{$timestamp}] [{$level}] {$message}" . PHP_EOL;
+    $entry = "[{$timestamp}] [{$level}] {$message}\n";
 
-    // ✅ Write to a dedicated log file
-    $logFile = __DIR__ . '/../../logs/system.log';
-    if (!is_dir(dirname($logFile))) {
-        mkdir(dirname($logFile), 0775, true);
+    $logFile = __DIR__ . '/../../logs/app.log';
+    $dir = dirname($logFile);
+    if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
+        error_log("LOG DIR CREATE FAILED: {$dir}");
+        return;
     }
 
-    file_put_contents($logFile, $entry, FILE_APPEND);
-
-    // ✅ Also send to PHP error log for redundancy
+    if (file_put_contents($logFile, $entry, FILE_APPEND) === false) {
+        error_log("LOG WRITE FAILED: {$logFile}");
+    }
     error_log("{$level}: {$message}");
 }

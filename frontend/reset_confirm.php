@@ -19,7 +19,7 @@ $token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <title>Confirm Reset - Ethiopia Weather</title>
-    <link rel="stylesheet" href="style.css">
+   <link rel="stylesheet" href="/weather/frontend/partials/style.css">
 </head>
 <body>
 <main class="page-auth">

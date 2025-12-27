@@ -1,5 +1,6 @@
 <?php
 // backend/ethiopia_service/cache.php
+// File-based cache helper
 
 /**
  * Store data in file-based cache.
@@ -13,8 +14,9 @@ function cache_set(string $key, $data, int $ttl = 300): void {
     $cacheFile = $cacheDir . "/" . hash('sha256', $key) . ".json";
 
     // Ensure cache directory exists
-    if (!is_dir($cacheDir)) {
-        mkdir($cacheDir, 0777, true);
+    if (!is_dir($cacheDir) && !mkdir($cacheDir, 0775, true)) {
+        error_log("Cache dir create failed: {$cacheDir}");
+        return;
     }
 
     $payload = [
@@ -22,7 +24,9 @@ function cache_set(string $key, $data, int $ttl = 300): void {
         'data'    => $data
     ];
 
-    file_put_contents($cacheFile, json_encode($payload, JSON_UNESCAPED_UNICODE), LOCK_EX);
+    if (file_put_contents($cacheFile, json_encode($payload, JSON_UNESCAPED_UNICODE), LOCK_EX) === false) {
+        error_log("Cache write failed: {$cacheFile}");
+    }
 }
 
 /**

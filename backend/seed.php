@@ -35,8 +35,7 @@ try {
         ['Shashamane', 'Oromia'],
         ['Hawassa', 'South'],
         ['Bahir Dar', 'Amhara'],
-        ['Wolaita', 'South'],
-        ['Hossana', 'Central']
+
     ];
 
     $stmt = $pdo->prepare("

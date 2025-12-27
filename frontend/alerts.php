@@ -1,5 +1,6 @@
 <?php
-// weather_app/frontend/alerts.php
+// frontend/alerts.php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -11,51 +12,74 @@ $error   = $_GET['error'] ?? null;
 $role    = $_SESSION['user']['role'] ?? null;
 $userId  = $_SESSION['user']['id'] ?? null;
 $isAdmin = ($role === 'admin');
+
+// ✅ CSRF helper for admin form
+require_once __DIR__ . '/../backend/helpers/csrf.php';
+$csrfToken = generate_csrf_token();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>⚠️ Severe Weather Alerts - Ethiopia Weather</title>
-    <link rel="stylesheet" href="/weather_app/frontend/style.css">
+    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <style>
+        .alert-item { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 6px; }
+        .error-message { color: red; }
+        .success-message { color: green; }
+        .card { padding: 1rem; border: 1px solid #ccc; border-radius: 6px; margin-bottom: 1rem; }
+
+        .severity-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 0.5rem;
+        }
+        .severity-low { background-color: #d4edda; color: #155724; }
+        .severity-moderate { background-color: #fff3cd; color: #856404; }
+        .severity-severe { background-color: #f8d7da; color: #721c24; }
+    </style>
 </head>
 <body>
-<main class="page page-alerts container">
+<main class="page page-alerts">
     <section class="alerts-section">
         <h1>⚠️ Severe Weather Alerts</h1>
 
         <?php if ($success): ?>
-            <div class="alert-success"><?= htmlspecialchars($success) ?></div>
+            <div class="success-message"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
         <?php if ($error): ?>
-            <div class="alert-error"><?= htmlspecialchars($error) ?></div>
+            <div class="error-message"><?= htmlspecialchars($error) ?></div>
         <?php endif; ?>
 
-        <div id="countrySummary" class="card" role="region"><p>Loading country summary...</p></div>
-        <div id="publicAlerts" class="card" role="region"><p>Loading public alerts...</p></div>
-        <div id="regionalAlerts" class="card" role="region"><p>Loading regional alerts...</p></div>
+        <!-- Regional alerts -->
+        <div id="regionalAlerts"><p>Loading regional alerts...</p></div>
 
+        <!-- User alerts -->
         <?php if ($userId && $role === 'user'): ?>
-            <div id="userAlerts" class="card" role="region"><p>Loading your favorite cities alerts...</p></div>
+            <div id="userAlerts"><p>Loading your favorite cities alerts...</p></div>
         <?php endif; ?>
 
+        <!-- Admin alerts -->
         <?php if ($isAdmin): ?>
-            <div id="adminAlerts" class="card" role="region"><p>Loading admin alerts...</p></div>
-
-            <div class="section card">
+            <div id="adminAlerts"><p>Loading admin alerts...</p></div>
+            <div class="section">
                 <h2>🔍 Admin Alerts Checker</h2>
-                <form id="adminAlertsForm" onsubmit="onSubmitAdminAlerts(event)">
-                    <select id="adminAlertsCityInput" required>
+                <form id="adminAlertsForm" onsubmit="onSubmitAdminAlerts(event)" method="POST" action="/weather/backend/ethiopia_service/admin/admin_alerts.php">
+                    <select id="adminAlertsCityInput" name="city_id" required>
                         <option value="">-- Select City --</option>
                         <?php
                         require_once __DIR__ . '/../config/db.php';
-                        $cities = db()->query("SELECT id, name FROM cities ORDER BY name")->fetchAll(PDO::FETCH_ASSOC);
+                        $cities = db()->query("SELECT id, name FROM cities ORDER BY name")->fetchAll();
                         foreach ($cities as $c) {
                             echo '<option value="'.htmlspecialchars($c['id']).'">'.htmlspecialchars($c['name']).'</option>';
                         }
                         ?>
                     </select>
-                    <button type="submit" class="btn">Get Alerts</button>
+                    <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken); ?>">
+                    <button type="submit">Get Alerts</button>
                 </form>
                 <div id="adminAlertsCards">Select a city to view alerts.</div>
             </div>
@@ -72,164 +96,110 @@ async function fetchJson(url) {
     try { return JSON.parse(text); } catch { throw new Error('Invalid server response'); }
 }
 
-function renderAlertItem(container, alert) {
-    const severity = alert.severity || 'moderate';
-    const div = document.createElement('div');
-    div.className = 'alert-item';
-    div.innerHTML = `<strong>${alert.event}</strong> (${alert.start} → ${alert.end})
-                     <span class="severity-badge severity-${severity}">${severity.toUpperCase()}</span><br>
-                     ${alert.description}<br>
-                     Source: ${alert.sender}`;
-    container.appendChild(div);
-}
-
-function renderForecastList(container, forecast) {
-    // forecast is expected as an array; render a compact preview
-    if (!Array.isArray(forecast) || forecast.length === 0) {
-        container.innerHTML += '<p><em>No forecast data available.</em></p>';
-        return;
-    }
-    const list = document.createElement('ul');
-    list.className = 'forecast-list';
-    forecast.slice(0, 5).forEach(f => {
-        const li = document.createElement('li');
-        const date = f.date || f.day || '';
-        const temp = (f.temp_min && f.temp_max) ? `${f.temp_min}–${f.temp_max}°C` : (f.temp ? `${f.temp}°C` : '');
-        const cond = f.condition || f.summary || '';
-        li.textContent = `${date} ${cond ? '— ' + cond : ''} ${temp ? ' (' + temp + ')' : ''}`;
-        list.appendChild(li);
-    });
-    container.appendChild(list);
-}
-
-function healthBadge(status) {
-    const s = (status || '').toUpperCase();
-    const cls = s === 'OK' ? 'health-ok' : 'health-fail';
-    return `<span class="health-badge ${cls}">${s || 'UNKNOWN'}</span>`;
-}
-
 document.addEventListener("DOMContentLoaded", async () => {
     try {
-        // National/public alerts + user/admin meta
-        const data = await fetchJson("/weather_app/backend/ethiopia_service/alerts.php");
+        // ✅ Regional alerts aggregator
+        const data = await fetchJson("/weather/backend/ethiopia_service/alerts.php");
 
-        // Country + regions aggregator (alerts + optional forecast + health)
-        const regional = await fetchJson("/weather_app/backend/aggregator/merge_feeds.php");
-
-        // Country summary
-        const summaryContainer = document.getElementById("countrySummary");
-        const total = regional?.summary?.total_alerts ?? 0;
-        const up    = regional?.summary?.regions_up ?? 0;
-        const down  = regional?.summary?.regions_down ?? 0;
-        summaryContainer.innerHTML = `<h2>🇪🇹 Country Summary</h2>
-                                      <p><strong>Total active alerts:</strong> ${total}</p>
-                                      <p><strong>Regions up:</strong> ${up} &nbsp; <strong>Regions down:</strong> ${down}</p>
-                                      <p><em>Checked at:</em> ${regional?.checked_at || ''}</p>`;
-
-        // Public alerts
-        const publicContainer = document.getElementById("publicAlerts");
-        publicContainer.innerHTML = `<h2>🌍 Public Alerts Preview${data.public?.city ? ' ('+data.public.city+')' : ''}</h2>`;
-        if (data.public && Array.isArray(data.public.alerts) && data.public.alerts.length > 0) {
-            data.public.alerts.forEach(alert => renderAlertItem(publicContainer, alert));
-        } else {
-            publicContainer.innerHTML += `<p>No public alerts available.</p>`;
-        }
-
-        // Regional alerts + health + forecast
         const regionalContainer = document.getElementById("regionalAlerts");
-        regionalContainer.innerHTML = "<h2>🇪🇹 Regional Alerts & Forecasts</h2>";
-        if (regional.regions && typeof regional.regions === 'object') {
-            Object.entries(regional.regions).forEach(([region, info]) => {
-                const card = document.createElement('div');
-                card.className = 'card';
-                const cityText = info.city ? ` (${info.city})` : '';
-                card.innerHTML = `<h3>${region}${cityText} ${healthBadge(info?.health?.status)}</h3>`;
-
-                // Alerts section
+        if (data.regions) {
+            regionalContainer.innerHTML = "<h2>🇪🇹 Regional Alerts Summary</h2>";
+            for (const [region, info] of Object.entries(data.regions)) {
+                const div = document.createElement('div');
+                div.className = 'alert-item';
+                div.innerHTML = `<h3>${region} (${info.city})</h3>`;
                 if (Array.isArray(info.alerts) && info.alerts.length > 0) {
-                    info.alerts.forEach(alert => renderAlertItem(card, alert));
+                    info.alerts.forEach(alert => {
+                        const severity = alert.severity || 'moderate';
+                        div.innerHTML += `<p><strong>${alert.event}</strong> (${alert.start} → ${alert.end})
+                                          <span class="severity-badge severity-${severity}">
+                                            ${severity.toUpperCase()}
+                                          </span><br>
+                                          ${alert.description}</p>`;
+                    });
                 } else {
-                    card.innerHTML += "<p>No active alerts.</p>";
+                    div.innerHTML += "<p>No active alerts.</p>";
                 }
-
-                // Forecast preview
-                if (Array.isArray(info.forecast) && info.forecast.length > 0) {
-                    const fcHeader = document.createElement('h4');
-                    fcHeader.textContent = '📅 Forecast Preview';
-                    card.appendChild(fcHeader);
-                    renderForecastList(card, info.forecast);
-                }
-
-                regionalContainer.appendChild(card);
-            });
-        } else {
-            regionalContainer.innerHTML += "<p>Unable to load regional summaries.</p>";
+                regionalContainer.appendChild(div);
+            }
         }
 
-        // User alerts
         <?php if ($userId && $role === 'user'): ?>
+        // ✅ Favorite alerts
+        const favData = await fetchJson("/weather/backend/actions/favorite_alerts.php");
         const userContainer = document.getElementById("userAlerts");
-        if (data.user && typeof data.user === 'object') {
-            userContainer.innerHTML = '<h2>👤 Your Favorite Cities Alerts</h2>';
-            Object.entries(data.user).forEach(([city, info]) => {
-                const cityDiv = document.createElement('div');
-                cityDiv.className = 'alert-item';
-                cityDiv.innerHTML = `<h3>${city}</h3>`;
-                if (Array.isArray(info.alerts) && info.alerts.length > 0) {
-                    info.alerts.forEach(alert => renderAlertItem(cityDiv, alert));
-                    if (info.cached_at) {
-                        cityDiv.innerHTML += `<p><em>Cached at: ${info.cached_at}</em></p>`;
-                    }
+        userContainer.innerHTML = "<h2>👤 Your Favorite Cities Alerts</h2>";
+
+        if (favData.favorites && favData.favorites.length > 0) {
+            favData.favorites.forEach(fav => {
+                const div = document.createElement('div');
+                div.className = 'alert-item';
+                div.innerHTML = `<h3>${fav.city} (${fav.status})</h3>`;
+
+                if (Array.isArray(fav.alerts) && fav.alerts.length > 0) {
+                    fav.alerts.forEach(alert => {
+                        const severity = alert.severity || 'moderate';
+                        div.innerHTML += `<p><strong>${alert.event}</strong> (${alert.start} → ${alert.end})
+                                          <span class="severity-badge severity-${severity}">
+                                            ${severity.toUpperCase()}
+                                          </span><br>
+                                          ${alert.description}</p>`;
+                    });
                 } else {
-                    cityDiv.innerHTML += `<p>No active alerts.</p>`;
+                    div.innerHTML += "<p>No active alerts.</p>";
                 }
-                userContainer.appendChild(cityDiv);
+
+                userContainer.appendChild(div);
             });
         } else {
-            userContainer.innerHTML = '<p>No favorites found.</p>';
+            userContainer.innerHTML += "<p>No favorites yet.</p>";
         }
         <?php endif; ?>
 
-        // Admin alerts meta
         <?php if ($isAdmin): ?>
         const adminContainer = document.getElementById("adminAlerts");
-        adminContainer.innerHTML = '<h2>🛠 Admin Alerts Tools</h2>';
-        if (data.admin?.meta?.generated_at) {
-            adminContainer.innerHTML += `<p><em>Last updated: ${data.admin.meta.generated_at}</em></p>`;
-        }
+        adminContainer.innerHTML = `<h2>🛠 Admin Alerts Tools</h2>
+                                    <p>Total alerts across regions: ${data.summary.total_alerts}</p>
+                                    <p>Generated at: ${data.summary.generated_at}</p>`;
         <?php endif; ?>
 
     } catch (err) {
-        document.getElementById("publicAlerts").innerHTML = `<div class="alert-error">Error loading alerts: ${err.message}</div>`;
-        document.getElementById("countrySummary").innerHTML = `<div class="alert-error">Error loading summary: ${err.message}</div>`;
+        document.getElementById("regionalAlerts").innerHTML = `<div class="error-message">Error loading alerts: ${err.message}</div>`;
     }
-});
+}
 
-// Admin Alerts Checker
 <?php if ($isAdmin): ?>
 async function fetchAdminAlerts(cityId) {
     const cards = document.getElementById('adminAlertsCards');
     cards.textContent = 'Loading alerts...';
-    const url = `/weather_app/backend/ethiopia_service/alerts.php?city_id=${encodeURIComponent(cityId)}`;
+    const url = "/weather/backend/ethiopia_service/alerts.php";
     try {
         const data = await fetchJson(url);
-        if (data.public && Array.isArray(data.public.alerts) && data.public.alerts.length > 0) {
-            cards.innerHTML = '';
-            data.public.alerts.forEach(alert => {
-                const severity = alert.severity || 'moderate';
-                const card = document.createElement('div');
-                card.className = 'card';
-                card.innerHTML = `<h4>${alert.event} <span class="severity-badge severity-${severity}">${severity.toUpperCase()}</span></h4>
-                                  <p>${alert.description}</p>
-                                  <small>${alert.start} → ${alert.end}</small>
-                                  <p>Source: ${alert.sender}</p>`;
-                cards.appendChild(card);
-            });
-        } else {
-            cards.innerHTML = `<div class="alert-error">${data.error || 'No active alerts for this city.'}</div>`;
+        cards.innerHTML = '';
+        if (data.regions) {
+            for (const [region, info] of Object.entries(data.regions)) {
+                if (info.city_id == cityId || info.city == cityId) {
+                    if (Array.isArray(info.alerts) && info.alerts.length > 0) {
+                        info.alerts.forEach(alert => {
+                            const severity = alert.severity || 'moderate';
+                            const card = document.createElement('div');
+                            card.className = 'card';
+                            card.innerHTML = `<h4>${alert.event}
+                                              <span class="severity-badge severity-${severity}">
+                                                ${severity.toUpperCase()}
+                                              </span></h4>
+                                              <p>${alert.description}</p>
+                                              <small>${alert.start} → ${alert.end}</small>`;
+                            cards.appendChild(card);
+                        });
+                    } else {
+                        cards.innerHTML = `<div class="error-message">No active alerts for this city.</div>`;
+                    }
+                }
+            }
         }
     } catch (err) {
-        cards.innerHTML = `<div class="alert-error">Error loading alerts: ${err.message}</div>`;
+        cards.innerHTML = `<div class="error-message">Error loading alerts: ${err.message}</div>`;
     }
 }
 

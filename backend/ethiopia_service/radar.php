@@ -3,13 +3,14 @@
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
-header('Content-Type: application/json');
+header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../helpers/rate_limit.php';
 require_once __DIR__ . '/../helpers/log.php';
 require_once __DIR__ . '/../../config/db.php';
 
-$apiConfig = require __DIR__ . '/../config.php';
+// ✅ Correct config path
+$apiConfig = require __DIR__ . '/../../config/api.php';
 
 $userId = $_SESSION['user']['id'] ?? null;
 $role   = $_SESSION['user']['role'] ?? null;
@@ -23,7 +24,7 @@ $city   = $_GET['city'] ?? ($_POST['city'] ?? 'Addis Ababa'); // default for pub
 $apiKey = $apiConfig['openweathermap'] ?? null;
 if (!$apiKey) {
     http_response_code(500);
-    echo json_encode(['error' => 'Service configuration error']);
+    echo json_encode(['status'=>'FAIL','message'=>'Missing API key']);
     exit;
 }
 
@@ -78,13 +79,13 @@ if ($radar === null) {
         } else {
             log_event("API failed, no cache available for radar in $city", "ERROR", ['module'=>'radar','city'=>$city]);
             http_response_code(503);
-            echo json_encode(['error' => 'Radar unavailable, please try later']);
+            echo json_encode(['status'=>'FAIL','message'=>'Radar unavailable']);
             exit;
         }
     } catch (Exception $e) {
         log_event("Radar cache lookup failed: " . $e->getMessage(), "ERROR", ['module'=>'radar','city'=>$city]);
         http_response_code(500);
-        echo json_encode(['error'=>'Server error']);
+        echo json_encode(['status'=>'FAIL','message'=>'Server error']);
         exit;
     }
 } else {
@@ -104,6 +105,7 @@ if ($radar === null) {
 
 // --- Response shaping ---
 $response = [
+    'status'    => 'OK',
     'city'      => $city,
     'cached_at' => $cachedAt,
     'public'    => [
@@ -114,14 +116,14 @@ $response = [
 
 if ($userId && $role === 'user') {
     $response['user'] = [
-        'status' => 'ok',
+        'status' => 'OK',
         'radar'  => $radar
     ];
 }
 
 if ($userId && $role === 'admin') {
     $response['admin'] = [
-        'status' => 'admin',
+        'status' => 'OK',
         'radar'  => $radar,
         'meta'   => [
             'generated_at' => date('Y-m-d H:i:s'),
@@ -131,4 +133,5 @@ if ($userId && $role === 'admin') {
     ];
 }
 
-echo json_encode($response, JSON_PRETTY_PRINT);
+echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+exit; // ✅ ensure no stray output

@@ -93,7 +93,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>Admin - Manage Alerts</title>
-    <link rel="stylesheet" href="../../../frontend/style.css">
+    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
     <style>
         table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
         th, td { border: 1px solid #ccc; padding: 8px; }

@@ -1,26 +1,22 @@
 <?php
-// backend/config/app.php
+// config/app.php
 // Global application-level configuration
 
-return [
-    // Base URL for frontend routing
-    'baseUrl'   => 'http://localhost/weather_app',
-
-    // Default timezone
+$app = [
+    'baseUrl'   => 'http://localhost/weather',
     'timezone'  => 'Africa/Addis_Ababa',
-
-    // Debug mode (true = verbose errors, false = production safe)
     'debug'     => true,
-
-    // Session settings
     'session'   => [
         'name'     => 'ethiopia_weather_session',
-        'lifetime' => 3600, // seconds
+        'lifetime' => 3600,
     ],
-
-    // Security settings
     'security'  => [
         'csrf_token_length' => 32,
         'password_algo'     => PASSWORD_DEFAULT,
     ],
 ];
+
+// ✅ Ensure timezone is set globally
+date_default_timezone_set($app['timezone'] ?? 'UTC');
+
+return $app;

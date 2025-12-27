@@ -5,8 +5,8 @@ if (session_status() === PHP_SESSION_NONE) {
 }
 
 require_once __DIR__ . '/../config/db.php';
-require_once __DIR__ . '/../backend/helpers/log_request.php';
-require_once __DIR__ . '/../backend/helpers/csrf.php';
+require_once __DIR__ . '/../helpers/log_request.php';
+require_once __DIR__ . '/../helpers/csrf.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!validate_csrf_token($_POST['csrf_token'] ?? '')) {

@@ -22,15 +22,29 @@ function addis_ababa_health(): array {
         log_event("Health check failed for $regionName (DB): " . $e->getMessage(), "ERROR");
     }
 
-    // ✅ Cache table check
+    // ✅ Cache table check (by city_id for Addis Ababa’s main city)
     try {
-        $stmt = db()->query("SELECT COUNT(*) AS cnt FROM weather_cache WHERE region='Addis Ababa'");
-        $row  = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row === false || (int)$row['cnt'] === 0) {
-            $components['cache'] = 'EMPTY';
-            $status = 'FAIL';
+        $pdo = db();
+        // Adjust city name to the one you use in your Addis Ababa forecast service
+        $stmt = $pdo->prepare("SELECT id FROM cities WHERE name = ?");
+        $stmt->execute(['Addis Ababa']); // Example city for Addis Ababa region
+        $cityRow = $stmt->fetch(PDO::FETCH_ASSOC);
+        $cityId  = $cityRow['id'] ?? null;
+
+        if ($cityId) {
+            $stmt = $pdo->prepare("SELECT COUNT(*) AS cnt FROM weather_cache WHERE city_id = ? AND type = 'forecast'");
+            $stmt->execute([$cityId]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row === false || (int)$row['cnt'] === 0) {
+                $components['cache'] = 'EMPTY';
+                $status = 'FAIL';
+            } else {
+                $components['cache'] = "OK ({$row['cnt']} rows)";
+            }
         } else {
-            $components['cache'] = "OK ({$row['cnt']} rows)";
+            $components['cache'] = 'NO_CITY_ID';
+            $status = 'FAIL';
         }
     } catch (Exception $e) {
         $components['cache'] = 'FAIL';

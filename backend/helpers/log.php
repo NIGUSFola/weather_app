@@ -1,20 +1,40 @@
 <?php
 // backend/helpers/log.php
-// ✅ Centralized file logging
+// Centralized logging helper for Ethiopia Weather app
 
-function log_event(string $message, string $level = 'INFO'): void {
-    $timestamp = date('Y-m-d H:i:s');
-    $entry = "[{$timestamp}] [{$level}] {$message}\n";
+require_once __DIR__ . '/../../config/db.php';
 
-    $logFile = __DIR__ . '/../../logs/app.log';
-    $dir = dirname($logFile);
-    if (!is_dir($dir) && !mkdir($dir, 0775, true)) {
-        error_log("LOG DIR CREATE FAILED: {$dir}");
-        return;
+/**
+ * Write a log entry into the system_logs table.
+ *
+ * @param string $message   The log message
+ * @param string $level     Log level: INFO, WARN, ERROR
+ * @param array  $context   Optional context array (e.g. ['module'=>'favorite_alerts','user_id'=>123])
+ */
+function log_event(string $message, string $level = 'INFO', array $context = []): void {
+    try {
+        $pdo = db();
+
+        // Normalize level
+        $level = strtoupper($level);
+        if (!in_array($level, ['INFO','WARN','ERROR'])) {
+            $level = 'INFO';
+        }
+
+        // Convert context to JSON
+        $contextJson = !empty($context) ? json_encode($context, JSON_UNESCAPED_UNICODE) : null;
+
+        $stmt = $pdo->prepare("
+            INSERT INTO system_logs (created_at, level, message, context)
+            VALUES (NOW(), :level, :message, :context)
+        ");
+        $stmt->execute([
+            ':level'   => $level,
+            ':message' => $message,
+            ':context' => $contextJson
+        ]);
+    } catch (Exception $e) {
+        // Fallback: write to PHP error log if DB insert fails
+        error_log("Logging failed: ".$e->getMessage()." | Original message: ".$message);
     }
-
-    if (file_put_contents($logFile, $entry, FILE_APPEND) === false) {
-        error_log("LOG WRITE FAILED: {$logFile}");
-    }
-    error_log("{$level}: {$message}");
 }

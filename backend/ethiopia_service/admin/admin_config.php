@@ -6,21 +6,74 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../../helpers/auth_middleware.php';
 require_once __DIR__ . '/../../helpers/csrf.php';
+require_once __DIR__ . '/../../../config/db.php';
+require_once __DIR__ . '/../../helpers/log.php';
 
 require_admin();
 
-// ✅ Generate CSRF token if missing
-if (!isset($_SESSION['csrf_token'])) {
-    $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+// ✅ Generate CSRF token
+$csrfToken = generate_csrf_token();
+
+$success = $_GET['success'] ?? null;
+$error   = $_GET['error'] ?? null;
+
+// ✅ Handle save action
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    if (!verify_csrf_token($_POST['csrf_token'] ?? '')) {
+        header("Location: admin_config.php?error=Invalid+CSRF+token");
+        exit;
+    }
+
+    $apiKey        = trim($_POST['apiKey'] ?? '');
+    $cacheDuration = intval($_POST['cacheDuration'] ?? 0);
+    $rateLimit     = intval($_POST['rateLimit'] ?? 0);
+
+    if ($apiKey === '' || $cacheDuration <= 0 || $rateLimit <= 0) {
+        header("Location: admin_config.php?error=Invalid+input+values");
+        exit;
+    }
+
+    try {
+        $stmt = db()->prepare("REPLACE INTO system_config (config_key, config_value, updated_at) VALUES (:k,:v,NOW())");
+
+        $stmt->execute([':k'=>'openweathermap', ':v'=>$apiKey]);
+        $stmt->execute([':k'=>'cacheDuration', ':v'=>$cacheDuration]);
+        $stmt->execute([':k'=>'rateLimit', ':v'=>$rateLimit]);
+
+        log_event("System configuration updated", "INFO", [
+            'module'=>'admin_config',
+            'admin'=>$_SESSION['user']['id']
+        ]);
+
+        header("Location: admin_config.php?success=Settings+saved+successfully");
+        exit;
+    } catch (Exception $e) {
+        header("Location: admin_config.php?error=" . urlencode($e->getMessage()));
+        exit;
+    }
 }
-$csrfToken = $_SESSION['csrf_token'];
+
+// ✅ Load current settings
+$settings = [
+    'openweathermap' => '',
+    'cacheDuration'  => 30,
+    'rateLimit'      => 100
+];
+try {
+    $stmt = db()->query("SELECT config_key, config_value FROM system_config");
+    foreach ($stmt->fetchAll(PDO::FETCH_ASSOC) as $row) {
+        $settings[$row['config_key']] = $row['config_value'];
+    }
+} catch (Exception $e) {
+    log_event("Failed to load system config: " . $e->getMessage(), "ERROR", ['module'=>'admin_config']);
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Admin - Configure Settings</title>
-    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
     <style>
         .admin-card { margin-bottom: 2rem; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; }
         .success-message { color: green; margin-top: 1rem; }
@@ -33,64 +86,25 @@ $csrfToken = $_SESSION['csrf_token'];
     <h1>⚙️ Admin Configuration</h1>
     <?php include __DIR__ . '/../../../frontend/partials/admin_nav.php'; ?>
 
+    <?php if ($success): ?><div class="success-message"><?= htmlspecialchars($success) ?></div><?php endif; ?>
+    <?php if ($error): ?><div class="error-message"><?= htmlspecialchars($error) ?></div><?php endif; ?>
+
     <div class="admin-card">
         <h3>System Settings</h3>
-        <form id="configForm">
+        <form method="POST">
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
             <label>OpenWeatherMap API Key
-                <input type="text" id="apiKey" name="apiKey" required>
+                <input type="text" id="apiKey" name="apiKey" value="<?= htmlspecialchars($settings['openweathermap']) ?>" required>
             </label>
             <label>Cache Duration (minutes)
-                <input type="number" id="cacheDuration" name="cacheDuration" min="1" required>
+                <input type="number" id="cacheDuration" name="cacheDuration" min="1" value="<?= htmlspecialchars($settings['cacheDuration']) ?>" required>
             </label>
             <label>Rate Limit (requests/minute)
-                <input type="number" id="rateLimit" name="rateLimit" min="1" required>
+                <input type="number" id="rateLimit" name="rateLimit" min="1" value="<?= htmlspecialchars($settings['rateLimit']) ?>" required>
             </label>
             <button type="submit">Save Settings</button>
         </form>
-        <div id="configMessage"></div>
     </div>
-
-
 </div>
-
-<script>
-async function loadSettings() {
-    try {
-        const res = await fetch('config_api.php?action=get');
-        const data = await res.json();
-        if (data.settings) {
-            document.getElementById('apiKey').value = data.settings.openweathermap || '';
-            document.getElementById('cacheDuration').value = data.settings.cacheDuration || 30;
-            document.getElementById('rateLimit').value = data.settings.rateLimit || 100;
-        } else if (data.error) {
-            document.getElementById('configMessage').innerHTML = '<div class="error-message">' + data.error + '</div>';
-        }
-    } catch (err) {
-        document.getElementById('configMessage').innerHTML = '<div class="error-message">Failed to load settings.</div>';
-    }
-}
-
-document.getElementById('configForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const formData = new FormData(this);
-    try {
-        const res = await fetch('config_api.php?action=save', {
-            method: 'POST',
-            body: formData
-        });
-        const data = await res.json();
-        if (data.success) {
-            document.getElementById('configMessage').innerHTML = '<div class="success-message">' + data.message + '</div>';
-        } else {
-            document.getElementById('configMessage').innerHTML = '<div class="error-message">' + (data.error || 'Failed to save settings') + '</div>';
-        }
-    } catch (err) {
-        document.getElementById('configMessage').innerHTML = '<div class="error-message">Error saving settings.</div>';
-    }
-});
-
-loadSettings();
-</script>
 </body>
 </html>

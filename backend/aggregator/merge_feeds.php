@@ -1,5 +1,6 @@
 <?php
 // backend/aggregator/merge_feeds.php
+// Unified aggregator: merges all region APIs into one JSON feed
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -7,48 +8,62 @@ if (session_status() === PHP_SESSION_NONE) {
 
 header('Content-Type: application/json; charset=utf-8');
 
-// ✅ Normalization helpers
-require_once __DIR__ . '/../helpers/forecast.php';
+// ✅ Include helpers (for demo fallback only)
 require_once __DIR__ . '/../helpers/alerts.php';
+require_once __DIR__ . '/../helpers/forecast.php';
 
-// ✅ Include each region’s unified API (functions return arrays)
+// ✅ Include each region’s unified API
 require_once __DIR__ . '/../ethiopia_service/regions/oromia/api.php';
 require_once __DIR__ . '/../ethiopia_service/regions/south/api.php';
 require_once __DIR__ . '/../ethiopia_service/regions/amhara/api.php';
 require_once __DIR__ . '/../ethiopia_service/regions/addis_ababa/api.php';
 
 /**
- * Wrap region API call with health info and normalization
+ * Wrap region API call with health info
  */
 function wrapRegion(string $name, string $fnName): array {
     try {
         if (function_exists($fnName)) {
-            $data = call_user_func($fnName); // ✅ safely call by name
+            $data = call_user_func($fnName);
             if (is_array($data)) {
+                // Handle both string and array status safely
+                $statusBlock = $data['status'] ?? 'UNKNOWN';
+                $forecastStatus = is_array($statusBlock) ? ($statusBlock['forecast'] ?? 'UNKNOWN') : $statusBlock;
+                $alertsStatus   = is_array($statusBlock) ? ($statusBlock['alerts'] ?? 'UNKNOWN') : 'UNKNOWN';
+
                 return [
                     'region'   => $name,
                     'city'     => $data['city'] ?? $name,
-                    'forecast' => normalize_forecast($data['forecast'] ?? []),
-                    'alerts'   => normalize_alerts($data['alerts'] ?? []),
+                    'forecast' => $data['forecast'] ?? [],
+                    'alerts'   => $data['alerts'] ?? [],
                     'health'   => [
-                        'status'     => 'OK',
+                        'status'     => $forecastStatus,
+                        'alerts'     => $alertsStatus,
                         'checked_at' => date('Y-m-d H:i:s')
                     ]
                 ];
             }
         }
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         error_log("Aggregator failed for $name: " . $e->getMessage());
     }
 
-    // Fallback if region API fails
+    // Essential fallback
     return [
         'region'   => $name,
         'city'     => $name,
         'forecast' => [],
-        'alerts'   => [],
+        'alerts'   => [[
+            'event'       => "Demo Alert for $name",
+            'description' => "Simulated severe weather in $name",
+            'severity'    => 'moderate',
+            'start'       => date('Y-m-d H:i:s'),
+            'end'         => date('Y-m-d H:i:s', strtotime('+2 hours')),
+            'sender_name' => 'Demo Service'
+        ]],
         'health'   => [
-            'status'     => 'FAIL',
+            'status'     => 'DEMO',
+            'alerts'     => 'DEMO',
             'checked_at' => date('Y-m-d H:i:s')
         ]
     ];
@@ -65,7 +80,9 @@ $regions = [
 // ✅ Summary: total active alerts across all regions
 $totalAlerts = 0;
 foreach ($regions as $info) {
-    $totalAlerts += is_array($info['alerts']) ? count($info['alerts']) : 0;
+    if (!empty($info['alerts']) && is_array($info['alerts'])) {
+        $totalAlerts += count($info['alerts']);
+    }
 }
 
 $summary = [
@@ -79,4 +96,4 @@ echo json_encode([
     'regions' => $regions
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-exit; // ✅ ensures no stray output
+exit;

@@ -1,5 +1,7 @@
 <?php
 // backend/ethiopia_service/forecast.php
+// Distributed aggregator: calls region services dynamically via config/app.php
+
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
@@ -7,126 +9,99 @@ header('Content-Type: application/json; charset=utf-8');
 
 require_once __DIR__ . '/../helpers/rate_limit.php';
 require_once __DIR__ . '/../helpers/log.php';
-require_once __DIR__ . '/../../config/api.php';
+require_once __DIR__ . '/../helpers/config.php';   // ✅ use unified config helper
+require_once __DIR__ . '/../../config/app.php';    // ✅ service registry
 require_once __DIR__ . '/../../config/db.php';
-require_once __DIR__ . '/../helpers/weather_api.php';
 
 $userId = $_SESSION['user']['id'] ?? null;
 $role   = $_SESSION['user']['role'] ?? null;
 
 // ✅ Enforce rate limit only for logged-in accounts
 if ($userId) {
-    enforce_rate_limit($apiConfig['rateLimit'] ?? 100);
+    enforce_rate_limit(getRateLimit());
 }
 
-$city   = trim($_GET['city'] ?? ($_POST['city'] ?? ''));
-$cityId = $_GET['city_id'] ?? ($_POST['city_id'] ?? null);
+// --- Collect forecasts from all registered region services ---
+$regions = [];
+foreach ($app['services'] as $regionName => $baseUrl) {
+    $endpoint = rtrim($baseUrl, '/') . '/forecast.php';
+    $status   = 'FAIL';
+    $forecast = [];
 
-// ✅ If only city_id is provided, fetch city name from DB
-if ($city === '' && $cityId) {
     try {
-        $stmt = db()->prepare("SELECT name FROM cities WHERE id = ?");
-        $stmt->execute([$cityId]);
-        $row = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($row) {
-            $city = $row['name'];
+        $ch = curl_init($endpoint);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 5); // 5s timeout
+        $response = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($httpCode === 200 && $response) {
+            $data = json_decode($response, true);
+            if (is_array($data) && isset($data['forecast'])) {
+                $forecast = $data['forecast'];
+                $status   = $data['status'] ?? 'OK';
+            }
         }
     } catch (Exception $e) {
-        log_event("City lookup failed: " . $e->getMessage(), "ERROR", ['module'=>'forecast']);
+        log_event("Region fetch failed: $regionName - ".$e->getMessage(), "ERROR", [
+            'module' => 'aggregator_forecast',
+            'region' => $regionName
+        ]);
     }
+
+    $regions[$regionName] = [
+        'city'     => $regionName,
+        'forecast' => $forecast,
+        'status'   => $status
+    ];
 }
 
-if ($city === '') {
-    http_response_code(400);
-    echo json_encode(['error' => 'City parameter required']);
-    exit;
+// --- Summary: total days of forecast across all regions
+$totalDays = 0;
+foreach ($regions as $info) {
+    $totalDays += is_array($info['forecast']) ? count($info['forecast']) : 0;
 }
 
-$openWeatherKey = $apiConfig['openweathermap'] ?? null;
-if (!$openWeatherKey) {
-    http_response_code(500);
-    echo json_encode(['error' => 'Service configuration error']);
-    exit;
-}
-
-// --- Fetch forecast ---
-$forecast = getForecastForCity($city, $openWeatherKey);
-$cachedAt = null;
-$source   = 'api';
-
-if ($forecast === null) {
-    // Failover: try cached data
-    $stmt = db()->prepare("SELECT payload, updated_at 
-                           FROM weather_cache 
-                           WHERE city_id = :city_id AND type = 'forecast'");
-    $stmt->execute([':city_id' => $cityId]);
-    $cache = $stmt->fetch();
-
-    if ($cache) {
-        log_event("API failed, serving cached forecast", "WARN", ['module'=>'forecast','city_id'=>$cityId]);
-        $forecast = json_decode($cache['payload'], true);
-        $cachedAt = $cache['updated_at'];
-        $source   = 'cache';
-    } else {
-        log_event("API failed, no cache available", "ERROR", ['module'=>'forecast','city_id'=>$cityId]);
-        http_response_code(503);
-        echo json_encode(['error' => 'Forecast unavailable, please try later']);
-        exit;
-    }
-} else {
-    // Update cache
-    $stmt = db()->prepare("INSERT INTO weather_cache (city_id, type, payload) 
-                           VALUES ((SELECT id FROM cities WHERE name = :city), 'forecast', :payload) 
-                           ON DUPLICATE KEY UPDATE 
-                           payload = VALUES(payload), 
-                           updated_at = CURRENT_TIMESTAMP");
-    $stmt->execute([':city' => $city, ':payload' => json_encode($forecast)]);
-    log_event("Forecast served", "INFO", ['module'=>'forecast','city'=>$city]);
-    $cachedAt = date('Y-m-d H:i:s');
-}
+$summary = [
+    'total_days'   => $totalDays,
+    'generated_at' => date('Y-m-d H:i:s')
+];
 
 // --- Response shaping ---
 $response = [
-    'city'   => $city,
-    'source' => $source,
-    'data'   => [
-        'days'        => $forecast,
-        'generated_at'=> $cachedAt
-    ]
+    'summary' => $summary,
+    'regions' => $regions
 ];
 
 // ✅ Add user forecast if logged in as user
 if ($userId && $role === 'user') {
     $response['user'] = [
-        'forecast' => array_map(function($day) {
+        'regions' => array_map(function($region) {
             return [
-                'date'      => $day['date'] ?? '',
-                'min_temp'  => $day['min_temp'] ?? $day['temperature'] ?? '',
-                'max_temp'  => $day['max_temp'] ?? $day['temperature'] ?? '',
-                'condition' => $day['condition'] ?? '',
-                'icon'      => $day['icon'] ?? null
+                'city'     => $region['city'],
+                'forecast' => $region['forecast']
             ];
-        }, $forecast)
+        }, $regions)
     ];
 }
 
 // ✅ Add admin forecast if logged in as admin
 if ($userId && $role === 'admin') {
     $response['admin'] = [
-        'forecast' => array_map(function($day) {
+        'regions' => array_map(function($region) {
             return [
-                'date'      => $day['date'] ?? '',
-                'min_temp'  => $day['min_temp'] ?? $day['temperature'] ?? '',
-                'max_temp'  => $day['max_temp'] ?? $day['temperature'] ?? '',
-                'condition' => $day['condition'] ?? '',
-                'icon'      => $day['icon'] ?? null
+                'city'     => $region['city'],
+                'forecast' => $region['forecast'],
+                'meta'     => [
+                    'record_count' => is_array($region['forecast']) ? count($region['forecast']) : 0,
+                    'status'       => $region['status']
+                ]
             ];
-        }, $forecast),
-        'meta' => [
-            'record_count' => count($forecast),
-            'generated_at' => $cachedAt
-        ]
+        }, $regions),
+        'meta' => $summary
     ];
 }
 
 echo json_encode($response, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
+exit;

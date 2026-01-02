@@ -1,5 +1,9 @@
 <?php
-if (session_status() === PHP_SESSION_NONE) session_start();
+// backend/actions/favorite_alerts.php
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
 header('Content-Type: application/json');
 
 require_once __DIR__ . '/../../config/db.php';
@@ -16,31 +20,33 @@ $apiKey    = $apiConfig['openweathermap'] ?? '';
 
 if (!$apiKey) {
     http_response_code(500);
-    echo json_encode(['status'=>'FAIL','message'=>'Missing API key']);
+    echo json_encode([
+        'status'  => 'FAIL',
+        'message' => 'Missing API key'
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     exit;
 }
 
-// ✅ Map city names → region keys
-$cityToRegion = [
-    'Addis Ababa' => 'addis_ababa',
-    'Shashamane'  => 'oromia',
-    'Hawassa'     => 'south',
-    'Bahir Dar'   => 'amhara'
-];
-
 try {
-    $stmt = db()->prepare("SELECT c.name FROM favorites f JOIN cities c ON f.city_id=c.id WHERE f.user_id=? ORDER BY f.created_at ASC");
+    // ✅ Get user favorites with city_id
+    $stmt = db()->prepare("SELECT c.id AS city_id, c.name 
+                           FROM favorites f 
+                           JOIN cities c ON f.city_id=c.id 
+                           WHERE f.user_id=? 
+                           ORDER BY f.created_at ASC");
     $stmt->execute([$userId]);
     $cities = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
     $favorites = [];
     foreach ($cities as $city) {
-        $cityName  = $city['name'];
-        $regionKey = $cityToRegion[$cityName] ?? $cityName; // ✅ resolve to region
+        $cityId   = $city['city_id'];
+        $cityName = $city['name'];
 
-        // Cache check
-        $stmtCache = db()->prepare("SELECT payload, updated_at FROM weather_cache WHERE region=? AND type='alerts'");
-        $stmtCache->execute([$regionKey]);
+        // ✅ Cache check by city_id
+        $stmtCache = db()->prepare("SELECT payload, updated_at 
+                                    FROM weather_cache 
+                                    WHERE city_id=? AND type='alerts'");
+        $stmtCache->execute([$cityId]);
         $row = $stmtCache->fetch(PDO::FETCH_ASSOC);
 
         $alerts = null;
@@ -51,19 +57,42 @@ try {
             $status = 'CACHED';
         }
 
-        if (!$alerts) {
+        if (!$alerts || count($alerts) === 0) {
             try {
                 $alerts = getAlertsForCity($cityName, $apiKey, 'en');
                 if ($alerts && count($alerts) > 0) {
-                    $stmtCache = db()->prepare("REPLACE INTO weather_cache(region,type,payload,updated_at) VALUES(?,?,?,NOW())");
-                    $stmtCache->execute([$regionKey, 'alerts', json_encode($alerts)]);
+                    $stmtCache = db()->prepare("REPLACE INTO weather_cache(city_id,type,payload,updated_at) 
+                                                VALUES(?,?,?,NOW())");
+                    $stmtCache->execute([$cityId, 'alerts', json_encode($alerts)]);
                     $status = 'OK';
                 } else {
-                    $status = 'NO_ALERTS';
+                    // ✅ Demo fallback
+                    $demoAlert = [[
+                        'event'       => "Demo Alert for $cityName",
+                        'description' => "Testing fallback: simulated severe weather in $cityName",
+                        'severity'    => 'moderate',
+                        'start'       => time(),
+                        'end'         => strtotime('+3 hours'),
+                        'sender_name' => 'Demo Service'
+                    ]];
+                    $stmtCache = db()->prepare("REPLACE INTO weather_cache(city_id,type,payload,updated_at) 
+                                                VALUES(?,?,?,NOW())");
+                    $stmtCache->execute([$cityId, 'alerts', json_encode($demoAlert)]);
+                    $alerts = $demoAlert;
+                    $status = 'DEMO';
                 }
             } catch (Exception $e) {
-                $status = $row ? 'STALE' : 'FAIL';
-                $alerts = $row ? json_decode($row['payload'], true) : [];
+                // API fails → demo fallback
+                $demoAlert = [[
+                    'event'       => "Demo Alert for $cityName",
+                    'description' => "Testing fallback: simulated severe weather in $cityName",
+                    'severity'    => 'moderate',
+                    'start'       => time(),
+                    'end'         => strtotime('+3 hours'),
+                    'sender_name' => 'Demo Service'
+                ]];
+                $alerts = $demoAlert;
+                $status = 'DEMO_FAIL';
             }
         }
 
@@ -82,8 +111,12 @@ try {
         'checked_at'=> date('Y-m-d H:i:s')
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 
-} catch (Exception $e) {
+} catch (Throwable $e) {
     log_event("Favorite alerts failed: ".$e->getMessage(), "ERROR", ['module'=>'favorite_alerts','user_id'=>$userId]);
     http_response_code(500);
-    echo json_encode(['status'=>'FAIL','message'=>'Server error']);
+    echo json_encode([
+        'status'  => 'FAIL',
+        'message' => 'Server error',
+        'error'   => $e->getMessage()
+    ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
 }

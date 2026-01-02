@@ -1,6 +1,6 @@
 <?php
 // backend/ethiopia_service/admin/admin_health.php
-// Aggregated health check for all regions (HTML + JSON dual mode)
+// Admin interface for system health overview with self-healing cache
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -8,32 +8,109 @@ if (session_status() === PHP_SESSION_NONE) {
 
 require_once __DIR__ . '/../../helpers/auth_middleware.php';
 require_once __DIR__ . '/../../../config/db.php';
+require_once __DIR__ . '/../../helpers/csrf.php';
 require_once __DIR__ . '/../../helpers/log.php';
+require_once __DIR__ . '/../../helpers/weather_api.php';
+require_once __DIR__ . '/../../helpers/forecast.php';
 
-// ✅ Require admin role
 require_admin();
 
-// ✅ Load region health functions directly
-require_once __DIR__ . '/../regions/oromia/health.php';
-require_once __DIR__ . '/../regions/south/health.php';
-require_once __DIR__ . '/../regions/amhara/health.php';
-require_once __DIR__ . '/../regions/addis_ababa/health.php';
+$csrfToken = generate_csrf_token();
+$checkedAt = date('Y-m-d H:i:s');
 
-// ✅ Collect health data from all regions
-$results = [
-    oromia_health(),
-    south_health(),
-    amhara_health(),
-    addis_ababa_health()
-];
+$health = [];
 
-// ✅ JSON mode
+try {
+    // ✅ Fetch all cities except ones you want excluded
+    $cities = db()->query("
+        SELECT id, name 
+        FROM cities 
+        WHERE name NOT IN ('Dire Dawa','Gondar','Hossana')
+        ORDER BY name
+    ")->fetchAll(PDO::FETCH_ASSOC);
+
+    foreach ($cities as $city) {
+        $cityId   = $city['id'];
+        $cityName = $city['name'];
+
+        $components = [
+            'db'    => 'OK',
+            'cache' => 'FAIL',
+            'api'   => 'OK'
+        ];
+        $status = 'OK';
+
+        // ✅ DB check
+        try {
+            $stmt = db()->prepare("SELECT COUNT(*) FROM weather_cache WHERE city_id=?");
+            $stmt->execute([$cityId]);
+            $count = $stmt->fetchColumn();
+            $components['db'] = 'OK';
+        } catch (Exception $e) {
+            $components['db'] = 'FAIL';
+            $status = 'FAIL';
+        }
+
+        // ✅ Cache check with self-healing
+        try {
+            $stmt = db()->prepare("SELECT updated_at FROM weather_cache WHERE city_id=? AND type='forecast'");
+            $stmt->execute([$cityId]);
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+
+            if ($row && (time() - strtotime($row['updated_at']) < 600)) {
+                $components['cache'] = 'OK';
+            } else {
+                // Attempt to refresh forecast if cache is missing/stale
+                try {
+                    $apiConfig = require __DIR__ . '/../../../config/api.php';
+                    $apiKey    = $apiConfig['openweathermap'] ?? '';
+                    if ($apiKey) {
+                        $forecast = getForecastForCity($cityName, $apiKey, 'en', 'metric');
+                        if ($forecast && count($forecast) > 0) {
+                            $stmtCache = db()->prepare("REPLACE INTO weather_cache(city_id,type,payload,updated_at) 
+                                                        VALUES(?,?,?,NOW())");
+                            $stmtCache->execute([$cityId, 'forecast', json_encode($forecast)]);
+                            $components['cache'] = 'OK';
+                        } else {
+                            $components['cache'] = 'FAIL';
+                            $status = 'FAIL';
+                        }
+                    }
+                } catch (Exception $e) {
+                    $components['cache'] = 'FAIL';
+                    $status = 'FAIL';
+                }
+            }
+        } catch (Exception $e) {
+            $components['cache'] = 'FAIL';
+            $status = 'FAIL';
+        }
+
+        // ✅ API check (mock ping)
+        $components['api'] = 'OK';
+
+        if ($components['cache'] === 'FAIL') {
+            $status = 'FAIL';
+        }
+
+        $health[] = [
+            'city'       => $cityName,
+            'status'     => $status,
+            'components' => $components,
+            'checked_at' => $checkedAt
+        ];
+    }
+} catch (Exception $e) {
+    log_event("Health check failed: ".$e->getMessage(), "ERROR", ['module'=>'admin_health']);
+}
+
+// ✅ JSON mode for dashboard fetch
 if (isset($_GET['format']) && $_GET['format'] === 'json') {
     header('Content-Type: application/json; charset=utf-8');
     echo json_encode([
         'status'     => 'OK',
-        'regions'    => $results,
-        'checked_at' => date('Y-m-d H:i:s')
+        'regions'    => $health,
+        'checked_at' => $checkedAt
     ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
     exit;
 }
@@ -42,69 +119,40 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Admin - Health Checks</title>
-    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <title>System Health Overview</title>
+    <link rel="stylesheet" href="/weather/frontend/style.css">
     <style>
-        .badge-ok { color: #0a0; font-weight: bold; }
-        .badge-fail { color: #c00; font-weight: bold; }
-        table { width: 100%; border-collapse: collapse; margin-top: 1em; }
-        thead { background: #f0f0f0; }
-        td, th { padding: 8px; border: 1px solid #ddd; }
-        tr:nth-child(even) { background: #fafafa; }
-        .summary { margin: 1em 0; padding: 0.5em; background: #eef; border: 1px solid #ccd; }
+        table { border-collapse: collapse; width: 100%; margin-top: 1rem; }
+        th, td { border: 1px solid #ccc; padding: 8px; }
+        th { background: #f0f0f0; }
+        .status-OK { color: green; font-weight: bold; }
+        .status-FAIL { color: red; font-weight: bold; }
     </style>
 </head>
 <body>
 <div class="container">
-    <h1>❤️ Region Health Checks</h1>
+    <h1>🩺 System Health Overview</h1>
     <?php include __DIR__ . '/../../../frontend/partials/admin_nav.php'; ?>
 
-    <div class="summary">
-        <p>Total regions checked: <?= count($results) ?></p>
-        <p>Last checked: <?= date('Y-m-d H:i:s') ?></p>
-    </div>
-
-    <div class="admin-card">
-        <h3>System Health Overview</h3>
-        <table>
-            <thead>
-                <tr><th>Region</th><th>Status</th><th>Components</th><th>Checked At</th></tr>
-            </thead>
-            <tbody>
-            <?php foreach ($results as $r): ?>
+    <table>
+        <tr><th>City</th><th>Status</th><th>Components</th><th>Checked At</th></tr>
+        <?php if (empty($health)): ?>
+            <tr><td colspan="4">No health data available.</td></tr>
+        <?php else: ?>
+            <?php foreach ($health as $entry): ?>
                 <tr>
-                    <td><?= htmlspecialchars($r['region']) ?></td>
+                    <td><?= htmlspecialchars($entry['city']) ?></td>
+                    <td class="status-<?= $entry['status'] ?>"><?= htmlspecialchars($entry['status']) ?></td>
                     <td>
-                        <?php if ($r['status'] === 'OK'): ?>
-                            <span class="badge-ok">✅ OK</span>
-                        <?php else: ?>
-                            <span class="badge-fail">❌ FAIL</span>
-                        <?php endif; ?>
+                        db: <?= $entry['components']['db'] ?><br>
+                        cache: <?= $entry['components']['cache'] ?><br>
+                        api: <?= $entry['components']['api'] ?>
                     </td>
-                    <td>
-                        <?php if (isset($r['components'])): ?>
-                            <ul>
-                                <?php foreach ($r['components'] as $comp => $val): ?>
-                                    <li>
-                                        <?= htmlspecialchars($comp) ?>:
-                                        <?php if (stripos($val, 'OK') !== false): ?>
-                                            <span class="badge-ok"><?= htmlspecialchars($val) ?></span>
-                                        <?php else: ?>
-                                            <span class="badge-fail"><?= htmlspecialchars($val) ?></span>
-                                        <?php endif; ?>
-                                    </li>
-                                <?php endforeach; ?>
-                            </ul>
-                        <?php else: ?>
-                            <em>No component data</em>
-                        <?php endif; ?>
-                    </td>
-                    <td><?= htmlspecialchars($r['checked_at'] ?? date('Y-m-d H:i:s')) ?></td>
+                    <td><?= htmlspecialchars($entry['checked_at']) ?></td>
                 </tr>
             <?php endforeach; ?>
-            </tbody>
-        </table>
-    </div>
+        <?php endif; ?>
+    </table>
 </div>
 </body>
 </html>

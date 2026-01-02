@@ -23,16 +23,8 @@ $csrfToken = $_SESSION['csrf_token'];
 <head>
     <meta charset="UTF-8">
     <title>⭐ Favorites | Ethiopia Weather</title>
-    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
-    <style>
-        .favorites-card { border: 1px solid #ccc; padding: 1rem; margin-bottom: 1rem; border-radius: 6px; }
-        .form-group { margin-bottom: 0.5rem; }
-        .success-message { color: green; }
-        .error-message { color: red; }
-        ul { list-style: none; padding: 0; }
-        li { margin-bottom: 0.5rem; }
-        button { margin-left: 0.5rem; }
-    </style>
+    <link rel="stylesheet" href="/weather/frontend/style.css">
+
 </head>
 <body>
 <main class="page-favorites">

@@ -1,0 +1,3198 @@
+/* =========================================
+   Layout Scaffolding
+   ========================================= */
+html, body {
+  height: 100%;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.page {
+  flex: 1 0 auto;   /* main content stretches */
+  width: 100%;
+}
+
+/* =========================================
+   Header (Navbar) — Full Width Large Separated Links
+   ========================================= */
+.navbar {
+  width: 100%;                   /* span full page width */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #023e8a;      /* deep blue */
+  color: #fff;
+  padding: 1rem 2rem;
+  flex-wrap: wrap;
+  box-sizing: border-box;         /* include padding in width */
+}
+
+.navbar .logo {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #fff;
+}
+
+/* Main nav styled as big separated buttons */
+.main-nav {
+  display: flex;
+  flex-wrap: wrap;                /* allow wrapping if needed */
+  gap: 1.5rem;                    /* spacing between buttons */
+}
+
+.main-nav a {
+  display: inline-block;
+  padding: 0.8rem 1.4rem;         /* larger clickable area */
+  border-radius: 8px;
+  background: rgba(255,255,255,0.1);
+  color: #fff;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+
+.main-nav a:hover {
+  background: #0096c7;
+  color: #fff;
+  transform: translateY(-2px);
+}
+
+.main-nav a.active {
+  background: #0077b6;
+  color: #fff;
+}
+
+/* Right side (user info + logout) */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.user-info {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+.logout-btn {
+  background-color: #e63946;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.6rem 1rem;
+  cursor: pointer;
+  font-size: 0.95rem;
+  font-weight: 600;
+  transition: background 0.2s ease;
+}
+.logout-btn:hover {
+  background-color: #c5313c;
+}
+
+/* Dark theme header */
+body.dark-theme .navbar {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+body.dark-theme .main-nav a {
+  background: rgba(255,255,255,0.05);
+  color: #ccc;
+}
+body.dark-theme .main-nav a:hover {
+  background: #444;
+  color: #fff;
+}
+body.dark-theme .main-nav a.active {
+  background: #333;
+  color: #90e0ef;
+}
+
+
+/* =========================================
+   Footer
+   ========================================= */
+.footer {
+  background-color: #023e8a;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1.1rem;   /* increased base text size */
+  margin-top: auto;    /* pushes footer down */
+}
+
+.footer small {
+  display: block;
+  font-size: 1rem;     /* increased small text size */
+}
+
+body.dark-theme .footer {
+  background-color: #1e1e1e;
+  color: #ccc;
+}
+
+
+/* =========================================
+   Homepage (index.php) — Weather Inspired
+   ========================================= */
+
+/* Layout */
+.layout {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, #a8dadc, #f1faee); /* soft sky blue to pale clouds */
+}
+
+/* Live summary */
+.live-summary {
+  display: flex;
+  justify-content: center;
+  align-items: baseline;
+  gap: 1.5rem;
+  font-size: 1.3rem;
+  margin: 2rem auto;
+  text-align: center;
+  background: linear-gradient(to right, #e0f7fa, #caf0f8);
+  padding: 1rem 2rem;
+  border-radius: 10px;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.1);
+}
+.live-summary .location {
+  font-weight: 600;
+  color: #023e8a;
+}
+.live-summary .temperature {
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #0077b6;
+}
+.live-summary .condition {
+  font-style: italic;
+  color: #444;
+}
+
+/* Alerts banner */
+.alert-banner {
+  background: linear-gradient(to right, #ffe5e5, #fff0f0);
+  border: 1px solid #f5c2c2;
+  color: #b91c1c;
+  padding: 1rem;
+  border-radius: 8px;
+  margin: 1rem auto;
+  max-width: 800px;
+  text-align: center;
+  font-weight: 600;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Hero section */
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(to bottom, #f1faee, #e0f7fa); /* bright sky gradient */
+  border-radius: 12px;
+  margin: 2rem auto;
+  max-width: 950px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+.hero h1 {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: #023e8a;
+}
+.hero p {
+  font-size: 1.1rem;
+  margin-bottom: 2rem;
+  color: #333;
+}
+.hero .buttons {
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.hero button {
+  padding: 0.9rem 1.5rem;
+  border-radius: 8px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  font-size: 1.05rem;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.hero button:hover {
+  background: #0096c7;
+  transform: translateY(-2px);
+}
+.hero button.outline {
+  background: transparent;
+  border: 2px solid #0077b6;
+  color: #0077b6;
+}
+.hero button.outline:hover {
+  background: #0077b6;
+  color: #fff;
+}
+
+/* Alerts overlay */
+.alerts-overlay {
+  margin: 2.5rem auto;
+  max-width: 950px;
+}
+.alerts-overlay h2 {
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+.alert-card {
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  background: linear-gradient(to right, #edf6f9, #ffffff); /* cloudy card */
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+.alert-card h3 {
+  margin-top: 0;
+  color: #023e8a;
+}
+.severity-badge {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: bold;
+}
+.severity-low {
+  background: #d4edda;
+  color: #155724;
+}
+.severity-moderate {
+  background: #fff3cd;
+  color: #856404;
+}
+.severity-high {
+  background: #f8d7da;
+  color: #721c24;
+}
+
+/* Error message */
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.9rem;
+  border-radius: 8px;
+  margin-top: 0.5rem;
+}
+
+/* =========================================
+   Dark Theme Overrides — Night Sky
+   ========================================= */
+[data-theme="dark"] {
+  background: linear-gradient(to bottom, #0a0a2a, #121212); /* deep navy to black */
+  color: #f0f0f0;
+}
+
+[data-theme="dark"] .live-summary {
+  background: linear-gradient(to right, #1e1e3f, #121212);
+}
+[data-theme="dark"] .live-summary .location {
+  color: #90e0ef;
+}
+[data-theme="dark"] .live-summary .temperature {
+  color: #00b4d8;
+}
+[data-theme="dark"] .live-summary .condition {
+  color: #ccc;
+}
+
+[data-theme="dark"] .alert-banner {
+  background: #4d2626;
+  border-color: #8e1c25;
+  color: #ff7b7b;
+}
+
+[data-theme="dark"] .hero {
+  background: linear-gradient(to bottom, #1e3a5f, #121212); /* twilight gradient */
+}
+[data-theme="dark"] .hero h1 {
+  color: #90e0ef;
+}
+[data-theme="dark"] .hero p {
+  color: #ccc;
+}
+[data-theme="dark"] .hero button {
+  background: #333;
+  color: #f0f0f0;
+}
+[data-theme="dark"] .hero button:hover {
+  background: #444;
+}
+[data-theme="dark"] .hero button.outline {
+  border-color: #90e0ef;
+  color: #90e0ef;
+}
+[data-theme="dark"] .hero button.outline:hover {
+  background: #90e0ef;
+  color: #121212;
+}
+
+[data-theme="dark"] .alerts-overlay h2 {
+  color: #90e0ef;
+}
+[data-theme="dark"] .alert-card {
+  background: #1e1e1e;
+  border-color: #444;
+}
+[data-theme="dark"] .alert-card h3 {
+  color: #90e0ef;
+}
+[data-theme="dark"] .severity-low {
+  background: #264d2f;
+  color: #90ee90;
+}
+[data-theme="dark"] .severity-moderate {
+  background: #4d4d26;
+  color: #ffe066;
+}
+[data-theme="dark"] .severity-high {
+  background: #4d2626;
+  color: #ff7b7b;
+}
+[data-theme="dark"] .error-message {
+  background: #4d2626;
+  border-color: #8e1c25;
+  color: #ff7b7b;
+}
+
+
+
+/* =========================================
+   Admin Navigation (admin_nav.php)
+   ========================================= */
+.admin-nav {
+  background: #023e8a; /* deep blue bar */
+  padding: 0.75rem 1.5rem;
+  border-bottom: 3px solid #0077b6;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.admin-nav ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap; /* responsive stacking */
+  gap: 1rem; /* more spacing between links */
+}
+
+.admin-nav li {
+  margin: 0;
+}
+
+.admin-nav a {
+  display: block;
+  padding: 0.8rem 1.4rem; /* larger clickable area */
+  border-radius: 8px;
+  text-decoration: none;
+  color: #ffffff;
+  font-weight: 600;
+  font-size: 1rem; /* larger text */
+  letter-spacing: 0.5px; /* spacing for clarity */
+  transition: background 0.25s ease, color 0.25s ease, transform 0.2s ease;
+}
+
+.admin-nav a:hover {
+  background: #0096c7;
+  color: #ffffff;
+  transform: translateY(-2px); /* subtle lift effect */
+}
+
+.admin-nav a:active {
+  background: #0077b6;
+}
+
+/* Active/current page highlight */
+.admin-nav a.active {
+  background: #0077b6;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Responsive: stack vertically on small screens */
+@media (max-width: 768px) {
+  .admin-nav ul {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .admin-nav a {
+    width: 100%;
+    text-align: center;
+  }
+}
+
+/* Dark theme overrides */
+body.dark-theme .admin-nav {
+  background: #1e1e1e;
+  border-bottom: 3px solid #444;
+}
+body.dark-theme .admin-nav a {
+  background: rgba(255,255,255,0.05);
+  color: #f0f0f0;
+}
+body.dark-theme .admin-nav a:hover {
+  background: #333;
+  color: #90e0ef;
+}
+body.dark-theme .admin-nav a.active {
+  background: #444;
+  color: #90e0ef;
+}
+
+
+/* =========================================
+   Admin Dashboard (dashboard.php)
+   ========================================= */
+
+/* Reset + Layout */
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: "Segoe UI", Roboto, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Main layout container */
+.admin-layout {
+  display: flex;
+  flex: 1; /* take all available space above footer */
+}
+
+/* Sidebar */
+.sidebar {
+  width: 250px;
+  background: linear-gradient(to bottom, #0077b6, #023e8a);
+  color: #fff;
+  border-right: 1px solid #ddd;
+  padding: 1.5rem 1rem;
+}
+.sidebar h2 {
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #f1faee;
+}
+.sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.sidebar li {
+  margin: 0.7rem 0;
+}
+.sidebar a {
+  display: block;
+  text-decoration: none;
+  background: rgba(255,255,255,0.12);
+  color: #f1faee;
+  padding: 0.8rem 1rem;
+  border-radius: 6px;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.sidebar a:hover {
+  background: #0096c7;
+  color: #ffffff;
+  transform: translateX(4px);
+}
+.sidebar a.active {
+  background: #00b4d8;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Dashboard content */
+.dashboard-content {
+  flex: 1;
+  padding: 2rem;
+  background-color: #f7fbfc;
+  color: #222;
+}
+.dashboard-content h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0077b6;
+  font-weight: 700;
+}
+
+/* Admin cards */
+.admin-card {
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+  color: #222;
+  transition: box-shadow 0.25s ease;
+}
+.admin-card:hover {
+  box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+}
+.admin-card h2 {
+  margin-top: 0;
+  font-size: 1.4rem;
+  margin-bottom: 1rem;
+  color: #0096c7;
+  font-weight: 600;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #a7f3d0;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #fecaca;
+  padding: 1rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+  font-weight: 500;
+}
+
+/* Tables */
+.api-keys, .dashboard-content table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.api-keys th, .api-keys td,
+.dashboard-content table th, .dashboard-content table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem;
+  text-align: left;
+}
+.api-keys th {
+  background-color: #f1f9ff;
+  color: #0077b6;
+}
+
+/* Footer */
+footer {
+  background: #023e8a;
+  color: #fff;
+  text-align: center;
+  padding: 1rem;
+  margin-top: auto; /* ensures footer sits at bottom of page */
+}
+
+
+
+/* =========================================
+   Alerts Page (alerts.php) — Weather Inspired
+   ========================================= */
+.page-alerts {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background: linear-gradient(to bottom, #a8dadc, #f1faee); /* sky to cloud gradient */
+  padding: 2rem;
+}
+
+/* Alerts section */
+.alerts-section {
+  max-width: 950px;
+  margin: 0 auto;
+}
+.alerts-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0077b6; /* sky blue heading */
+  text-align: center;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #d4edda; /* soft green success */
+  color: #155724;
+  border: 1px solid #a7f3d0;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.error-message {
+  background: #f8d7da; /* soft red error */
+  color: #721c24;
+  border: 1px solid #fecaca;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Alert items */
+.alert-item {
+  border: 1px solid #ccc;
+  padding: 1.2rem;
+  margin-bottom: 1.2rem;
+  border-radius: 10px;
+  background: linear-gradient(to right, #ffffff, #edf6f9); /* cloudy card */
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  color: #222;
+}
+.alert-item h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0096c7; /* aqua accent */
+}
+
+/* Admin cards */
+.card {
+  padding: 1.2rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 1rem;
+  background: #fafafa;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.card h4 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0077b6;
+}
+
+/* Severity badges */
+.severity-badge {
+  display: inline-block;
+  padding: 0.3rem 0.7rem;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin-left: 0.5rem;
+}
+.severity-low { background-color: #d4edda; color: #155724; }
+.severity-moderate { background-color: #fff3cd; color: #856404; }
+.severity-severe { background-color: #f8d7da; color: #721c24; }
+
+/* Admin form */
+.section {
+  margin-top: 2rem;
+}
+.section h2 {
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+#adminAlertsForm {
+  display: flex;
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+#adminAlertsForm select,
+#adminAlertsForm button {
+  padding: 0.7rem 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+#adminAlertsForm button {
+  background: #0077b6;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+#adminAlertsForm button:hover {
+  background: #0096c7;
+  transform: translateY(-2px);
+}
+
+/* Dark theme overrides — Night Sky */
+body.dark-theme .page-alerts {
+  background: linear-gradient(to bottom, #0a0a2a, #121212); /* night sky gradient */
+  color: #f0f0f0;
+}
+body.dark-theme .alerts-section h1,
+body.dark-theme .section h2 {
+  color: #90e0ef; /* aqua highlight */
+}
+body.dark-theme .alert-item,
+body.dark-theme .card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .alert-item h3,
+body.dark-theme .card h4 {
+  color: #90e0ef;
+}
+body.dark-theme #adminAlertsForm select,
+body.dark-theme #adminAlertsForm button {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+body.dark-theme #adminAlertsForm button:hover {
+  background-color: #444;
+}
+
+
+/* =========================================
+   API Access Page (api.php)
+   ========================================= */
+.page-api {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f4f8; /* light neutral body */
+  padding: 2rem;
+}
+
+.page-api h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* same deep blue as header/footer */
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Cards */
+.card {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin-bottom: 1.5rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  color: #0077b6;
+}
+.card p.muted {
+  color: #555;
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+.btn {
+  display: inline-block;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.2s ease;
+}
+.btn:hover {
+  background: #0096c7;
+}
+.btn-danger {
+  background: #e63946;
+}
+.btn-danger:hover {
+  background: #c5313c;
+}
+
+/* Keys list */
+.keys {
+  margin-top: 0.5rem;
+}
+.key-item {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  background: #fafafa;
+}
+.key-header {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.key-value {
+  display: inline-block;
+  font-family: monospace;
+  background: #f1f1f1;
+  padding: 0.3rem 0.5rem;
+  border-radius: 4px;
+  margin-right: 0.5rem;
+}
+.actions {
+  margin-top: 0.5rem;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-api {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .card h2 {
+  color: #90e0ef;
+}
+body.dark-theme .key-item {
+  background: #1e1e1e;
+  border-color: #444;
+}
+body.dark-theme .key-value {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .btn {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .btn:hover {
+  background: #444;
+}
+body.dark-theme .btn-danger {
+  background: #b1232e;
+}
+body.dark-theme .btn-danger:hover {
+  background: #8e1c25;
+}
+/* =========================================
+   Favorites Page (favorites.php)
+   ========================================= */
+.page-favorites {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f4f8; /* light neutral body */
+  padding: 2rem;
+}
+
+.favorites-section {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.favorites-section h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* same deep blue as header/footer */
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Favorites cards */
+.favorites-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.favorites-card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  color: #0077b6;
+}
+.favorites-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.5rem;
+  color: #0077b6;
+}
+
+/* Forms */
+.form-group {
+  margin-bottom: 0.75rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+select, button {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+button {
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+button:hover {
+  background: #0096c7;
+}
+
+/* Favorites list */
+.favorites-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.favorites-card li {
+  margin-bottom: 0.75rem;
+}
+.favorites-card li form {
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-favorites {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .favorites-card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .favorites-card h2,
+body.dark-theme .favorites-card h3 {
+  color: #90e0ef;
+}
+body.dark-theme select,
+body.dark-theme button {
+  background-color: #333;
+  color: #f0f0f0;
+  border: 1px solid #555;
+}
+body.dark-theme button:hover {
+  background-color: #444;
+}
+/* =========================================
+   Forecast Page (forecast.php)
+   ========================================= */
+.page-forecast {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #e6f7ff; /* soft sky blue background */
+  padding: 2rem;
+}
+
+.forecast-section {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.forecast-section h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+.forecast-section h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Region blocks */
+.region-block {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 8px;
+  background: #ffffff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.region-block h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+
+/* Forecast cards */
+.forecast-card {
+  border: 1px solid #ccc;
+  padding: 1rem;
+  margin: 0.5rem;
+  border-radius: 6px;
+  display: inline-block;
+  background: #f0faff;
+  min-width: 140px;
+  text-align: center;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+.forecast-card p {
+  margin: 0.25rem 0;
+}
+
+/* Admin form */
+form button {
+  margin-top: 0.75rem;
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+form button:hover {
+  background: #0096c7;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-forecast {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .region-block {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .region-block h3 {
+  color: #90e0ef;
+}
+body.dark-theme .forecast-card {
+  background: #2a2a2a;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme form button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme form button:hover {
+  background: #444;
+}
+/* =========================================
+   System Health Dashboard (health.php)
+   ========================================= */
+.page-health {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #f5faff; /* light, clean background for monitoring */
+  padding: 2rem;
+}
+
+.page-health h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Overall status banner */
+.overall-status {
+  font-size: 1.2rem;
+  margin-top: 1rem;
+  padding: 0.75rem 1rem;
+  border-radius: 6px;
+  background: #e0f7fa;
+  font-weight: 600;
+}
+.status-ok {
+  color: #007f5f;
+  font-weight: bold;
+}
+.status-fail {
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+/* Health checks grid */
+.health-checks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+.check-card {
+  flex: 1 1 220px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  padding: 1rem;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.check-card h3 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+.check-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+.check-card li {
+  font-size: 0.9rem;
+  margin: 0.25rem 0;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-health {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .overall-status {
+  background: #1e1e1e;
+  color: #f0f0f0;
+}
+body.dark-theme .check-card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .check-card h3 {
+  color: #90e0ef;
+}
+/* =========================================
+   Login Page (login.php) — Weather Dashboard Style
+   ========================================= */
+.page-auth {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #caf0f8, #edf6f9); /* sky blue to cloud white */
+  padding: 2rem;
+}
+
+.auth-section {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.auth-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #0077b6; /* bright sky blue */
+  text-align: center;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #a7f3d0;
+  padding: 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #fecaca;
+  padding: 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input:focus {
+  border-color: #0096c7;
+  box-shadow: 0 0 6px rgba(0,150,199,0.3);
+  outline: none;
+}
+
+/* Password wrapper */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+}
+.password-wrapper input {
+  flex: 1;
+}
+.toggle-btn {
+  background: #0077b6;       /* visible sky blue in light mode */
+  border: none;
+  color: #fff;               /* white icon/text */
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.toggle-btn:hover {
+  background: #0096c7;
+  transform: scale(1.05);
+}
+.toggle-btn:focus {
+  outline: 2px solid #0096c7;
+}
+
+/* Primary button */
+.btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(to right, #0077b6, #0096c7); /* sky gradient */
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.btn-primary:hover {
+  background: linear-gradient(to right, #0096c7, #00b4d8);
+  transform: translateY(-2px);
+}
+
+/* Auth links */
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.auth-link a {
+  color: #0077b6;
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-auth {
+  background: linear-gradient(to bottom, #0a0a2a, #121212); /* night sky gradient */
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section h2 {
+  color: #90e0ef;
+}
+body.dark-theme .form-group input {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme .form-group input:focus {
+  border-color: #90e0ef;
+  box-shadow: 0 0 6px rgba(144,224,239,0.4);
+}
+body.dark-theme .btn-primary {
+  background: linear-gradient(to right, #0077b6, #0096c7);
+  color: #fff;
+}
+body.dark-theme .btn-primary:hover {
+  background: linear-gradient(to right, #0096c7, #00b4d8);
+}
+body.dark-theme .auth-link a {
+  color: #90e0ef;
+}
+body.dark-theme .toggle-btn {
+  background: #90e0ef;       /* aqua button in dark mode */
+  color: #121212;            /* dark text/icon */
+}
+body.dark-theme .toggle-btn:hover {
+  background: #48cae4;
+}
+
+
+
+/* =========================================
+   Radar Page (radar.php)
+   ========================================= */
+.page-radar {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  background-color: #eaf4fb; /* light stormy blue background */
+  padding: 2rem;
+}
+
+.page-radar h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Radar map iframe */
+.radar-map iframe {
+  width: 100%;
+  height: 500px;
+  border: none;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+/* Snapshot section */
+.snapshot {
+  margin-top: 1.5rem;
+}
+.snapshot h3 {
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+.snapshot img {
+  max-width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Regional overlay */
+.region-overlay {
+  margin-top: 2rem;
+}
+.region-overlay h3 {
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+.region-overlay ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+}
+.region-overlay li {
+  margin-bottom: 0.5rem;
+  font-size: 0.95rem;
+}
+
+/* User controls */
+.controls {
+  margin-top: 2rem;
+}
+.controls h2 {
+  margin-bottom: 1rem;
+  color: #023e8a;
+}
+.controls form {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 0.75rem;
+  margin-bottom: 1rem;
+}
+.controls label {
+  display: flex;
+  flex-direction: column;
+  font-size: 0.9rem;
+}
+.controls input,
+.controls select {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+.controls button {
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.controls button:hover {
+  background: #0096c7;
+}
+
+/* Admin card */
+.page-radar .card {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  margin: 1rem 0;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.page-radar .card h2 {
+  margin-top: 0;
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+
+/* Error messages */
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 0.5rem;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-radar {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .radar-map iframe {
+  box-shadow: none;
+}
+body.dark-theme .snapshot img {
+  border-color: #444;
+}
+body.dark-theme .card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .card h2,
+body.dark-theme .snapshot h3,
+body.dark-theme .region-overlay h3 {
+  color: #90e0ef;
+}
+body.dark-theme .controls input,
+body.dark-theme .controls select {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme .controls button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .controls button:hover {
+  background: #444;
+}
+/* =========================================
+   Register Page (register.php) — Clean Weather Style
+   ========================================= */
+.page-auth {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(to bottom, #caf0f8, #edf6f9); /* sky blue to cloud white */
+  padding: 2rem;
+}
+
+.auth-section {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 6px 16px rgba(0,0,0,0.12);
+}
+
+.auth-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.6rem;
+  color: #0077b6; /* sky blue heading */
+  text-align: center;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;        /* soft green background */
+  color: #007f5f;             /* green text */
+  border: 1px solid #a7f3d0;
+  padding: 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+.error-message {
+  background: #f9f9f9;        /* neutral light gray background */
+  color: #b91c1c;             /* red text only */
+  border: 1px solid #ddd;     /* subtle border */
+  padding: 0.9rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1.2rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  box-sizing: border-box;
+  transition: border 0.2s ease, box-shadow 0.2s ease;
+}
+.form-group input:focus {
+  border-color: #0096c7;
+  box-shadow: 0 0 6px rgba(0,150,199,0.3);
+  outline: none;
+}
+
+/* Password wrapper */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+}
+.password-wrapper input {
+  flex: 1;
+}
+.toggle-btn {
+  background: #0077b6;       /* visible sky blue */
+  border: none;
+  color: #fff;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+.toggle-btn:hover {
+  background: #0096c7;
+  transform: scale(1.05);
+}
+.toggle-btn:focus {
+  outline: 2px solid #0096c7;
+}
+
+/* Primary button */
+.btn-primary {
+  width: 100%;
+  padding: 0.8rem;
+  border-radius: 8px;
+  border: none;
+  background: linear-gradient(to right, #0077b6, #0096c7);
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+.btn-primary:hover {
+  background: linear-gradient(to right, #0096c7, #00b4d8);
+  transform: translateY(-2px);
+}
+
+/* Auth links */
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.95rem;
+}
+.auth-link a {
+  color: #0077b6;
+  text-decoration: none;
+  font-weight: 600;
+}
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-auth {
+  background: linear-gradient(to bottom, #0a0a2a, #121212);
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section h2 {
+  color: #90e0ef;
+}
+body.dark-theme .form-group input {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme .form-group input:focus {
+  border-color: #90e0ef;
+  box-shadow: 0 0 6px rgba(144,224,239,0.4);
+}
+body.dark-theme .btn-primary {
+  background: linear-gradient(to right, #0077b6, #0096c7);
+  color: #fff;
+}
+body.dark-theme .btn-primary:hover {
+  background: linear-gradient(to right, #0096c7, #00b4d8);
+}
+body.dark-theme .auth-link a {
+  color: #90e0ef;
+}
+body.dark-theme .toggle-btn {
+  background: #90e0ef;
+  color: #121212;
+}
+body.dark-theme .toggle-btn:hover {
+  background: #48cae4;
+}
+
+
+/* =========================================
+   Reset Confirmation Page (reset_confirmation.php)
+   ========================================= */
+.page-auth {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8fafc; /* light neutral background */
+  padding: 2rem;
+}
+
+.auth-section {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.auth-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+  text-align: center;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+/* Password wrapper */
+.password-wrapper {
+  display: flex;
+  align-items: center;
+}
+.password-wrapper input {
+  flex: 1;
+}
+.toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 1.1rem;
+  margin-left: 0.5rem;
+}
+
+/* Primary button */
+.auth-form button {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s ease;
+}
+.auth-form button:hover {
+  background: #0096c7;
+}
+
+/* Auth link */
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.auth-link a {
+  color: #0077b6;
+  text-decoration: none;
+}
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-auth {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section h2 {
+  color: #90e0ef;
+}
+body.dark-theme .form-group input {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-form button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-form button:hover {
+  background: #444;
+}
+body.dark-theme .auth-link a {
+  color: #90e0ef;
+}
+/* =========================================
+   Password Reset Request Page
+   ========================================= */
+.container {
+  max-width: 420px;
+  margin: 4rem auto;
+  padding: 2rem;
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.container h1 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+  text-align: center;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Form styling */
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+label {
+  font-weight: 600;
+}
+input[type="email"] {
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+button {
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+button:hover {
+  background: #0096c7;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .container h1 {
+  color: #90e0ef;
+}
+body.dark-theme input[type="email"] {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme button:hover {
+  background: #444;
+}
+/* =========================================
+   Reset Password Page (reset.php)
+   ========================================= */
+.page-auth {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8fafc; /* light neutral background */
+  padding: 2rem;
+}
+
+.auth-section {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 2rem;
+  max-width: 420px;
+  width: 100%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+}
+
+.auth-section h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.4rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+  text-align: center;
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Form groups */
+.form-group {
+  margin-bottom: 1rem;
+}
+.form-group label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.form-group input {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+
+/* Primary button */
+.auth-form button {
+  width: 100%;
+  padding: 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 0.5rem;
+  transition: background 0.2s ease;
+}
+.auth-form button:hover {
+  background: #0096c7;
+}
+
+/* Auth link */
+.auth-link {
+  text-align: center;
+  margin-top: 1rem;
+  font-size: 0.9rem;
+}
+.auth-link a {
+  color: #0077b6;
+  text-decoration: none;
+}
+.auth-link a:hover {
+  text-decoration: underline;
+}
+
+/* Dark theme overrides */
+body.dark-theme .page-auth {
+  background-color: #121212;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-section h2 {
+  color: #90e0ef;
+}
+body.dark-theme .form-group input {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-form button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .auth-form button:hover {
+  background: #444;
+}
+body.dark-theme .auth-link a {
+  color: #90e0ef;
+}
+/* =========================================
+   User Dashboard (user_dashboard.php) — Full Width + Sticky Footer
+   ========================================= */
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Page dashboard fills space above footer */
+.page-dashboard {
+  flex: 1;                          /* take all available space */
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background: linear-gradient(to bottom, #a8dadc, #f1faee); /* sky to cloud gradient */
+  padding: 2rem;
+  box-sizing: border-box;
+}
+
+/* Footer always sticks to bottom */
+.footer {
+  background-color: #023e8a;
+  color: #fff;
+  padding: 1rem;
+  text-align: center;
+  font-size: 1rem;
+  margin-top: auto;                 /* pushes footer down */
+}
+.footer small {
+  display: block;
+  font-size: 0.9rem;
+}
+
+/* Dashboard section */
+.dashboard-section {
+  width: 100%;
+  margin: 0;
+}
+.dashboard-section h1 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #0077b6;
+  text-align: left;
+  width: 100%;
+}
+
+/* Feedback messages */
+.success-message,
+.error-message {
+  width: 100%;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+  font-weight: 600;
+  box-sizing: border-box;
+}
+.success-message {
+  background: #d4edda;
+  color: #155724;
+  border: 1px solid #a7f3d0;
+}
+.error-message {
+  background: #f8d7da;
+  color: #721c24;
+  border: 1px solid #fecaca;
+}
+
+/* Card styling */
+.card {
+  width: 100%;
+  padding: 1.5rem;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  margin-bottom: 1.5rem;
+  background: #ffffff;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+  color: #222;
+  box-sizing: border-box;
+}
+.card h2 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  color: #0096c7;
+}
+
+/* Sections */
+.section {
+  margin-bottom: 2rem;
+  width: 100%;
+}
+.section h3 {
+  margin-bottom: 1rem;
+  color: #0077b6;
+  width: 100%;
+}
+
+/* Favorites list */
+.section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 0;
+  width: 100%;
+}
+.section li {
+  margin-bottom: 1rem;
+}
+.section li strong {
+  color: #023e8a;
+}
+.section li form {
+  display: inline-block;
+  margin-left: 0.5rem;
+}
+
+/* Forecast cards */
+.forecast-cards {
+  margin-top: 0.5rem;
+  width: 100%;
+}
+.forecast-cards p {
+  font-size: 0.95rem;
+  color: #555;
+  width: 100%;
+}
+
+/* Table */
+.section table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+.section table th,
+.section table td {
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  text-align: center;
+}
+.status-ok {
+  color: #007f5f;
+  font-weight: bold;
+}
+.status-fail {
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+/* Forms */
+form {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+  width: 100%;
+}
+form select,
+form input,
+form button {
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+  flex: 1;
+  width: 100%;
+  box-sizing: border-box;
+}
+form button {
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+form button:hover {
+  background: #0096c7;
+  transform: translateY(-2px);
+}
+
+/* Theme toggle */
+#themeToggle {
+  width: 100%;
+  padding: 0.7rem 1.2rem;
+  border-radius: 8px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.25s ease, transform 0.2s ease;
+}
+#themeToggle:hover {
+  background: #0096c7;
+  transform: translateY(-2px);
+}
+
+/* Dark theme */
+body.dark-theme .page-dashboard {
+  background: linear-gradient(to bottom, #0a0a2a, #121212);
+  color: #f0f0f0;
+}
+body.dark-theme .card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .card h2,
+body.dark-theme .section h3 {
+  color: #90e0ef;
+}
+body.dark-theme .section table th,
+body.dark-theme .section table td {
+  border-color: #444;
+}
+body.dark-theme form select,
+body.dark-theme form input,
+body.dark-theme form button,
+body.dark-theme #themeToggle {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme form select:focus,
+body.dark-theme form input:focus {
+  border-color: #90e0ef;
+  box-shadow: 0 0 6px rgba(144,224,239,0.4);
+}
+body.dark-theme form button:hover,
+body.dark-theme #themeToggle:hover {
+  background: #444;
+}
+
+
+
+/* =========================================
+   Admin Alerts Management (admin_alerts.php)
+   ========================================= */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Admin cards */
+.admin-card {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.admin-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+/* Forms */
+.admin-card form {
+  margin-top: 0.5rem;
+}
+.admin-card label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.admin-card input[type="text"],
+.admin-card textarea,
+.admin-card select {
+  width: 100%;
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-top: 0.25rem;
+  margin-bottom: 0.75rem;
+  font-size: 0.95rem;
+}
+.admin-card button {
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.admin-card button:hover {
+  background: #0096c7;
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: left;
+}
+th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+td form {
+  margin-top: 0.25rem;
+}
+td form input[type="text"] {
+  width: auto;
+  display: inline-block;
+  margin-right: 0.5rem;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card {
+  background: #1e1e1e;
+  border-color: #444;
+}
+body.dark-theme .admin-card h3 {
+  color: #90e0ef;
+}
+body.dark-theme table th {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme table td {
+  border-color: #444;
+}
+body.dark-theme input,
+body.dark-theme textarea,
+body.dark-theme select {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme button:hover {
+  background: #444;
+}
+/* =========================================
+   Admin API Keys Management (admin_api.php)
+   ========================================= */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Admin cards */
+.admin-card {
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.admin-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: left;
+}
+th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+td {
+  font-size: 0.95rem;
+}
+td form {
+  display: inline-block;
+  margin: 0;
+}
+td button {
+  padding: 0.4rem 0.7rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+  font-size: 0.85rem;
+}
+td button:hover {
+  background: #0096c7;
+}
+.btn-danger {
+  background: #e63946;
+}
+.btn-danger:hover {
+  background: #c5313c;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card {
+  background: #1e1e1e;
+  border-color: #444;
+}
+body.dark-theme .admin-card h3 {
+  color: #90e0ef;
+}
+body.dark-theme table th {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme table td {
+  border-color: #444;
+}
+body.dark-theme td button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme td button:hover {
+  background: #444;
+}
+body.dark-theme .btn-danger {
+  background: #b1232e;
+}
+body.dark-theme .btn-danger:hover {
+  background: #8e1c25;
+}
+/* =========================================
+   Admin Cache Management (admin_cache.php)
+   ========================================= */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 1rem;
+}
+
+/* Admin cards */
+.admin-card {
+  margin-top: 1.5rem;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.admin-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+/* Forms */
+.admin-card form {
+  margin-top: 0.5rem;
+}
+.admin-card label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: 600;
+}
+.admin-card input[type="text"] {
+  padding: 0.5rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-left: 0.5rem;
+}
+.admin-card button {
+  padding: 0.5rem 0.9rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+.admin-card button:hover {
+  background: #0096c7;
+}
+
+/* Table styling */
+table {
+  border-collapse: collapse;
+  width: 100%;
+  margin-top: 1rem;
+}
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: left;
+}
+th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+td {
+  font-size: 0.95rem;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card {
+  background: #1e1e1e;
+  border-color: #444;
+}
+body.dark-theme .admin-card h3 {
+  color: #90e0ef;
+}
+body.dark-theme table th {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme table td {
+  border-color: #444;
+}
+body.dark-theme input[type="text"] {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme button:hover {
+  background: #444;
+}
+/* =========================================
+   Admin Configuration (admin_config.php)
+   ========================================= */
+.container {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.6rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Feedback messages */
+.success-message {
+  background: #e6ffed;
+  color: #007f5f;
+  border: 1px solid #a7f3d0;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+.error-message {
+  background: #fee2e2;
+  color: #b91c1c;
+  border: 1px solid #fecaca;
+  padding: 0.75rem;
+  border-radius: 6px;
+  margin-top: 1rem;
+}
+
+/* Admin card */
+.admin-card {
+  margin-bottom: 2rem;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.admin-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+/* Form styling */
+#configForm label {
+  display: block;
+  margin: 0.75rem 0 0.25rem;
+  font-weight: 600;
+}
+#configForm input[type="text"],
+#configForm input[type="number"] {
+  width: 100%;
+  padding: 0.6rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 0.95rem;
+  box-sizing: border-box;
+}
+#configForm button {
+  margin-top: 1rem;
+  padding: 0.7rem 1.2rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+#configForm button:hover {
+  background: #0096c7;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card {
+  background: #1e1e1e;
+  border-color: #444;
+}
+body.dark-theme .admin-card h3 {
+  color: #90e0ef;
+}
+body.dark-theme #configForm input[type="text"],
+body.dark-theme #configForm input[type="number"] {
+  background: #333;
+  border: 1px solid #555;
+  color: #f0f0f0;
+}
+body.dark-theme #configForm button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme #configForm button:hover {
+  background: #444;
+}
+/* =========================================
+   Admin Dashboard (admin_dashboard.php)
+   ========================================= */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Section headings */
+section h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+
+/* System metrics list */
+section ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.5rem 0 1rem;
+}
+section ul li {
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+}
+
+/* Logs table */
+.logs {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+.logs th, .logs td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: left;
+}
+.logs th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+.log-info {
+  color: #007f5f;
+  font-weight: bold;
+}
+.log-warn {
+  color: #ff8800;
+  font-weight: bold;
+}
+.log-error {
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+/* Health check table */
+table.health {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+table.health th, table.health td {
+  border: 1px solid #ddd;
+  padding: 0.6rem;
+  text-align: left;
+}
+table.health thead {
+  background: #f0f0f0;
+}
+table.health tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Status classes */
+.status-ok {
+  color: #007f5f;
+  font-weight: bold;
+}
+.status-fail {
+  color: #b91c1c;
+  font-weight: bold;
+}
+.status-degraded {
+  color: #ff8800;
+  font-weight: bold;
+}
+
+/* Buttons */
+button {
+  padding: 0.6rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background: #0077b6;
+  color: #fff;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+button:hover {
+  background: #0096c7;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme section h2 {
+  color: #90e0ef;
+}
+body.dark-theme .logs th,
+body.dark-theme table.health thead {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .logs td,
+body.dark-theme table.health td {
+  border-color: #444;
+}
+body.dark-theme button {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme button:hover {
+  background: #444;
+}
+/* =========================================
+   Admin Health Checks (admin_health.php)
+   ========================================= */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Summary section */
+.summary {
+  margin: 1rem 0;
+  padding: 1rem;
+  border-radius: 6px;
+  background: #f0f4f8;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+.summary p {
+  margin: 0.25rem 0;
+  font-weight: 500;
+}
+
+/* Admin card */
+.admin-card {
+  margin-top: 1.5rem;
+  padding: 1.5rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  background: #fff;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+.admin-card h3 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+  color: #0077b6;
+}
+
+/* Table styling */
+.admin-card table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 0.5rem;
+}
+.admin-card th, .admin-card td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: left;
+  vertical-align: top;
+}
+.admin-card th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+.admin-card tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Status badges */
+.badge-ok {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background: #d4edda;
+  color: #155724;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+.badge-fail {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 4px;
+  background: #f8d7da;
+  color: #721c24;
+  font-weight: bold;
+  font-size: 0.85rem;
+}
+
+/* Component list */
+.admin-card ul {
+  list-style: none;
+  padding: 0;
+  margin: 0.25rem 0 0;
+}
+.admin-card li {
+  margin-bottom: 0.25rem;
+  font-size: 0.9rem;
+}
+
+/* Dark theme overrides */
+body.dark-theme .summary {
+  background: #1e1e1e;
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card h3 {
+  color: #90e0ef;
+}
+body.dark-theme .admin-card th {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme .admin-card td {
+  border-color: #444;
+}
+body.dark-theme .badge-ok {
+  background: #264d2f;
+  color: #90ee90;
+}
+body.dark-theme .badge-fail {
+  background: #4d2626;
+  color: #ff7b7b;
+}
+/* =========================================
+   Admin Logs (admin_logs.php)
+   ========================================= */
+.container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Section headings */
+section h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+
+/* Logs table */
+table.logs {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+}
+table.logs th, table.logs td {
+  border: 1px solid #ccc;
+  padding: 0.6rem;
+  text-align: left;
+  font-size: 0.95rem;
+}
+table.logs th {
+  background: #f0f0f0;
+  font-weight: 600;
+}
+table.logs tr:nth-child(even) {
+  background: #fafafa;
+}
+
+/* Log level colors */
+.log-info {
+  color: #007f5f;
+  font-weight: bold;
+}
+.log-warn {
+  color: #ff8800;
+  font-weight: bold;
+}
+.log-error {
+  color: #b91c1c;
+  font-weight: bold;
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme section h2 {
+  color: #90e0ef;
+}
+body.dark-theme table.logs th {
+  background: #333;
+  color: #f0f0f0;
+}
+body.dark-theme table.logs td {
+  border-color: #444;
+}
+body.dark-theme table.logs tr:nth-child(even) {
+  background: #1e1e1e;
+}
+/* =========================================
+   Admin Metrics (admin_metrics.php)
+   ========================================= */
+.container {
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 1rem;
+}
+
+.container h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  color: #023e8a; /* deep blue, matches header/footer */
+}
+
+/* Section headings */
+section h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.75rem;
+  color: #0077b6;
+}
+
+/* Metrics list */
+.metrics-list {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1rem;
+}
+.metrics-list li {
+  background: #ffffff;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  font-size: 1rem;
+  font-weight: 500;
+}
+.metrics-list .highlight {
+  display: block;
+  margin-top: 0.5rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #023e8a;
+}
+
+/* Performance notes */
+section p {
+  background: #f0f4f8;
+  padding: 1rem;
+  border-radius: 6px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Dark theme overrides */
+body.dark-theme .container {
+  color: #f0f0f0;
+}
+body.dark-theme section h2 {
+  color: #90e0ef;
+}
+body.dark-theme .metrics-list li {
+  background: #1e1e1e;
+  border-color: #444;
+  color: #f0f0f0;
+}
+body.dark-theme .metrics-list .highlight {
+  color: #90e0ef;
+}
+body.dark-theme section p {
+  background: #2a2a2a;
+  color: #f0f0f0;
+}

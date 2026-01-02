@@ -10,7 +10,7 @@ require_once __DIR__ . '/partials/header.php';
 $error   = $_GET['error'] ?? null;
 $success = $_GET['success'] ?? null;
 
-// CSRF helper (correct path based on folder tree)
+// CSRF helper
 require_once __DIR__ . '/../backend/helpers/csrf.php';
 $token = generate_csrf_token();
 ?>
@@ -19,7 +19,7 @@ $token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <title data-i18n="register_title">Register - Ethiopia Weather</title>
-   <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
 
@@ -34,17 +34,19 @@ $token = generate_csrf_token();
             <div class="success-message" role="alert"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
 
-        <!-- ✅ Corrected action path -->
         <form action="http://localhost/weather/backend/auth/register.php" 
               method="POST" 
-              onsubmit="return validateRegisterPassword();" 
+              onsubmit="return validateRegisterForm();" 
               class="auth-form" novalidate>
             
+            <!-- Email (must contain @) -->
             <div class="form-group">
                 <label for="email" data-i18n="email_label">Email Address</label>
                 <input type="email" name="email" id="email" required autocomplete="email" placeholder="Enter your email">
+                <div id="emailError" class="error-message" aria-live="polite"></div>
             </div>
 
+            <!-- Password -->
             <div class="form-group">
                 <label for="password" data-i18n="password_label">Password</label>
                 <div class="password-wrapper">
@@ -54,6 +56,7 @@ $token = generate_csrf_token();
                 <div id="passwordError" class="error-message" aria-live="polite"></div>
             </div>
 
+            <!-- Confirm Password -->
             <div class="form-group">
                 <label for="confirm_password" data-i18n="confirm_password_label">Confirm Password</label>
                 <div class="password-wrapper">
@@ -84,28 +87,41 @@ function togglePassword(fieldId) {
     field.type = field.type === "password" ? "text" : "password";
 }
 
-function validateRegisterPassword() {
+function validateRegisterForm() {
+    const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
     const confirm  = document.getElementById('confirm_password').value;
-    const errorDiv = document.getElementById('passwordError');
-    const confirmDiv = document.getElementById('confirmError');
 
+    const emailErrorDiv = document.getElementById('emailError');
+    const passwordErrorDiv = document.getElementById('passwordError');
+    const confirmErrorDiv = document.getElementById('confirmError');
+
+    // ✅ Email must contain @
+    if (!email.includes('@')) {
+        emailErrorDiv.textContent = "Please enter a valid email address with '@'.";
+        return false;
+    } else {
+        emailErrorDiv.textContent = "";
+    }
+
+    // Password strength
     const hasUpper = /[A-Z]/.test(password);
     const hasLower = /[a-z]/.test(password);
     const hasNumber = /[0-9]/.test(password);
 
     if (password.length < 8 || !hasUpper || !hasLower || !hasNumber) {
-        errorDiv.textContent = "Password must be ≥ 8 chars, include uppercase, lowercase, and numbers.";
+        passwordErrorDiv.textContent = "Password must be ≥ 8 chars, include uppercase, lowercase, and numbers.";
         return false;
     } else {
-        errorDiv.textContent = "";
+        passwordErrorDiv.textContent = "";
     }
 
+    // Password confirmation
     if (password !== confirm) {
-        confirmDiv.textContent = "Passwords do not match.";
+        confirmErrorDiv.textContent = "Passwords do not match.";
         return false;
     } else {
-        confirmDiv.textContent = "";
+        confirmErrorDiv.textContent = "";
     }
 
     return true;

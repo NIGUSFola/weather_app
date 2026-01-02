@@ -19,7 +19,7 @@ $token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <title data-i18n="login_title">Login - Ethiopia Weather</title>
-    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
 

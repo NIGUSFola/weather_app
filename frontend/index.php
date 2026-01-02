@@ -1,8 +1,15 @@
 <?php
-session_start();
+// frontend/index.php
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// ✅ Default city
 if (!isset($_SESSION['default_city'])) {
     $_SESSION['default_city'] = 'Addis Ababa';
 }
+
 $role = $_SESSION['role'] ?? '';
 ?>
 <!DOCTYPE html>
@@ -10,14 +17,12 @@ $role = $_SESSION['role'] ?? '';
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title data-i18n="page_title">Weather Aggregator — Ethiopia</title>
-  <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+  <title>Weather Aggregator — Ethiopia</title>
+  <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
   <div class="layout">
     <?php include __DIR__ . '/partials/header.php'; ?>
-
-  
 
     <main class="page page-home">
       <!-- Live summary -->
@@ -26,28 +31,28 @@ $role = $_SESSION['role'] ?? '';
           <span id="summaryLocation"><?= htmlspecialchars($_SESSION['default_city']); ?>, Ethiopia</span>
         </div>
         <div class="temperature" id="summaryTemp">--°C</div>
-        <div class="condition" id="summaryCondition" data-i18n="loading_condition">Loading...</div>
+        <div class="condition" id="summaryCondition">Loading...</div>
       </section>
 
       <!-- Alerts banner -->
       <div class="alert-banner" id="alertBanner" hidden role="alert">
-        <span id="alertText" data-i18n="loading_alerts">Loading alerts...</span>
+        <span id="alertText">Loading alerts...</span>
       </div>
 
       <!-- Hero -->
       <section class="hero">
-        <h1 data-i18n="hero_title">Real-time weather across Ethiopia</h1>
-        <p data-i18n="hero_subtitle">Track conditions in your cities and regions with clarity and speed.</p>
+        <h1>Real-time weather across Ethiopia</h1>
+        <p>Track conditions in your cities and regions with clarity and speed.</p>
         <div class="buttons">
-          <button id="getStartedBtn" data-i18n="btn_get_started">Get started</button>
-          <button class="outline" id="viewMapBtn" data-i18n="btn_view_map">View Ethiopia map</button>
+          <button id="getStartedBtn">Get started</button>
+          <button class="outline" id="viewMapBtn">View Ethiopia map</button>
         </div>
       </section>
 
       <!-- Regional Alerts Snapshot -->
       <section class="alerts-overlay">
-        <h2 data-i18n="regional_alerts_title">⚠️ Regional Alerts Snapshot</h2>
-        <div id="regionalAlerts"><p data-i18n="loading_regional_alerts">Loading regional alerts...</p></div>
+        <h2>⚠️ Regional Alerts Snapshot</h2>
+        <div id="regionalAlerts"><p>Loading regional alerts...</p></div>
       </section>
     </main>
 
@@ -83,14 +88,16 @@ $role = $_SESSION['role'] ?? '';
       window.location.href = '/weather/frontend/user_dashboard.php';
     }
   });
+
+  // ✅ Fixed path for View Map button
   document.getElementById('viewMapBtn')?.addEventListener('click', () => {
-    window.location.href = '/weather_app/frontend/radar.php';
+    window.location.href = '/weather/frontend/radar.php';
   });
 
   // Regional alerts preview via unified feed
   async function fetchRegionalAlerts() {
     try {
-      const res = await fetch("/weather/frontend/api.php?action=feed", {
+      const res = await fetch("/weather/backend/ethiopia_service/alerts.php", {
         headers: { 'Accept': 'application/json' },
         credentials: 'same-origin'
       });
@@ -105,30 +112,31 @@ $role = $_SESSION['role'] ?? '';
           if (Array.isArray(info.alerts) && info.alerts.length > 0) {
             info.alerts.forEach(alert => {
               const severity = alert.severity || 'moderate';
-              div.innerHTML += `<p><strong>${alert.event}</strong> (${alert.start} → ${alert.end})
+              div.innerHTML += `<p><strong>${alert.event}</strong> 
+                                (${alert.start} → ${alert.end})
                                 <span class="severity-badge severity-${severity}">
                                   ${severity.toUpperCase()}
                                 </span><br>
                                 ${alert.description}</p>`;
             });
           } else {
-            div.innerHTML += "<p data-i18n='no_active_alerts'>No active alerts.</p>";
+            div.innerHTML += "<p>No active alerts.</p>";
           }
           container.appendChild(div);
         }
       } else {
-        container.innerHTML = "<p data-i18n='no_regional_alerts'>No regional alerts available.</p>";
+        container.innerHTML = "<p>No regional alerts available.</p>";
       }
     } catch (err) {
       document.getElementById("regionalAlerts").innerHTML =
-        `<div class="error-message" data-i18n="error_loading_alerts">Error loading regional alerts: ${err.message}</div>`;
+        `<div class="error-message">Error loading regional alerts: ${err.message}</div>`;
     }
   }
 
   // Live summary from default city
   async function fetchSummary() {
     try {
-      const res = await fetch("/weather/frontend/api.php?action=feed");
+      const res = await fetch("/weather/backend/ethiopia_service/alerts.php");
       const data = await res.json();
       const city = "<?= htmlspecialchars($_SESSION['default_city']); ?>";
       const regionInfo = Object.values(data.regions).find(r => r.city === city);

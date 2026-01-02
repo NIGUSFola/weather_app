@@ -22,12 +22,31 @@ $csrfToken = generate_csrf_token();
 <head>
   <meta charset="UTF-8">
   <title>📅 Forecast | Ethiopia Weather</title>
-  <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+  <link rel="stylesheet" href="/weather/frontend/style.css">
   <style>
-    .forecast-card { border: 1px solid #ccc; padding: 1rem; margin: 0.5rem; border-radius: 6px; display: inline-block; }
-    .region-block { margin-bottom: 2rem; }
-    .error-message { color: red; }
-    .success-message { color: green; }
+    .status-badge {
+      display: inline-block;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-left: 6px;
+    }
+    .status-OK { background: #4caf50; color: white; }
+    .status-CACHED { background: #2196f3; color: white; }
+    .status-STALE { background: #ff9800; color: white; }
+    .status-FAIL { background: #f44336; color: white; }
+    .status-NO_FORECAST { background: #9e9e9e; color: white; }
+    .forecast-card {
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      padding: 8px;
+      margin: 6px 0;
+      background: #fafafa;
+    }
+    .region-block {
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -49,8 +68,8 @@ $csrfToken = generate_csrf_token();
 
       <!-- User forecast -->
       <?php if ($userId && $role === 'user'): ?>
-        <h2>👤 Extended Forecast (User Access)</h2>
-        <div id="userForecast"><p>Loading extended forecast...</p></div>
+        <h2>👤 Your Favorite Cities Forecast</h2>
+        <div id="userForecast"><p>Loading your forecast...</p></div>
       <?php endif; ?>
 
       <!-- Admin forecast -->
@@ -59,7 +78,6 @@ $csrfToken = generate_csrf_token();
         <div id="adminForecast"><p>Loading admin forecast...</p></div>
         <form method="post" action="/weather/backend/ethiopia_service/admin/admin_cache.php" 
               onsubmit="return confirm('Refresh cache for all regions?');">
-          <!-- ✅ Added CSRF token -->
           <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken); ?>">
           <button type="submit">🔄 Refresh Cache</button>
         </form>
@@ -70,77 +88,95 @@ $csrfToken = generate_csrf_token();
   <?php include __DIR__ . '/partials/footer.php'; ?>
 
   <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      async function fetchJson(url) {
-        const res = await fetch(url, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
-        const text = await res.text();
-        try { return JSON.parse(text); }
-        catch { throw new Error('Invalid server response'); }
-      }
+    async function fetchJson(url) {
+      const res = await fetch(url, { headers: { 'Accept': 'application/json' }, credentials: 'same-origin' });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      return await res.json();
+    }
 
-      async function loadForecasts() {
-        const url = "/weather/backend/aggregator/merge_feeds.php";
+    function renderForecastCard(entry) {
+      return `<div class="forecast-card">
+                <p><strong>${entry.date}</strong></p>
+                <p>${entry.condition}</p>
+                <p>${entry.min_temp}°C / ${entry.max_temp}°C</p>
+                <img src="https://openweathermap.org/img/wn/${entry.icon}.png" alt="${entry.condition}">
+              </div>`;
+    }
+
+    function renderStatusBadge(status) {
+      return `<span class="status-badge status-${status}">${status}</span>`;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      const container = document.getElementById('forecastContainer');
+      container.innerHTML = "<p>Loading forecasts...</p>";
+
+      try {
+        // ✅ Regional forecasts
+        const data = await fetchJson("/weather/backend/ethiopia_service/forecast.php");
+        container.innerHTML = '';
+
+        if (data.regions) {
+          Object.entries(data.regions).forEach(([regionName, region]) => {
+            const block = document.createElement('div');
+            block.className = 'region-block';
+            block.innerHTML = `<h3>${regionName} — ${region.city} ${renderStatusBadge(region.status)}</h3>`;
+
+            if (region.forecast && region.forecast.length > 0) {
+              region.forecast.forEach(entry => {
+                block.innerHTML += renderForecastCard(entry);
+              });
+            } else {
+              block.innerHTML += `<p class="error-message">No forecast available</p>`;
+            }
+
+            container.appendChild(block);
+          });
+        } else {
+          container.innerHTML = `<div class="error-message">No forecast data found</div>`;
+        }
+
+        <?php if ($userId && $role === 'user'): ?>
+        // ✅ Favorite forecasts
         try {
-          const data = await fetchJson(url);
+          const favData = await fetchJson("/weather/backend/actions/favorite_forecast.php");
+          const userDiv = document.getElementById('userForecast');
+          userDiv.innerHTML = '';
 
-          const container = document.getElementById('forecastContainer');
-          container.innerHTML = '';
-
-          if (data.regions) {
-            Object.values(data.regions).forEach(region => {
+          if (favData.favorites && favData.favorites.length > 0) {
+            favData.favorites.forEach(fav => {
               const block = document.createElement('div');
               block.className = 'region-block';
-              block.innerHTML = `<h3>${region.city} (${region.region})</h3>`;
+              block.innerHTML = `<h3>${fav.city} ${renderStatusBadge(fav.status)}</h3>`;
 
-              if (region.forecast && region.forecast.length > 0) {
-                region.forecast.forEach(entry => {
-                  const card = document.createElement('div');
-                  card.className = 'forecast-card';
-                  card.innerHTML = `<p><strong>${entry.date}</strong></p>
-                                    <p>${entry.condition}</p>
-                                    <p>${entry.temp}°C</p>`;
-                  block.appendChild(card);
+              if (fav.forecast && fav.forecast.length > 0) {
+                fav.forecast.forEach(entry => {
+                  block.innerHTML += renderForecastCard(entry);
                 });
               } else {
                 block.innerHTML += `<p class="error-message">No forecast available</p>`;
               }
 
-              container.appendChild(block);
+              userDiv.appendChild(block);
             });
           } else {
-            container.innerHTML = `<div class="error-message">No forecast data found</div>`;
+            userDiv.innerHTML = "<p>No favorites yet.</p>";
           }
-
-          // User forecast (extended view)
-          <?php if ($userId && $role === 'user'): ?>
-          const userDiv = document.getElementById('userForecast');
-          const userData = await fetchJson("/weather/backend/ethiopia_service/forecast.php?city_id=1");
-          if (userData.user && userData.user.forecast) {
-            userDiv.innerHTML = '';
-            userData.user.forecast.forEach(day => {
-              userDiv.innerHTML += `<div class="forecast-card">
-                                      <p><strong>${day.date}</strong></p>
-                                      <p>${day.condition}</p>
-                                      <p>${day.min_temp}°C / ${day.max_temp}°C</p>
-                                    </div>`;
-            });
-          }
-          <?php endif; ?>
-
-          // Admin forecast (summary)
-          <?php if ($userId && $role === 'admin'): ?>
-          const adminDiv = document.getElementById('adminForecast');
-          adminDiv.innerHTML = `<p>Total alerts across regions: ${data.summary.total_alerts}</p>
-                                <p>Generated at: ${data.summary.generated_at}</p>`;
-          <?php endif; ?>
-
         } catch (err) {
-          document.getElementById('forecastContainer').innerHTML = `<div class="error-message">Error loading forecasts: ${err.message}</div>`;
+          document.getElementById('userForecast').innerHTML = `<div class="error-message">Error loading favorite forecasts: ${err.message}</div>`;
         }
-      }
+        <?php endif; ?>
 
-      // Initial load
-      loadForecasts();
+        <?php if ($userId && $role === 'admin'): ?>
+        // ✅ Admin summary
+        const adminDiv = document.getElementById('adminForecast');
+        adminDiv.innerHTML = `<p>Total days across regions: ${data.summary.total_days}</p>
+                              <p>Generated at: ${data.summary.generated_at}</p>`;
+        <?php endif; ?>
+
+      } catch (err) {
+        container.innerHTML = `<div class="error-message">Error loading forecasts: ${err.message}</div>`;
+      }
     });
   </script>
 </body>

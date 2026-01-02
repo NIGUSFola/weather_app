@@ -79,7 +79,7 @@ if (isset($_GET['format']) && $_GET['format'] === 'json') {
 <head>
     <meta charset="UTF-8">
     <title>Admin - Manage API Keys</title>
-    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
 <div class="container">

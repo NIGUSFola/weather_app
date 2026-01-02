@@ -27,14 +27,8 @@ $csrfToken = generate_csrf_token();
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>🌧️ Radar | Ethiopia Weather</title>
- <link rel="stylesheet" href="/weather/frontend/partials/style.css">
-  <style>
-    iframe { width: 100%; height: 500px; border: none; }
-    .card { padding: 1rem; border: 1px solid #ccc; border-radius: 6px; margin: 1rem 0; }
-    .error-message { color: red; }
-    .snapshot { margin-top: 1rem; }
-    .snapshot img { max-width: 100%; border: 1px solid #ccc; border-radius: 6px; }
-  </style>
+ <link rel="stylesheet" href="/weather/frontend/style.css">
+
 </head>
 <body>
   <div class="layout">

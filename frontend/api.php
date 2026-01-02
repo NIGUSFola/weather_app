@@ -32,7 +32,7 @@ $isAdmin = ($role === 'admin');
 <head>
   <meta charset="UTF-8">
   <title>API Access | Ethiopia Weather</title>
-  <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+  <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
   <main class="page page-api">
@@ -50,7 +50,10 @@ $isAdmin = ($role === 'admin');
       <div class="card">
         <h2>🌍 Public API Information</h2>
         <p class="muted">Ethiopia Weather provides JSON endpoints for forecasts and alerts.</p>
-        <p><strong>Unified feed:</strong> <code>/weather/frontend/api.php?action=feed</code></p>
+        <p>
+         
+          <a href="/weather/frontend/api.php?action=feed" target="_self"><strong>UNIFIED FEED</strong></a>
+        </p>
       </div>
 
       <!-- User-only section -->

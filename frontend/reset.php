@@ -19,7 +19,7 @@ $token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <title>Reset Password - Ethiopia Weather</title>
-      <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
 <main class="page-auth">
@@ -35,7 +35,7 @@ $token = generate_csrf_token();
         <?php endif; ?>
 
         <!-- ✅ Reset form -->
-        <form action="../auth/reset.php" method="POST" class="auth-form">
+        <form action="../backend/auth/reset.php" method="POST" class="auth-form">
             <div class="form-group">
                 <label for="email">Email Address</label>
                 <input type="email" name="email" id="email" required autocomplete="email">

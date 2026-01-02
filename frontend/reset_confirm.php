@@ -19,7 +19,7 @@ $token = generate_csrf_token();
 <head>
     <meta charset="UTF-8">
     <title>Confirm Reset - Ethiopia Weather</title>
-   <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
 <main class="page-auth">
@@ -33,7 +33,8 @@ $token = generate_csrf_token();
             <div class="success-message"><?= htmlspecialchars($success) ?></div>
         <?php endif; ?>
 
-        <form action="../auth/reset_confirmation.php" method="POST" class="auth-form">
+        <!-- ✅ Corrected form action -->
+        <form action="../backend/auth/reset_confirmation.php" method="POST" class="auth-form">
             <!-- ✅ CSRF token -->
             <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($token); ?>">
 

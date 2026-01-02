@@ -10,14 +10,8 @@ require_once __DIR__ . '/partials/header.php';
 <head>
     <meta charset="UTF-8">
     <title>🩺 System Health Dashboard</title>
-      <link rel="stylesheet" href="/weather/frontend/partials/style.css">
-    <style>
-        .health-checks { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: 2rem; }
-        .check-card { flex: 1 1 220px; border: 1px solid #ccc; border-radius: 6px; padding: 1rem; text-align: center; }
-        .status-ok { color: green; font-weight: bold; }
-        .status-fail { color: red; font-weight: bold; }
-        .overall-status { font-size: 1.2rem; margin-top: 1rem; }
-    </style>
+      <link rel="stylesheet" href="/weather/frontend/style.css">
+
 </head>
 <body>
 <main class="page page-health">

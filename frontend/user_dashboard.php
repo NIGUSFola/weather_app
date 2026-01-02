@@ -54,7 +54,7 @@ try {
 <head>
     <meta charset="UTF-8">
     <title>User Dashboard - Ethiopia Weather</title>
-    <link rel="stylesheet" href="/weather/frontend/partials/style.css">
+    <link rel="stylesheet" href="/weather/frontend/style.css">
 </head>
 <body>
 <main class="page-dashboard">

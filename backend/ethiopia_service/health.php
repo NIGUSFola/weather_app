@@ -60,15 +60,16 @@ $checks['session'] = (session_status() === PHP_SESSION_ACTIVE);
 // 4. Cache check
 try {
     $stmt = $pdo->query("SELECT COUNT(*) FROM weather_cache");
-    $checks['cache'] = ($stmt !== false);
+    $row  = $stmt->fetchColumn();
+    $checks['cache'] = ($row !== false);
 } catch (Exception $e) {
     log_event("Cache health check failed: " . $e->getMessage(), "ERROR");
 }
 
-// 5. Region checks
+// 5. Region checks (call each region’s health.php)
 foreach (['amhara','oromia','south','addis_ababa'] as $key) {
-    $res = curl_get("http://localhost/weather/backend/ethiopia_service/regions/$key/alerts.php");
-    if ($res && isset($res['status']) && in_array(strtoupper($res['status']), ['OK','NO_ALERTS'])) {
+    $res = curl_get("http://localhost/weather/backend/ethiopia_service/regions/$key/health.php");
+    if ($res && isset($res['status']) && strtoupper($res['status']) === 'OK') {
         $checks[$key] = true;
     }
 }
@@ -78,6 +79,6 @@ $status = (in_array(false, $checks, true)) ? 'FAIL' : 'OK';
 
 echo json_encode([
     'status'     => $status,
-    'checks'     => $checks,   // ✅ matches frontend expectations
+    'checks'     => $checks,
     'time'       => date('Y-m-d H:i:s')
 ], JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE);
